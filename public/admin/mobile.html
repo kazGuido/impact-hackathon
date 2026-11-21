@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f0">
+  <title>Look Twice · Mobile content studio</title>
+  <link rel="stylesheet" href="/v3-theme.css">
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="/admin/mobile.css">
+  <script src="/admin.js" defer></script>
+  <script src="/admin/mobile.js" defer></script>
+</head>
+<body class="mobile-studio">
+  <main class="mobile-frame">
+    <header class="mobile-header">
+      <a class="mobile-back" href="/?view=profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg> Profile
+      </a>
+      <span class="mobile-brand"><b>Look</b> <strong>Twice</strong></span>
+      <a class="desktop-link" href="/admin.html" aria-label="Open desktop admin" title="Open desktop admin">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+      </a>
+    </header>
+
+    <div class="mobile-content">
+      <h1>Content studio</h1>
+      <section id="candidates" role="tabpanel" aria-labelledby="tab-queue">
+        <div class="queue-overview">
+          <div>
+            <p>Review queue</p>
+            <strong id="pendingCount">—</strong>
+            <span>need review</span>
+          </div>
+          <button id="collect" class="primary" type="button">Collect today's candidates</button>
+        </div>
+        <div class="queue-filters">
+          <label>Find topic<input id="queueSearch" type="search" placeholder="Search topics"></label>
+          <label>Status<select id="queueStatus"><option value="active">To review</option><option value="all">All</option><option value="published">Published</option><option value="archived">Archived</option><option value="rejected">Rejected</option></select></label>
+        </div>
+        <div class="candidate-heading"><h2>Candidates</h2><p id="queueCount" class="subtle" role="status">Loading…</p></div>
+        <div id="candidateList"></div>
+        <p id="queueEmpty" class="subtle" hidden>No candidates match these filters.</p>
+      </section>
+
+      <section id="sources" role="tabpanel" aria-labelledby="tab-sources" hidden>
+        <h2>Sources</h2>
+        <details id="addSource" class="admin-card">
+          <summary>Add a source or partner topic</summary>
+          <form id="sourceForm">
+            <label>Topic title<input name="title" required maxlength="180" placeholder="Fake bank security calls"></label>
+            <label class="check-label"><input name="private_topic" type="checkbox"> Private partner topic</label>
+            <label>Source URL<input name="source_url" type="url" placeholder="https://…"></label>
+            <div class="admin-grid">
+              <label>Source date<input name="source_date" type="date"></label>
+              <label>Region<input name="region" placeholder="Canada"></label>
+            </div>
+            <label>Audience<input name="audience" placeholder="Older adults"></label>
+            <button class="primary" type="submit">Add candidate</button>
+          </form>
+        </details>
+        <h3>Recent official alerts</h3>
+        <div id="sourcesList"></div>
+      </section>
+
+      <section id="insights" role="tabpanel" aria-labelledby="tab-insights" hidden>
+        <h2>Learning insights</h2>
+        <p class="subtle">Based on anonymous practice results shared by learners.</p>
+        <div id="insightsList"></div>
+        <button id="recommend" type="button">Suggest education topics with AI</button>
+        <p id="recommendation" class="subtle" role="status"></p>
+      </section>
+    </div>
+
+    <p id="adminStatus" role="status" aria-live="polite"></p>
+    <nav class="mobile-tabs" role="tablist" aria-label="Studio sections">
+      <button id="tab-queue" type="button" role="tab" aria-selected="true" aria-controls="candidates">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h8"/><path d="m16 17 2 2 3-4"/></svg> Queue
+      </button>
+      <button id="tab-sources" type="button" role="tab" aria-selected="false" aria-controls="sources" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg> Sources
+      </button>
+      <button id="tab-insights" type="button" role="tab" aria-selected="false" aria-controls="insights" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v17h17M9 15v-4m5 4V7m5 8v-5"/></svg> Insights
+      </button>
+    </nav>
+  </main>
+</body>
+</html>

@@ -210,3 +210,5 @@ input:not([type=checkbox]) { font-size: 16px; margin-bottom: 12px; }
 .profile-link[aria-current="page"] { background: var(--light-blue, #e6eff3); }
 .profile-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
 .btn.secondary[data-go="resetdemo"] { border: 1.5px solid #b23713; color: #a73512; background: #fff5ed; }
+
+.profile-admin { display: grid; place-items: center; min-height: 44px; text-decoration: none; }

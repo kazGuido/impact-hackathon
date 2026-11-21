@@ -14,11 +14,12 @@
     scenario = scenario || {};
     const sender = val(scenario, 'sender', lang, tr(lang,'Unknown sender','未知发件人','Remitente desconocido','알 수 없는 발신자'));
     const message = val(scenario, 'message', lang, tr(lang,'Take a moment to read this message.','请花点时间阅读这条消息。','Tómese un momento para leer este mensaje.','잠시 시간을 내어 이 메시지를 읽어 보세요.'));
+    const canHint = callbacks.allowHints && scenario.hints?.length;
     return `<section class="v2p v2p-phone" data-v2p-view="practice">
       <div class="v2p-phone-top"><button type="button" class="v2p-back" data-v2p-action="back" aria-label="Back">‹</button><span class="v2p-camera"></span><span class="v2p-practice-tag">${esc(tr(lang,'Practice','练习','Práctica','연습'))}</span></div>
       <div class="v2p-sender"><span class="v2p-avatar">●</span><strong>${esc(sender)}</strong><small>${esc(val(scenario,'context',lang,''))}</small></div>
       <div class="v2p-chat" aria-label="${esc(tr(lang,'Practice message','练习消息','Mensaje de práctica','연습 메시지'))}"><div class="v2p-time">${esc(tr(lang,'Today · Practice message','今天 · 练习消息','Hoy · Mensaje de práctica','오늘 · 연습 메시지'))}</div>${String(message).split(/\n+/).filter(Boolean).map(part=>`<div class="v2p-bubble">${esc(part)}</div>`).join('')}</div>
-      <footer class="v2p-bottom"><p>${esc(tr(lang,'Read it carefully. Take your time.','仔细阅读，慢慢想。','Léalo con atención. Tómese su tiempo.','천천히 주의 깊게 읽어 보세요.'))}</p><button class="v2p-primary" data-v2p-action="decide">${esc(tr(lang,'Is this real? Decide','这是真的吗？做出判断','¿Es real? Decide','진짜일까요? 판단해 보세요'))}</button></footer>
+      <footer class="v2p-bottom">${canHint?`<button class="v2p-hint" data-v2p-action="hint">${esc(tr(lang,'Need a hint?','需要提示吗？','¿Necesita una pista?','힌트가 필요하신가요?'))}</button>`:''}<p>${esc(tr(lang,'Read it carefully. Take your time.','仔细阅读，慢慢想。','Léalo con atención. Tómese su tiempo.','천천히 주의 깊게 읽어 보세요.'))}</p><button class="v2p-primary" data-v2p-action="decide">${esc(tr(lang,'Is this real? Decide','这是真的吗？做出判断','¿Es real? Decide','진짜일까요? 판단해 보세요'))}</button></footer>
     </section>`;
   }
 
@@ -42,19 +43,66 @@
     }
   }
 
-  function decision(scenario, lang = 'en', events = [], callbacks = {}) {
-    const hints = callbacks.allowHints !== false && Array.isArray(scenario?.hints) ? scenario.hints : [];
-    const choices = [
-      ['scam',tr(lang,'No, it’s a scam','感觉可疑','Parece sospechoso','수상해 보여요')],
-      ['real',tr(lang,'Yes, I trust it','看起来可信','Parece legítimo','진짜 같아요')],
-      ['unsure',tr(lang,'I’m not sure yet','我还不确定','Aún no estoy seguro','아직 잘 모르겠어요')]
-    ];
-    return `<dialog class="v2p v2p-decision" data-v2p-view="decision" aria-labelledby="decision-title">
+  const sheetHandle = (action, label) => `<button class="sheet-handle" data-v2p-action="${action}" aria-label="${label}"></button>`;
+  const face = (trusted) => `<span class="choice-face" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="13" cy="16" r="2.7" fill="currentColor"/><circle cx="27" cy="16" r="2.7" fill="currentColor"/><path d="${trusted?'M10 24c6 8 14 8 20 0':'M8 10l9 3m6 0 9-3M11 29c5-7 13-7 18 0'}" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>${trusted?'✓':'×'}</span></span>`;
+
+  function decision(scenario, lang = 'en') {
+    const yes = tr(lang,'Yes, I trust it','是，我相信','Sí, confío','네, 믿어요');
+    const no = tr(lang,'No, it’s a scam','不，这是骗局','No, es una estafa','아니요, 사기예요');
+    return `<dialog class="v2p v2p-decision choice-sheet" data-v2p-view="decision" aria-labelledby="decision-title">
+      ${sheetHandle('back','Back to message')}
       <h1 id="decision-title">${esc(tr(lang,'Do you trust this message?','您相信这条消息吗？','¿Confía en este mensaje?','이 메시지를 믿으시나요?'))}</h1>
-      <div class="v2p-choices">${choices.map(([key,label])=>`<button class="v2p-choice" data-v2p-answer="${key}">${esc(label)}<span>›</span></button>`).join('')}</div>
-      ${hints.length?`<button class="v2p-hint" data-v2p-action="hint" data-v2p-hint="0">💡 &nbsp;${esc(tr(lang,'Need a hint?','需要提示吗？','¿Necesita una pista?','힌트가 필요하신가요?'))}</button>`:''}
-      <p class="decision-note">${esc(tr(lang,'No timer. Take your time.','没有计时，慢慢来。','No hay cronómetro. Tómese su tiempo.','시간 제한이 없어요. 천천히 생각해 보세요.'))}</p>
-      <button class="v2p-backlink" data-v2p-action="back">${esc(tr(lang,'Back to message','返回消息','Volver al mensaje','메시지로 돌아가기'))}</button></dialog>`;
+      <p class="decision-prompt">${esc(tr(lang,'Is the sender who they claim to be?','发送者真的是他们所说的人吗？','¿El remitente es quien dice ser?','보낸 사람이 정말 본인일까요?'))}</p>
+      <div class="v2p-choices">
+        <button class="v2p-choice trust-choice" data-v2p-answer="real">${face(true)}<span>${esc(yes)}</span></button>
+        <button class="v2p-choice scam-choice" data-v2p-answer="scam">${face(false)}<span>${esc(no)}</span></button>
+      </div>
+      <p class="decision-note"><span aria-hidden="true">◷</span> ${esc(tr(lang,'No timer. Take your time.','没有计时，慢慢来。','No hay cronómetro. Tómese su tiempo.','시간 제한이 없어요. 천천히 생각해 보세요.'))}</p>
+    </dialog>`;
+  }
+
+  function markedMessage(message, marks) {
+    const ranges = marks.map(mark => ({ ...mark, start: message.indexOf(mark.t) }))
+      .filter(mark => mark.start >= 0).sort((a,b) => a.start-b.start);
+    let cursor = 0;
+    let output = '';
+    for (const mark of ranges) {
+      if (mark.start < cursor) continue;
+      output += esc(message.slice(cursor, mark.start)) + '<mark>' + esc(mark.t) + '</mark>';
+      cursor = mark.start + mark.t.length;
+    }
+    return output + esc(message.slice(cursor));
+  }
+
+  function report(scenario, lang, answer, signs) {
+    const correct = answer === (scenario.is_scam?'scam':'real');
+    const verdict = scenario.is_scam?'This was a scam.':'This message was genuine.';
+    const reasons = scenario.is_scam
+      ? (scenario.signs||[]).slice(0,3).map(id => signs[id]).filter(Boolean).map(sign => ({
+          title: text(sign.title,lang), copy: text(sign.desc,lang)
+        }))
+      : (scenario.reasons||[]).slice(0,3).map(reason => ({ title:'', copy:text(reason,lang) }));
+    const safeStep = text(signs[scenario.signs?.[0]]?.tip,lang,'If you are unsure, check through a number or app you already trust.');
+    return `<dialog class="v2p v2p-decision report-sheet ${correct?'is-correct':'is-learning'}" data-v2p-view="result" aria-labelledby="report-title">
+      ${sheetHandle('continue','Close report and see progress')}
+      <div class="report-body">
+        <span class="report-mark" aria-hidden="true">${correct?'✓':'!'}</span>
+        <h1 id="report-title">${correct?'You spotted it!':'Not quite.'} ${verdict}</h1>
+        <p>You chose “${answer==='real'?'Yes, I trust it':'No, it’s a scam'}”.</p>
+        <button class="v2p-backlink coach-jump" data-v2p-action="coach">See Coach Mia’s explanation ↓</button>
+        <article class="report-message"><strong>${esc(val(scenario,'sender',lang,'Practice message'))}</strong>
+          <p>${markedMessage(val(scenario,'message',lang,''),scenario.marks?.[lang]||scenario.marks?.en||[])}</p>
+        </article>
+        ${reasons.length?`<h2>${scenario.is_scam?(correct?'The signs you caught':'What gave it away'):'Why this message was genuine'}</h2>
+        <ol class="report-signs">${reasons.map(reason=>`<li>${reason.title?`<strong>${esc(reason.title)}. </strong>`:''}${esc(reason.copy)}</li>`).join('')}</ol>`:''}
+        <p class="report-safety"><strong>What to do next</strong> ${esc(safeStep)}</p>
+        <div class="coach-bubble"><strong>Coach Mia</strong><div class="coach-copy" role="status" data-coach-explanation></div></div>
+      </div>
+      <footer class="report-actions">
+        <button class="v2p-primary" data-v2p-action="next">Next situation <span aria-hidden="true">→</span></button>
+        <button class="v2p-backlink" data-v2p-action="continue">See my progress</button>
+      </footer>
+    </dialog>`;
   }
 
   function result(scenario, lang = 'en', events = [], answer = 'scam', callbacks = {}) {
@@ -103,6 +151,6 @@
     return el;
   }
 
-  const api = { practice, decision, result, progress, mount, revealMessages };
+  const api = { practice, decision, report, result, progress, mount, revealMessages };
   global.V2Practice = api;
 })(window);

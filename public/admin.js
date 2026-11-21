@@ -11,7 +11,10 @@
       const match = (!query || `${c.title} ${c.audience} ${c.region}`.toLowerCase().includes(query)) && (state === "all" || state === "active" && ["candidate", "draft"].includes(c.status) || c.status === state);
       row.hidden = !match; if (match) shown++;
     }
-    $("#queueCount").textContent = `${shown} shown · ${candidates.filter((c) => ["candidate", "draft"].includes(c.status)).length} need review`;
+    const pending = candidates.filter(c => ["candidate", "draft"].includes(c.status)).length;
+    const pendingCount = $("#pendingCount");
+    if (pendingCount) pendingCount.textContent = pending;
+    $("#queueCount").textContent = pendingCount ? `${shown} shown` : `${shown} shown · ${pending} need review`;
     $("#queueEmpty").hidden = shown > 0 || candidates.length === 0;
   }
   async function api(path, method = "GET", body) {
@@ -37,8 +40,12 @@
     }
     const a = analytics;
     const total = a.totals.total || 0;
-    $("#insightsList").innerHTML = `<p><b>${total}</b> opt-in exercises · <b>${a.totals.correct || 0}</b> correct on first try · <b>${a.totals.checks || 0}</b> follow-up checks</p>` +
-      Object.entries(a.gaps).sort((x, y) => y[1].missed - x[1].missed).map(([sign, n]) => `<p>${esc(sign)}: ${n.missed} missed out of ${n.attempts} exercises</p>`).join("");
+    const metrics = [[total, "Opt-in exercises"], [a.totals.correct || 0, "Correct first tries"], [a.totals.checks || 0, "Follow-up checks"]];
+    const overview = $("#pendingCount")
+      ? `<div class="insight-metrics">${metrics.map(([value, label]) => `<div><strong>${esc(value)}</strong>${label}</div>`).join("")}</div>`
+      : `<p><b>${total}</b> opt-in exercises · <b>${a.totals.correct || 0}</b> correct on first try · <b>${a.totals.checks || 0}</b> follow-up checks</p>`;
+    $("#insightsList").innerHTML = overview + Object.entries(a.gaps).sort((x, y) => y[1].missed - x[1].missed)
+      .map(([sign, n]) => `<p class="insight-gap">${esc(sign.replaceAll("_", " "))}: ${n.missed} missed out of ${n.attempts} exercises</p>`).join("");
   }
   $("#sourceForm").addEventListener("submit", async (e) => {
     e.preventDefault(); const b = Object.fromEntries(new FormData(e.target)); b.private_topic = b.private_topic === "on";
