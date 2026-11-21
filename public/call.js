@@ -12,7 +12,7 @@
       src: "audio/call-short.m4a",
       end: 25, // fallback: seconds before "end the call" shows, if no audio plays
       lines: [
-        [0.0, "Abuela? It's me, Alex."],
+        [0.0, "Abuela? It's me, Ivana."],
         [2.0, "Sorry, my nose is swollen, I had an accident."],
         [4.5, "I hit another car. I'm at the police station, they took my phone."],
         [9.0, "If I don't pay bail tonight, I stay here until Monday."],
@@ -26,7 +26,7 @@
       src: "audio/call-long.m4a",
       end: 46,
       lines: [
-        [0.0, "Abuela? Abuela, it's me, Alex."],
+        [0.0, "Abuela? Abuela, it's me, Ivana."],
         [1.8, "Sorry if I sound weird, I hit my face on the steering wheel, my nose is all swollen."],
         [7.0, "I had an accident. I'm okay, but I hit another car, and the other lady got hurt."],
         [13.5, "I'm at the police station. They took my phone, they let me use this one for one call."],
@@ -40,6 +40,27 @@
   const params = new URLSearchParams(window.location.search);
   const VARIANT = params.get("v") === "long" ? VARIANTS.long : VARIANTS.short;
   const SHOW_CAPTIONS = params.get("captions") !== "off"; // ?captions=off hides the captions card
+
+  // Download the audio as soon as the page opens, so it plays instantly on Accept
+  // (slow networks, e.g. a venue Wi-Fi). play() still happens inside the Accept tap.
+  let PRELOAD = null;
+  try {
+    PRELOAD = new Audio(VARIANT.src);
+    PRELOAD.preload = "auto";
+    PRELOAD.load();
+    // Browsers may wait to download media until play; fetch it now and keep it in memory.
+    fetch(VARIANT.src)
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => {
+        if (b && PRELOAD && PRELOAD.paused && PRELOAD.currentTime === 0) {
+          PRELOAD.src = URL.createObjectURL(b);
+          PRELOAD.load();
+        }
+      })
+      .catch(() => {});
+  } catch (e) {
+    PRELOAD = null;
+  }
 
   const $ = (id) => document.getElementById(id);
   const phone = $("phone");
@@ -94,7 +115,8 @@
     t0 = performance.now();
     // Created and played inside the Accept tap, so Safari allows the sound.
     try {
-      const a = new Audio(VARIANT.src);
+      const a = PRELOAD || new Audio(VARIANT.src);
+      try { a.currentTime = 0; } catch (e) { /* not loaded yet */ }
       audio = a;
       a.addEventListener("ended", () => { if (audio === a) $("ready").hidden = false; });
       const p = a.play();
