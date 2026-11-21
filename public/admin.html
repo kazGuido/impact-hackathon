@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Scam Coach · Admin</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="admin-shell">
+  <header class="admin-head"><div><p class="eyebrow">Scam Coach</p><h1>Content studio</h1><p>Turn verified alerts and partner topics into reviewed practice lessons.</p></div><a href="/">Learner app</a></header>
+  <nav class="admin-nav"><a href="#sources">Sources</a><a href="#candidates">Candidates</a><a href="#insights">Learning insights</a></nav>
+  <section id="sources" class="admin-card"><h2>Recent official alerts</h2><p class="subtle">These are cited starting points, not automatically published lessons.</p><div id="sourcesList"></div></section>
+  <section class="admin-card"><h2>Add a source or partner topic</h2><form id="sourceForm">
+    <label>Topic title<input name="title" required maxlength="180" placeholder="Fake bank security calls"></label>
+    <label><input name="private_topic" type="checkbox"> Private partner topic (no public source)</label>
+    <label>Source URL (HTTPS, for news alerts)<input name="source_url" type="url" placeholder="https://..."></label>
+    <div class="admin-grid"><label>Source date<input name="source_date" type="date"></label><label>Region<input name="region" placeholder="Canada"></label></div>
+    <label>Audience<input name="audience" placeholder="Older adults"></label>
+    <button class="btn blue" type="submit">Add candidate</button>
+  </form></section>
+  <section id="candidates" class="admin-card"><h2>Review queue</h2><p>AI drafts need an admin to edit and publish them. Use fictional messages and no live scam links.</p><div id="candidateList"></div></section>
+  <section id="insights" class="admin-card"><h2>Learning insights</h2><p>Only opt-in, anonymous practice events appear here. These measures describe exercises, not real-world fraud rates.</p><div id="insightsList"></div><button id="recommend" class="btn blue" type="button">Suggest education topics with AI</button><p id="recommendation" class="subtle"></p></section>
+  <p id="adminStatus" role="status" aria-live="polite"></p>
+</main><script src="admin.js"></script></body></html>

@@ -14,6 +14,7 @@
       sub: "Short practice messages. You try first. If you are stuck, we give one small hint. Then you learn the warning signs.",
       start: "Start practice",
       family: "For family: progress",
+      admin: "Admin studio",
       privacy: "Practice only. All messages are made-up sample data. Nothing you type is saved. Progress stays on this phone.",
       aiNote: "Hints are written by AI, which can make mistakes. If you are ever unsure about a real message: hang up and call your family, or call your bank on the number printed on your card.",
       practiceTitle: "Practice",
@@ -51,6 +52,13 @@
       checkFail: "Not yet, and that is okay. Practice makes it easier.",
       nextCheck: "Check: try a new one",
       nextPractice: "Practise another",
+      shareLesson: "Share with someone you love",
+      shareText: "I found a short scam-awareness exercise. It teaches the warning signs without using real personal information:",
+      shareCopied: "Message copied. You can paste it into Messages.",
+      awarenessTitle: "Awareness lesson",
+      awarenessIntro: "This is a safe practice exercise, not a real message.",
+      awarenessAction: "Try this practice",
+      awarenessShare: "Share this lesson",
       toFamily: "Family panel",
       familyTitle: "Family panel",
       sampleBanner: "SAMPLE DATA: made-up numbers for the demo. Not a real person.",
@@ -92,6 +100,7 @@
       sub: "一条条练习消息。您先试一试，卡住时我们只给一点小提示，然后您就学会了警示信号。",
       start: "开始练习",
       family: "家人看进度",
+      admin: "管理工作台",
       privacy: "这只是练习。所有消息都是虚构的示例。您输入的内容不会被保存。进度只留在这部手机上。",
       aiNote: "提示由 AI 写成，可能会出错。遇到真实消息拿不准时：先挂断，打电话给家人，或拨打银行卡背面印的银行电话。",
       practiceTitle: "练习",
@@ -129,6 +138,13 @@
       checkFail: "还没有，没关系。多练几次就容易了。",
       nextCheck: "小测验：换一条试试",
       nextPractice: "再练一条",
+      shareLesson: "分享给您爱的人",
+      shareText: "我找到了一项简短的防骗练习。它能帮助您认识警示信号，不会使用真实的个人信息：",
+      shareCopied: "消息已复制。您可以粘贴到信息里。",
+      awarenessTitle: "防骗小课堂",
+      awarenessIntro: "这是安全的练习，不是真实消息。",
+      awarenessAction: "开始练习",
+      awarenessShare: "分享这项练习",
       toFamily: "家人面板",
       familyTitle: "家人面板",
       sampleBanner: "示例数据：演示用的虚构数字，不是真人。",
@@ -183,7 +199,8 @@
   let DATA = null;
   let byId = {};
   let lang = "en";
-  let view = "home"; // home | play | family
+  let view = "home"; // home | play | family | awareness
+  let awarenessId = new URLSearchParams(window.location.search).get("awareness");
   let demo = false;
   let S = null; // current practice session
   let attempts = [];
@@ -379,7 +396,40 @@
     S.done = true; S.busy = false; S.final = final; S.firstTry = firstTry;
     attempts.push({ id: S.id, ts: Date.now(), kind: S.kind, firstTry, hints: S.hints, final, fv: S.firstVerdict });
     saveAttempts();
+    if (localStorage.getItem("scamcoach.analytics.optin") === "yes") {
+      post("/api/event", { id: S.id, kind: S.kind, firstTry, hints: S.hints, fv: S.firstVerdict });
+    }
     render();
+  }
+
+  function awarenessUrl(id) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("awareness", id);
+    url.hash = "";
+    return url.toString();
+  }
+
+  function shareTextFor(id) {
+    return `${t("shareText")}\n${awarenessUrl(id)}`;
+  }
+
+  async function shareLesson(id, button) {
+    const url = awarenessUrl(id);
+    const text = shareTextFor(id);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: t("awarenessTitle"), text: t("shareText"), url });
+        return;
+      }
+    } catch (err) {
+      if (err?.name === "AbortError") return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      if (button) button.textContent = t("shareCopied");
+    } catch {
+      window.location.href = `sms:&body=${encodeURIComponent(text)}`;
+    }
   }
 
   // ---------- Drawing ----------
@@ -403,6 +453,7 @@
       .join("")}</select>`;
     const backBtn = `<button class="back" data-act="home" aria-label="${esc(t("back"))}">‹</button>`;
     if (view === "home") return `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
+    if (view === "awareness") return `<button class="back" data-act="awarenessBack" aria-label="${esc(t("back"))}">‹</button><div class="title">${esc(t("awarenessTitle"))}</div>${langBtn}`;
     if (view === "family") return `${backBtn}<div class="title">${esc(t("familyTitle"))}</div>${langBtn}`;
     return `${backBtn}<div class="title">${esc(S.kind === "check" ? t("checkTitle") : t("practiceTitle"))}</div>${langBtn}`;
   }
@@ -418,9 +469,35 @@
       <div class="stack">
         <button class="btn" data-act="start">${esc(t("start"))}</button>
         <button class="btn secondary" data-act="family">${esc(t("family"))}</button>
+        <a class="btn secondary" href="/admin.html">${esc(t("admin"))}</a>
       </div>
+      <label class="analytics-choice"><input id="analyticsOpt" type="checkbox" ${localStorage.getItem("scamcoach.analytics.optin") === "yes" ? "checked" : ""}> Share anonymous practice results to help improve lessons</label>
       <p class="note">${esc(t("privacy"))}</p>
       <p class="note">${esc(t("aiNote"))}</p>
+    </div>`;
+  }
+
+  function awarenessHTML() {
+    const sc = byId[awarenessId];
+    if (!sc) return `<div class="page"><div class="card"><h2>${esc(t("awarenessTitle"))}</h2><p>${esc(t("loadFail"))}</p></div></div>`;
+    const signs = sc.is_scam
+      ? `<h3>${esc(t("signsTitle"))}</h3><ul class="signs">${sc.signs.map((k) => {
+          const g = DATA.signs[k];
+          return `<li><span class="ic">${esc(g.icon)}</span><div><b>${esc(g.title[lang] || g.title.en)}</b>${esc(g.desc[lang] || g.desc.en)}</div></li>`;
+        }).join("")}</ul>`
+      : `<h3>${esc(t("whyRealTitle"))}</h3><ul class="reasons">${sc.reasons.map((r) => `<li>${esc(L(r))}</li>`).join("")}</ul>`;
+    return `<div class="page awareness-page">
+      <div class="practice-banner"><b>${esc(t("awarenessIntro"))}</b></div>
+      <div class="card">
+        <h2>${esc(t("awarenessTitle"))}</h2>
+        <div class="msgbox">${esc(L(sc.message))}</div>
+        ${signs}
+        <h3>${esc(t("tipTitle"))}</h3>
+        <p class="expl">${esc(L(sc.explanation))}</p>
+      </div>
+      <button class="btn blue" data-act="awarenessPractice">${esc(t("awarenessAction"))}</button>
+      <button class="btn secondary" data-act="shareAwareness">${esc(t("awarenessShare"))}</button>
+      <p class="note">${esc(t("privacy"))}</p>
     </div>`;
   }
 
@@ -478,6 +555,7 @@
       ${body}
       <p class="expl">${esc(L(sc.explanation))}</p>
       ${tip ? `<h3>${esc(t("tipTitle"))}</h3><div class="unsure-box">${esc(tip)}</div>` : ""}
+      <button class="btn blue share-btn" data-act="shareLesson">${esc(t("shareLesson"))}</button>
     </div>`;
   }
 
@@ -560,7 +638,7 @@
     document.documentElement.lang = HTML_LANG[lang] || "en";
     $("#bar").innerHTML = barHTML();
     const screen = $("#screen");
-    screen.innerHTML = view === "home" ? homeHTML() : view === "family" ? familyHTML() : playHTML();
+    screen.innerHTML = view === "home" ? homeHTML() : view === "family" ? familyHTML() : view === "awareness" ? awarenessHTML() : playHTML();
     if (view === "play") {
       const chat = $("#chat");
       const rev = $("#reveal");
@@ -577,6 +655,18 @@
     if (!el || !DATA) return;
     const act = el.dataset.act;
     if (act === "home") { view = "home"; S = null; render(); }
+    else if (act === "awarenessBack") {
+      awarenessId = null;
+      view = "home";
+      window.history.replaceState({}, "", window.location.pathname);
+      render();
+    }
+    else if (act === "awarenessPractice") {
+      window.history.replaceState({}, "", window.location.pathname);
+      startSession(awarenessId, "practice");
+    }
+    else if (act === "shareAwareness") { shareLesson(awarenessId, el); }
+    else if (act === "shareLesson") { shareLesson(S.id, el); }
     else if (act === "start" || act === "next") startSession(pickNext(S ? S.id : null), "practice");
     else if (act === "check") startSession(pickCheck(S.sc), "check");
     else if (act === "family") { view = "family"; render(); }
@@ -589,6 +679,9 @@
   });
 
   document.addEventListener("change", (e) => {
+    if (e.target?.id === "analyticsOpt") {
+      localStorage.setItem("scamcoach.analytics.optin", e.target.checked ? "yes" : "no");
+    }
     if (e.target && e.target.id === "langsel" && LANGS.includes(e.target.value)) {
       lang = e.target.value;
       try { localStorage.setItem(LANGKEY, lang); } catch {}
@@ -607,10 +700,24 @@
   // ---------- Start ----------
   fetch("scams.json")
     .then((r) => r.json())
-    .then((d) => {
+    .then(async (d) => {
+      try {
+        const response = await fetch("/api/published");
+        const published = await response.json();
+        for (const row of published.scenarios || []) {
+          const x = row.draft;
+          const id = `candidate-${row.id}`;
+          d.scenarios.push({ id, type: "recent", is_scam: x.is_scam, sample_data: true,
+            sender: { en: x.sender }, message: { en: x.message }, signs: x.signs,
+            marks: { en: [] }, hints: x.hints.map((h, i) => ({ sign: x.signs[i % x.signs.length], en: h })),
+            explanation: { en: x.explanation }, reasons: [{ en: x.explanation }], source_url: row.source_url });
+          d.order.unshift(id);
+        }
+      } catch { /* Existing exercises remain available offline. */ }
       DATA = d;
       byId = Object.fromEntries(d.scenarios.map((s) => [s.id, s]));
       attempts = loadAttempts();
+      if (awarenessId && byId[awarenessId]) view = "awareness";
       render();
     })
     .catch(() => {
