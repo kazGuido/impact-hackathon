@@ -10,4 +10,10 @@ Learner progress stays in the browser. The optional home-screen checkbox sends o
 
 Admin APIs accept requests from localhost when `ADMIN_TOKEN` is unset. Set `ADMIN_TOKEN` in ignored `.dev.vars` before making the server available beyond your own machine. If a token is set, admin API requests require `Authorization: Bearer <token>`; the demo admin page currently targets localhost without a token. Never expose the local dev server publicly without adding authentication and rate limiting. `AI_API_KEY` in `.dev.vars` enables AI drafting and learner hints. Keep both secrets out of git.
 
-Sample scenarios and translations have not been professionally reviewed. The fixed alert list is curated for the demo, not a live news feed. AI recommendations depend on opt-in data, and partner demographics are not collected.
+Sample scenarios and translations have not been professionally reviewed. AI recommendations depend on opt-in data, and partner demographics are not collected.
+
+## Daily source collection
+
+The collector checks the official [FBI IC3 PSA RSS feed](https://www.ic3.gov/PSA/RSS) and uses a small set of cited IC3 alerts if the feed has too few relevant items. Each day it creates enough AI-drafted, unpublished candidates to bring that day's review queue to at least three. Repeated runs on the same day are idempotent. It fetches IC3 article excerpts where available, records the source URL and date, and leaves publication to an admin. If the feed or AI provider fails, the response reports errors and may contain fewer than three drafts; it never invents a source to fill the quota.
+
+The Worker has a 07:00 UTC cron trigger for a future Cloudflare deployment. Locally, `bash scripts/collect-daily.sh` runs one collection even when the development server is closed; a host cron entry can invoke it daily. The admin's “Collect today's candidates” button runs the same collection on demand.

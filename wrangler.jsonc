@@ -10,6 +10,7 @@
     "run_worker_first": ["/api/*"]
   },
   "d1_databases": [{ "binding": "DB", "database_name": "scam-coach-local", "database_id": "00000000-0000-4000-8000-000000000001", "migrations_dir": "migrations" }],
+  "triggers": { "crons": ["0 7 * * *"] },
   // Not secret. The secret AI_API_KEY lives in .dev.vars (local) or `wrangler secret put` (later).
   "vars": {
     "AI_BASE_URL": "https://api.openai-next.com/v1",

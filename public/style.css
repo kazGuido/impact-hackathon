@@ -194,4 +194,17 @@ mark .mi { font-size: .8em; margin-left: 2px; }
 .status-tag { background: var(--amber-bg); border-radius: 20px; padding: 4px 12px; font-size: .8rem; font-weight: 700; }
 .subtle { color: var(--muted); }
 #adminStatus { position: sticky; bottom: 12px; background: var(--ink); color: #fff; border-radius: 9px; padding: 10px; min-height: 44px; }
+.queue-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.queue-filters { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin: 16px 0; }
+.queue-filters select, .draft-fields select { width: 100%; display: block; border: 2px solid var(--line); border-radius: 9px; padding: 10px; font: inherit; background: white; margin-top: 5px; }
+.queue-row { padding: 0; }
+.queue-row summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 4px; cursor: pointer; list-style: none; }
+.queue-row summary::-webkit-details-marker { display: none; }
+.queue-row summary:hover { background: #f5f8fb; }
+.row-main { display: grid; gap: 4px; min-width: 0; }
+.row-main b { overflow-wrap: anywhere; }
+.row-main small { color: var(--muted); font-size: .8rem; }
+.queue-detail { border-top: 1px solid var(--line); padding: 10px 4px 20px; }
+.queue-row[hidden] { display: none; }
 @media (max-width: 600px) { .admin-head { display: block; } .admin-grid { grid-template-columns: 1fr; gap: 0; } }
+@media (max-width: 600px) { .queue-head { display: block; } .queue-filters { grid-template-columns: 1fr; gap: 0; } }
