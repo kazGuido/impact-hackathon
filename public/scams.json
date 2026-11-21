@@ -1177,11 +1177,688 @@
     "en": "“Mom, my phone is broken” is a well-known messenger scam. A profile photo is easy to copy. A gift card PIN is the same as cash: once you send it, the money is gone. Do not reply. Call your daughter on her usual number. A family code word helps too.",
     "ko": "‘엄마, 폰 고장 났어’는 잘 알려진 메신저 피싱 수법입니다. 프로필 사진은 쉽게 도용할 수 있습니다. 기프트카드 핀 번호는 현금과 같아서 보내는 순간 돈이 사라집니다. 답장하지 말고 딸의 원래 번호로 전화해 확인하세요. 가족 암호를 정해 두면 도움이 됩니다."
    }
+  },
+  {
+   "id": "trend_toll_notice",
+   "type": "recent",
+   "title": "Unpaid toll text",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/05/how-are-scammers-trying-reach-you",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Unknown number"
+   },
+   "context": {
+    "en": "You drove on a toll road last week, but you normally check charges in your toll account."
+   },
+   "message": {
+    "en": "There is a toll charge on your vehicle. Pay by 6 p.m. to avoid an extra fee. Use [payment link removed]."
+   },
+   "signs": [
+    "urgency",
+    "link_or_app"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Pay by 6 p.m.",
+      "s": "urgency"
+     },
+     {
+      "t": "[payment link removed]",
+      "s": "link_or_app"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "urgency",
+     "en": "What is the deadline trying to make you do?"
+    },
+    {
+     "sign": "link_or_app",
+     "en": "How could you see your toll charges without using this message?"
+    }
+   ],
+   "explanation": {
+    "en": "The text uses a deadline to push you to an unfamiliar payment page. Open your usual toll account independently and look for the charge there."
+   }
+  },
+  {
+   "id": "trend_toll_receipt",
+   "type": "recent",
+   "title": "Toll statement in your account",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/05/how-are-scammers-trying-reach-you",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Your toll account inbox"
+   },
+   "context": {
+    "en": "You opened the toll app you already use and signed in as usual. This is in the account inbox."
+   },
+   "message": {
+    "en": "Your monthly statement is ready. The trip you made last Thursday is listed under Activity. Automatic payment is already set up. No action is needed."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "You opened the account yourself."
+    },
+    {
+     "en": "The trip matches your records."
+    },
+    {
+     "en": "The note does not ask for a new payment or use a deadline."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "How did you get to this inbox?"
+    },
+    {
+     "sign": null,
+     "en": "Is the note asking you to send a new payment?"
+    }
+   ],
+   "explanation": {
+    "en": "In this example, you reached the official account yourself and can verify the trip there. A separate text about a toll should still be checked in the account you normally use."
+   }
+  },
+  {
+   "id": "trend_brushing_qr",
+   "type": "recent",
+   "title": "Mystery parcel QR code",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/08/unexpected-package-you-got-could-be-brushing-scam",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Printed card in an unexpected parcel"
+   },
+   "context": {
+    "en": "You do not recognize the seller and have no matching order in your account."
+   },
+   "message": {
+    "en": "Mystery gift for you. Scan this QR code to see who sent it. Enter your shopping password to view the gift note."
+   },
+   "signs": [
+    "link_or_app",
+    "codes"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Scan this QR code",
+      "s": "link_or_app"
+     },
+     {
+      "t": "Enter your shopping password",
+      "s": "codes"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "link_or_app",
+     "en": "What do you know about the place this code would open?"
+    },
+    {
+     "sign": "codes",
+     "en": "Would you expect to provide a password to read a gift note?"
+    }
+   ],
+   "explanation": {
+    "en": "An unsolicited parcel does not give its sender a reason to ask for your password. Check recent orders in the shopping app you already use and contact the platform from there if needed."
+   }
+  },
+  {
+   "id": "trend_expected_parcel",
+   "type": "recent",
+   "title": "Expected parcel delivery",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/08/unexpected-package-you-got-could-be-brushing-scam",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Your shopping app order page"
+   },
+   "context": {
+    "en": "You ordered two books. You opened the shopping app yourself and found the status on that order."
+   },
+   "message": {
+    "en": "Delivered at 2:10 p.m. The two books were left in the parcel locker you selected. See your existing order for details."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "The update is inside the order you already placed."
+    },
+    {
+     "en": "The items and delivery location match what you chose."
+    },
+    {
+     "en": "No attached code, new payment, or password request appears."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "Is there an order you can independently look up?"
+    },
+    {
+     "sign": null,
+     "en": "Does the location match what you selected at checkout?"
+    }
+   ],
+   "explanation": {
+    "en": "The genuine update matches the order and delivery option you chose. If a parcel appears without a matching order, check the account directly before trusting anything included in the package."
+   }
+  },
+  {
+   "id": "trend_parking_sticker",
+   "type": "recent",
+   "title": "Parking meter sticker",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/09/see-qr-code-parked-somewhere-dont-scan-ityet",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Sticker pasted over the parking sign"
+   },
+   "context": {
+    "en": "The sticker partly covers the meter number. You can still open the parking app you normally use."
+   },
+   "message": {
+    "en": "Payment system updated. Scan the sticker to pay. Only this QR code works for this meter."
+   },
+   "signs": [
+    "link_or_app",
+    "no_verify"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Scan the sticker",
+      "s": "link_or_app"
+     },
+     {
+      "t": "Only this QR code works",
+      "s": "no_verify"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "link_or_app",
+     "en": "What did you notice about how the sticker sits on the sign?"
+    },
+    {
+     "sign": "no_verify",
+     "en": "Can you check the meter in a way that does not depend on this sticker?"
+    }
+   ],
+   "explanation": {
+    "en": "A sticker covering part of a parking sign is a reason to stop. Use the official parking app you already have or contact the parking operator through a trusted source."
+   }
+  },
+  {
+   "id": "trend_parking_receipt",
+   "type": "recent",
+   "title": "Parking confirmation",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/09/see-qr-code-parked-somewhere-dont-scan-ityet",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Your saved parking app"
+   },
+   "context": {
+    "en": "You opened your usual parking app and checked the posted zone before paying."
+   },
+   "message": {
+    "en": "Parking active. Zone 214. Your session ends at 4:30 p.m. This is your receipt."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "The zone matches the meter you checked independently."
+    },
+    {
+     "en": "You opened the app yourself."
+    },
+    {
+     "en": "The message only confirms a payment you already made."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "Where did you get the zone number?"
+    },
+    {
+     "sign": null,
+     "en": "Is this asking you to pay again, or confirming something you did?"
+    }
+   ],
+   "explanation": {
+    "en": "The app confirms your own parking session. Verify the zone and time in the app instead of following a sticker or message that suddenly asks you to pay again."
+   }
+  },
+  {
+   "id": "trend_recruiter_deposit",
+   "type": "recent",
+   "title": "Recruiter deposit request",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/05/how-are-scammers-trying-reach-you",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Unknown number claiming to be a recruiter"
+   },
+   "context": {
+    "en": "You did not apply for this job and cannot find it in a verified hiring portal."
+   },
+   "message": {
+    "en": "Earn extra pay reviewing products from home. A starter deposit is required to unlock your tasks. Sign up today."
+   },
+   "signs": [
+    "payment",
+    "urgency"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "starter deposit",
+      "s": "payment"
+     },
+     {
+      "t": "Sign up today",
+      "s": "urgency"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "payment",
+     "en": "When you apply for a job, who should normally pay whom?"
+    },
+    {
+     "sign": "urgency",
+     "en": "Do you have time to verify who is hiring you before deciding?"
+    }
+   ],
+   "explanation": {
+    "en": "Paying to unlock tasks is a warning sign. Look up the company and the vacancy separately, and do not send money to get work."
+   }
+  },
+  {
+   "id": "trend_interview_portal",
+   "type": "recent",
+   "title": "Scheduled interview",
+   "source_url": "https://consumer.ftc.gov/consumer-alerts/2026/05/how-are-scammers-trying-reach-you",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Hiring portal for a job you applied for"
+   },
+   "context": {
+    "en": "You signed in to the hiring portal you originally used. The company and job match your application."
+   },
+   "message": {
+    "en": "Your interview is confirmed for Tuesday at 11 a.m. The interviewer and meeting details are in this application. You can reschedule there if needed."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "The note appears in the portal you used to apply."
+    },
+    {
+     "en": "The role and interview match your records."
+    },
+    {
+     "en": "It asks for no deposit or payment."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "Did you apply for this job through this portal?"
+    },
+    {
+     "sign": null,
+     "en": "What does this note ask you to pay or share?"
+    }
+   ],
+   "explanation": {
+    "en": "This is a confirmation tied to your existing application. If a recruiter outside the portal asks for money or moves the interview to an unfamiliar site, verify separately."
+   }
+  },
+  {
+   "id": "trend_bank_code",
+   "type": "recent",
+   "title": "Bank security code request",
+   "source_url": "https://www.ic3.gov/CrimeInfo/AccountTakeover",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Unexpected text claiming to be bank support"
+   },
+   "context": {
+    "en": "You did not contact the bank. A separate one-time code has just arrived."
+   },
+   "message": {
+    "en": "We spotted unusual activity. Reply with the one-time code to stop the transaction. You must answer now."
+   },
+   "signs": [
+    "codes",
+    "urgency"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Reply with the one-time code",
+      "s": "codes"
+     },
+     {
+      "t": "You must answer now",
+      "s": "urgency"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "codes",
+     "en": "Who is the one-time code meant for?"
+    },
+    {
+     "sign": "urgency",
+     "en": "Could you check this directly with your bank before responding?"
+    }
+   ],
+   "explanation": {
+    "en": "The person is trying to get a code meant for you. Do not share it. Open your bank app or call the number printed on your bank card to check the activity."
+   }
+  },
+  {
+   "id": "trend_card_freeze",
+   "type": "recent",
+   "title": "Card freeze confirmation",
+   "source_url": "https://www.ic3.gov/CrimeInfo/AccountTakeover",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Notification in your bank app"
+   },
+   "context": {
+    "en": "You opened your bank app and locked your card yourself a few moments ago."
+   },
+   "message": {
+    "en": "Your card is locked. See Cards in this app to review the setting. We will never ask you to send us a one-time code."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "You started the action yourself."
+    },
+    {
+     "en": "The message appears inside your bank app and matches the card setting."
+    },
+    {
+     "en": "It does not ask you to give anyone a code."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "Did the notice follow a step you started yourself?"
+    },
+    {
+     "sign": null,
+     "en": "Is anyone asking you to send your code?"
+    }
+   ],
+   "explanation": {
+    "en": "The confirmation matches the card action you just took. Trust comes from checking the action in your known app, not from a sender label that says it is a bank."
+   }
+  },
+  {
+   "id": "trend_file_permission",
+   "type": "recent",
+   "title": "Unexpected file permission request",
+   "source_url": "https://www.ic3.gov/PSA/2026/PSA260901",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "New message from an unfamiliar event organizer"
+   },
+   "context": {
+    "en": "You were not expecting a file from this organizer."
+   },
+   "message": {
+    "en": "Your invitation is ready. Approve access to your inbox and contacts to open the document."
+   },
+   "signs": [
+    "unknown_contact",
+    "link_or_app"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Your invitation is ready",
+      "s": "unknown_contact"
+     },
+     {
+      "t": "Approve access to your inbox and contacts",
+      "s": "link_or_app"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "unknown_contact",
+     "en": "Were you expecting an invitation from this person?"
+    },
+    {
+     "sign": "link_or_app",
+     "en": "What access does this request ask for, and why would a document need it?"
+    }
+   ],
+   "explanation": {
+    "en": "An invitation should not require broad access to your inbox. Reject the permission request and check with the organizer through a contact you already know."
+   }
+  },
+  {
+   "id": "trend_expected_agenda",
+   "type": "recent",
+   "title": "Expected agenda in a shared workspace",
+   "source_url": "https://www.ic3.gov/PSA/2026/PSA260901",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Your existing volunteer workspace"
+   },
+   "context": {
+    "en": "The committee agreed to post its agenda here. You opened your usual workspace and found the file in the shared folder."
+   },
+   "message": {
+    "en": "The agenda is in the same folder as last month. You can open it from this workspace using your existing access."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "The file is where the group agreed to put it."
+    },
+    {
+     "en": "You entered the workspace independently."
+    },
+    {
+     "en": "The file requires no new app or account permissions."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "Did you get here from an unexpected message or from your usual workspace?"
+    },
+    {
+     "sign": null,
+     "en": "Is the file asking for new permissions?"
+    }
+   ],
+   "explanation": {
+    "en": "The expected document is in the shared workspace you already use. An unfamiliar permission prompt would be a reason to stop and verify with your committee."
+   }
+  },
+  {
+   "id": "trend_campaign_pressure",
+   "type": "recent",
+   "title": "Urgent election donation text",
+   "source_url": "https://www.ic3.gov/PSA/2026/PSA261015-3",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Unexpected message from an unknown number"
+   },
+   "context": {
+    "en": "You have not signed up to receive campaign messages from this group."
+   },
+   "message": {
+    "en": "Final chance to support the election fund. Give within the hour using [donation link removed]."
+   },
+   "signs": [
+    "urgency",
+    "link_or_app"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "within the hour",
+      "s": "urgency"
+     },
+     {
+      "t": "[donation link removed]",
+      "s": "link_or_app"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "urgency",
+     "en": "What changes if you wait and verify the fundraiser first?"
+    },
+    {
+     "sign": "link_or_app",
+     "en": "How could you look up who runs the fund independently?"
+    }
+   ],
+   "explanation": {
+    "en": "The message pushes you to donate immediately through a destination you did not verify. Look up the organization independently and use a trusted channel if you decide to give."
+   }
+  },
+  {
+   "id": "trend_voter_status",
+   "type": "recent",
+   "title": "Voter registration status",
+   "source_url": "https://www.ic3.gov/PSA/2026/PSA261015-3",
+   "is_scam": false,
+   "sample_data": true,
+   "sender": {
+    "en": "Your official election office portal"
+   },
+   "context": {
+    "en": "You entered the official portal address from a trusted local source and checked your registration there."
+   },
+   "message": {
+    "en": "Your registration is active. The polling place and hours are listed on this page. No payment is required."
+   },
+   "signs": [],
+   "reasons": [
+    {
+     "en": "You reached the official site independently."
+    },
+    {
+     "en": "The page provides information rather than requesting money."
+    },
+    {
+     "en": "There is no outside link to confirm your status."
+    }
+   ],
+   "hints": [
+    {
+     "sign": null,
+     "en": "How did you verify that this is your local election office portal?"
+    },
+    {
+     "sign": null,
+     "en": "What is this page actually asking you to do?"
+    }
+   ],
+   "explanation": {
+    "en": "This is a status you checked through the official election office. Use that route if an unsolicited message tries to change your voting instructions or ask for money."
+   }
+  },
+  {
+   "id": "trend_agency_safekeeping",
+   "type": "recent",
+   "title": "Agency safekeeping claim",
+   "source_url": "https://www.ic3.gov/PSA/2026/PSA260917",
+   "is_scam": true,
+   "sample_data": true,
+   "sender": {
+    "en": "Unexpected caller claiming to be an investigator"
+   },
+   "context": {
+    "en": "A caller says your name has appeared in a case. You were not expecting the call."
+   },
+   "message": {
+    "en": "Move your savings today to keep them safe. Do not tell your family until the investigation ends."
+   },
+   "signs": [
+    "payment",
+    "secrecy"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Move your savings today",
+      "s": "payment"
+     },
+     {
+      "t": "Do not tell your family",
+      "s": "secrecy"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "payment",
+     "en": "Why would an unexpected caller want you to move your savings?"
+    },
+    {
+     "sign": "secrecy",
+     "en": "What would happen if you paused and spoke to someone you trust?"
+    }
+   ],
+   "explanation": {
+    "en": "An unexpected caller who demands money and secrecy is trying to control your decision. Hang up and verify through an official number you find yourself."
+   }
   }
  ],
  "order": [
   "grandparent_bail",
   "real_family",
+  "trend_toll_notice",
+  "trend_expected_parcel",
+  "trend_parking_sticker",
+  "trend_recruiter_deposit",
+  "trend_toll_receipt",
+  "trend_parking_receipt",
+  "trend_bank_code",
+  "trend_brushing_qr",
+  "trend_card_freeze",
+  "trend_expected_agenda",
+  "trend_file_permission",
+  "trend_campaign_pressure",
+  "trend_interview_portal",
+  "trend_agency_safekeeping",
+  "trend_voter_status",
   "chinese_police",
   "parcel",
   "cra_irs",
