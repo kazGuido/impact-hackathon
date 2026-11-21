@@ -3,6 +3,7 @@
 // If anything goes wrong we answer { ok: false } and the browser uses the built-in hints.
 
 import data from "../public/scams.json";
+import { handleSpeak } from "./voice.js";
 
 const SCENARIOS = new Map(data.scenarios.map((s) => [s.id, s]));
 const LANG_NAME = { en: "English", zh: "Simplified Chinese", es: "Spanish", ko: "Korean" };
@@ -125,6 +126,7 @@ export default {
     try {
       if (pathname === "/api/hint") return await hint(request, env);
       if (pathname === "/api/classify") return await classify(request, env);
+      if (pathname === "/api/speak") return await handleSpeak(request, env);
       return json({ ok: false }, 404);
     } catch (e) {
       // Any failure (no key, timeout, bad AI answer): the browser falls back to built-in hints.
