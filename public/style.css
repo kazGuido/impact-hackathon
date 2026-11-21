@@ -166,3 +166,7 @@ mark .mi { font-size: .8em; margin-left: 2px; }
 .empty { text-align: center; color: var(--muted); padding: 20px 8px; font-size: 1rem; }
 .small-btns { display: grid; gap: 8px; margin-top: 16px; }
 .small-btns .btn { min-height: 48px; font-size: .95rem; margin-top: 0; }
+
+/* First screen (chat look) */
+.skin-btn { display: flex; align-items: center; gap: 14px; text-align: left; justify-content: flex-start; }
+.swatch { width: 34px; height: 34px; border-radius: 10px; flex: none; border: 1px solid rgba(0, 0, 0, .15); }

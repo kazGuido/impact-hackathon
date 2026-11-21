@@ -5,6 +5,10 @@
 
   const STORE = "scamcoach.v1";
   const LANGKEY = "scamcoach.lang";
+  const SKINKEY = "scamcoach.skin";
+  // Chat looks, chosen on the first screen. Names must match body[data-skin] in theme.css.
+  const SKINS = ["text", "whatsapp", "imessage", "messenger", "wechat", "kakao"];
+  const SKIN_DOT = { text: "#EFEFEF", whatsapp: "#075E54", imessage: "#0B84FE", messenger: "#0084FF", wechat: "#95EC69", kakao: "#FEE500" };
 
   // ---------- Text in two languages ----------
   const T = {
@@ -169,6 +173,8 @@
   // Spanish and Korean text lives in i18n-es.js and i18n-ko.js (AI-generated, not reviewed).
   T.es = window.SC_ES || {};
   T.ko = window.SC_KO || {};
+  // Extra text for onboarding, "Help a friend" and the Guardian page (public/i18n-help.js).
+  for (const l of Object.keys(T)) Object.assign(T[l], (window.SC_HELP || {})[l] || {});
 
   // Branding, languages and help numbers all come from config.js (one place for partners).
   const CFG = window.SCAM_COACH_CONFIG || {
@@ -189,6 +195,10 @@
   let attempts = [];
 
   try { const saved = localStorage.getItem(LANGKEY); if (LANGS.includes(saved)) lang = saved; } catch {}
+  // Chat look: null until the first-screen question is answered.
+  let skin = null;
+  try { const s = localStorage.getItem(SKINKEY); if (SKINS.includes(s)) skin = s; } catch {}
+  if (!skin) view = "onboard";
 
   const $ = (sel) => document.querySelector(sel);
   const esc = (s) =>
@@ -402,6 +412,11 @@
       .map((l) => `<option value="${esc(l.code)}"${l.code === lang ? " selected" : ""}>${esc(l.label)}</option>`)
       .join("")}</select>`;
     const backBtn = `<button class="back" data-act="home" aria-label="${esc(t("back"))}">‹</button>`;
+    if (view === "onboard") {
+      return skin
+        ? `${backBtn}<div class="title">${esc(t("onboardTitle"))}</div>${langBtn}`
+        : `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
+    }
     if (view === "home") return `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
     if (view === "family") return `${backBtn}<div class="title">${esc(t("familyTitle"))}</div>${langBtn}`;
     return `${backBtn}<div class="title">${esc(S.kind === "check" ? t("checkTitle") : t("practiceTitle"))}</div>${langBtn}`;
@@ -418,9 +433,20 @@
       <div class="stack">
         <button class="btn" data-act="start">${esc(t("start"))}</button>
         <button class="btn secondary" data-act="family">${esc(t("family"))}</button>
+        <button class="btn secondary" data-act="onboard">${esc(t("changeChatStyle"))}</button>
       </div>
       <p class="note">${esc(t("privacy"))}</p>
       <p class="note">${esc(t("aiNote"))}</p>
+    </div>`;
+  }
+
+  // First-screen question: which messaging app the user uses most. Sets the chat look only.
+  function onboardHTML() {
+    const opts = SKINS.map((k) => `<button class="btn secondary skin-btn" data-act="skin" data-v="${k}">
+        <span class="swatch" style="background:${SKIN_DOT[k]}"></span><span>${esc(t("skin_" + k))}</span></button>`).join("");
+    return `<div class="page">
+      <div class="hero"><h1>${esc(t("onboardTitle"))}</h1><p class="note">${esc(t("onboardNote"))}</p></div>
+      <div class="stack">${opts}</div>
     </div>`;
   }
 
@@ -558,9 +584,11 @@
 
   function render() {
     document.documentElement.lang = HTML_LANG[lang] || "en";
+    document.body.dataset.skin = skin || "text";
     $("#bar").innerHTML = barHTML();
     const screen = $("#screen");
-    screen.innerHTML = view === "home" ? homeHTML() : view === "family" ? familyHTML() : playHTML();
+    const screens = { home: homeHTML, onboard: onboardHTML, family: familyHTML };
+    screen.innerHTML = (screens[view] || playHTML)();
     if (view === "play") {
       const chat = $("#chat");
       const rev = $("#reveal");
@@ -577,6 +605,13 @@
     if (!el || !DATA) return;
     const act = el.dataset.act;
     if (act === "home") { view = "home"; S = null; render(); }
+    else if (act === "onboard") { view = "onboard"; render(); }
+    else if (act === "skin") {
+      skin = SKINS.includes(el.dataset.v) ? el.dataset.v : "text";
+      try { localStorage.setItem(SKINKEY, skin); } catch {}
+      view = "home";
+      render();
+    }
     else if (act === "start" || act === "next") startSession(pickNext(S ? S.id : null), "practice");
     else if (act === "check") startSession(pickCheck(S.sc), "check");
     else if (act === "family") { view = "family"; render(); }

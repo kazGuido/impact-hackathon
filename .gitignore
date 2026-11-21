@@ -5,6 +5,10 @@
 .env
 .env.*
 
+# Test and preview pages: not for the public link
+public/voice-test.html
+public/design-preview.html
+
 # Tooling
 node_modules/
 .wrangler/

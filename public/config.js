@@ -14,11 +14,12 @@ window.SCAM_COACH_CONFIG = {
 
   // Colours. Each key becomes a CSS colour variable (--green, --red, --blue, --me).
   // Keep strong contrast: the users are older adults.
+  // Must match public/theme.css (design agent). If empty, theme.css colours apply.
   colors: {
-    green: "#0a7d3b", // main button, "Real"
-    red: "#b3261e",   // "Scam", warnings
-    blue: "#1b5fb4",  // links, send, next step
-    me: "#95ec69",    // the user's chat bubbles
+    green: "#1F5F4A", // main button, "Real", the one accent colour
+    red: "#B3261E",   // "Scam", warnings
+    blue: "#1F5F4A",  // same accent: one colour for every main action
+    me: "#DCF1E4",    // the user's chat bubbles
   },
 
   // Optional co-brand slot. Leave name empty to hide it.
