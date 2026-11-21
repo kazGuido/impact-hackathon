@@ -6,8 +6,9 @@
   "build": { "command": "node scripts/build-content.js" },
   "assets": {
     "directory": "./public",
-    // Only /api/* goes to the Worker; everything else is a plain static file.
-    "run_worker_first": ["/api/*"]
+    "binding": "ASSETS",
+    // The Worker checks admin access before serving the HTML or its aliases.
+    "run_worker_first": true
   },
   "d1_databases": [{ "binding": "DB", "database_name": "scam-coach-local", "database_id": "00000000-0000-4000-8000-000000000001", "migrations_dir": "migrations" }],
   "triggers": { "crons": ["0 7 * * *"] },
@@ -17,5 +18,32 @@
     "AI_MODEL": "gpt-5-chat",
     "AI_TTS_MODEL": "tts-1",
     "AI_TIMEOUT_MS": "7000"
+  },
+  "env": {
+    "demo": {
+      "name": "look-twice-demo",
+      "workers_dev": true,
+      "preview_urls": false,
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "look-twice-demo",
+          "database_id": "00000000-0000-4000-8000-000000000001",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "ratelimits": [
+        { "name": "PUBLIC_API_LIMIT", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } },
+        { "name": "ADMIN_LOGIN_LIMIT", "namespace_id": "1002", "simple": { "limit": 10, "period": 60 } }
+      ],
+      "triggers": { "crons": ["0 7 * * *"] },
+      "vars": {
+        "DEPLOYMENT_STAGE": "demo",
+        "AI_BASE_URL": "https://api.openai-next.com/v1",
+        "AI_MODEL": "gpt-5-chat",
+        "AI_TTS_MODEL": "tts-1",
+        "AI_TIMEOUT_MS": "7000"
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-// Scam Coach Worker. It only handles /api/* calls (see "run_worker_first" in wrangler.jsonc).
+// Look Twice Worker. Public pages are served via ASSETS and admin pages require authorization.
 // The API key (AI_API_KEY) lives here on the server and is never sent to the browser.
 // If anything goes wrong we answer { ok: false } and the browser uses the built-in hints.
 
@@ -183,21 +183,60 @@ async function makeDraft(row, env, notes) {
   if (!validDraft(draft)) throw new Error("AI draft failed validation");
   return draft;
 }
-const adminOnly = (request, env) => {
+async function adminOnly(request, env) {
   const url = new URL(request.url);
-  const local = ["localhost", "127.0.0.1"].includes(url.hostname);
+  const local = !env.DEPLOYMENT_STAGE && ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
   const origin = request.headers.get("origin");
   if (origin && origin !== url.origin) return false;
-  if (env.ADMIN_TOKEN) return request.headers.get("authorization") === `Bearer ${env.ADMIN_TOKEN}`;
-  return local;
-};
+  if (!env.ADMIN_TOKEN) return local;
+  const authorization = request.headers.get("authorization") || "";
+  const [scheme, value] = authorization.split(" ", 2);
+  let supplied = "";
+  try {
+    if (scheme.toLowerCase() === "basic" && value) {
+      const credentials = atob(value);
+      if (credentials.startsWith("admin:")) supplied = credentials.slice(6);
+    } else if (scheme.toLowerCase() === "bearer") {
+      supplied = value || "";
+    }
+  } catch {
+    return false;
+  }
+  if (!supplied || supplied.length > 512) return false;
+  const encoder = new TextEncoder();
+  const [actual, expected] = await Promise.all(
+    [supplied, env.ADMIN_TOKEN].map(secret => crypto.subtle.digest("SHA-256", encoder.encode(secret)))
+  );
+  return crypto.subtle.timingSafeEqual(actual, expected);
+}
+
+async function rateLimited(request, limiter) {
+  if (!limiter) return false;
+  const key = request.headers.get("CF-Connecting-IP") || "anonymous";
+  return !(await limiter.limit({ key })).success;
+}
+
+async function protectAdmin(request, env) {
+  if (await adminOnly(request, env)) return null;
+  if (await rateLimited(request, env.ADMIN_LOGIN_LIMIT)) return bad("Too many sign-in attempts", 429);
+  if (!env.ADMIN_TOKEN) return bad("Admin access is unavailable", 403);
+  return new Response("Sign in with your Look Twice admin credentials.", {
+    status: 401,
+    headers: {
+      "WWW-Authenticate": 'Basic realm="Look Twice Content Studio"',
+      "Cache-Control": "no-store",
+      "Content-Type": "text/plain; charset=utf-8",
+    },
+  });
+}
 const bad = (reason, status = 400) => json({ ok: false, reason }, status);
 const safeSource = (value) => {
   try { const u = new URL(value); return u.protocol === "https:" && !u.username && !u.password && u.href.length <= 500 ? u.href : null; }
   catch { return null; }
 };
 async function admin(request, env, pathname) {
-  if (!adminOnly(request, env)) return bad("admin access denied", 403);
+  const denied = await protectAdmin(request, env);
+  if (denied) return denied;
   if (!env.DB) return bad("database unavailable", 503);
   if (pathname === "/api/admin/candidates" && request.method === "GET") {
     const rows = await env.DB.prepare("SELECT * FROM candidates ORDER BY created_at DESC LIMIT 100").all();
@@ -291,8 +330,21 @@ export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
     try {
+      const assetPath = decodeURIComponent(pathname).replace(/\/+$/, "").toLowerCase();
+      if (["/admin", "/admin.html", "/admin.js", "/admin.css", "/admin/index.html"].includes(assetPath)) {
+        const denied = await protectAdmin(request, env);
+        if (denied) return denied;
+        const asset = await env.ASSETS.fetch(request);
+        const response = new Response(asset.body, asset);
+        response.headers.set("Cache-Control", "private, no-store");
+        response.headers.set("X-Robots-Tag", "noindex");
+        return response;
+      }
+      if (!pathname.startsWith("/api/")) return await env.ASSETS.fetch(request);
       if (pathname.startsWith("/api/admin/")) return await admin(request, env, pathname);
       if (pathname === "/api/published" && request.method === "GET") return await published(env);
+      if (request.method === "POST" && ["/api/event", "/api/hint", "/api/classify"].includes(pathname)
+          && await rateLimited(request, env.PUBLIC_API_LIMIT)) return bad("Too many requests. Try again in a minute.", 429);
       if (pathname === "/api/event" && request.method === "POST") return await recordEvent(request, env);
       if (request.method !== "POST") return json({ ok: false }, 405);
       if (pathname === "/api/hint") return await hint(request, env);
