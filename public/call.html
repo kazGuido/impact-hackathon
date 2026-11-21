@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="data:,">
+  <title>Practice call</title>
+  <link rel="stylesheet" href="call.css">
+</head>
+<body>
+<main id="phone" data-theme="dark">
+
+  <!-- 1. Incoming call -->
+  <section class="scr dark incoming" data-s="incoming">
+    <div class="top"><span class="pill">Practice call</span></div>
+    <div class="who">
+      <div class="avatar"><span class="ring"></span>?</div>
+      <h1 class="name">Unknown number</h1>
+      <p class="num">+1 (555) 014-2377</p>
+    </div>
+    <div>
+      <div class="ringrow">
+        <div class="cell">
+          <button class="round decline" id="btn-decline" aria-label="Decline">✕</button>
+          <span class="lbl">Decline</span>
+        </div>
+        <div class="cell">
+          <button class="round accept" id="btn-accept" aria-label="Accept">✓</button>
+          <span class="lbl">Accept</span>
+        </div>
+      </div>
+      <p class="note" id="decline-note" hidden>For the practice, tap Accept.</p>
+    </div>
+  </section>
+
+  <!-- 2. In call -->
+  <section class="scr dark" data-s="call" hidden>
+    <div class="top"><span class="pill">Practice call</span></div>
+    <div class="who">
+      <h1 class="name">Unknown number</h1>
+      <p class="num">+1 (555) 014-2377</p>
+      <p class="timer" id="timer" aria-label="Call time">00:00</p>
+    </div>
+    <div class="captions" id="cap-card">
+      <p class="cap-label">Live captions</p>
+      <p class="cap-text" id="cap" aria-live="polite"></p>
+    </div>
+    <p class="ready" id="ready" hidden>When you're ready, end the call to decide.</p>
+    <div class="endrow">
+      <button class="round end" id="btn-end" aria-label="End call">✕</button>
+      <span class="lbl">End call</span>
+    </div>
+  </section>
+
+  <!-- 3. Decide -->
+  <section class="scr sheetwrap" data-s="decide" hidden>
+    <div class="sheet">
+      <h2>Was that really Alex?</h2>
+      <p class="sub">Do you trust this call?</p>
+      <div class="faces">
+        <button class="face" id="btn-trust"><span class="em">🙂</span><span>Yes, I trust it</span></button>
+        <button class="face" id="btn-scam"><span class="em">😠</span><span>No, it's a scam</span></button>
+      </div>
+      <p class="small">No timer. Take your time.</p>
+    </div>
+  </section>
+
+  <!-- 4. Result -->
+  <section class="scr light" data-s="result" hidden>
+    <header class="bar"><span class="logo-crop"><img src="logo.jpg" alt="Look Twice"></span></header>
+    <div class="res">
+      <h2 class="verdict" id="verdict"></h2>
+
+      <div class="card hintcard" id="hintbox" hidden>
+        <p class="label">One hint</p>
+        <p class="hint-text">Listen again: he asked you to keep it secret. Why would family ask that?</p>
+        <div class="stack" id="hint-actions">
+          <button class="btn btn-grad" id="btn-retry">Try again</button>
+          <button class="btn btn-line" id="btn-signs">Show me the signs</button>
+        </div>
+      </div>
+
+      <div id="full" hidden>
+        <h3>The signs you caught</h3>
+        <ol class="signs">
+          <li><span class="n">1</span><div><b>Unknown number</b><p>He said police took his phone. Real family can be called back on their own number.</p></div></li>
+          <li><span class="n">2</span><div><b>Money right now, through a stranger</b><p>Bail 'tonight', paid through a 'lawyer'. Real emergencies can wait while you check.</p></div></li>
+          <li><span class="n">3</span><div><b>Keep it secret</b><p>'Don't tell Mom and Dad.' Scammers don't want you to ask anyone.</p></div></li>
+        </ol>
+        <div class="card todo">
+          <h3>What to do next</h3>
+          <p>Hang up. Call Alex or his parents on the number you already have saved.</p>
+        </div>
+        <button class="btn btn-line" id="btn-es" aria-expanded="false" aria-controls="es-text">¿Qué dijeron? / What did they say?</button>
+        <p class="card es" id="es-text" hidden>Alguien fingió ser tu nieto. Dijo que estaba en la policía y necesitaba dinero para la fianza esta noche, por medio de un abogado, y que no le dijeras a nadie. Cuelga y llama a tu nieto a su número de siempre.</p>
+        <div class="stack">
+          <button class="btn btn-grad" id="btn-next">Continue</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Reward -->
+  <section class="scr light" data-s="reward" hidden>
+    <div class="rew">
+      <p class="pts">+20 points</p>
+      <p class="pts-sub">for spotting the scam</p>
+      <p class="streak-title">6 days in a row</p>
+      <div class="days" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      <div class="card heart">
+        <p class="heart-line">Sarah sent you a heart ❤️</p>
+        <p class="quote">“Proud of you, Mom!”</p>
+      </div>
+    </div>
+    <div class="stack">
+      <button class="btn btn-grad" id="btn-again">Practice again</button>
+    </div>
+  </section>
+
+  <p class="foot">Practice only · sample scenario<br>Nothing is saved, no personal data.</p>
+</main>
+<script src="call.js"></script>
+</body>
+</html>
