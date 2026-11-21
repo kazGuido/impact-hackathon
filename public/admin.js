@@ -3,6 +3,16 @@
   const esc = (x) => String(x ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const status = (s) => { $("#adminStatus").textContent = s; };
   let candidates = [];
+  function filterQueue() {
+    const query = $("#queueSearch").value.toLowerCase().trim(), state = $("#queueStatus").value;
+    let shown = 0;
+    for (const row of document.querySelectorAll("#candidateList [data-id]")) {
+      const c = candidates.find((x) => x.id === row.dataset.id);
+      const match = (!query || `${c.title} ${c.audience} ${c.region}`.toLowerCase().includes(query)) && (state === "all" || state === "active" && ["candidate", "draft"].includes(c.status) || c.status === state);
+      row.hidden = !match; if (match) shown++;
+    }
+    $("#queueCount").textContent = `${shown} shown · ${candidates.filter((c) => ["candidate", "draft"].includes(c.status)).length} need review`;
+  }
   async function api(path, method = "GET", body) {
     const res = await fetch(path, { method, headers: { "content-type": "application/json" }, body: body && JSON.stringify(body) });
     const data = await res.json();
@@ -13,10 +23,11 @@
     const [sources, queue, analytics] = await Promise.all([api("/api/admin/sources"), api("/api/admin/candidates"), api("/api/admin/analytics")]);
     $("#sourcesList").innerHTML = sources.sources.map((s) => `<article class="admin-item"><b>${esc(s.title)}</b><p>${esc(s.source_date)} · ${esc(s.region)} · ${esc(s.audience)}</p><a href="${esc(s.source_url)}" target="_blank" rel="noopener noreferrer">Read original alert</a><button type="button" data-source="${esc(s.source_url)}">Use this source</button></article>`).join("");
     candidates = queue.candidates;
-    $("#candidateList").innerHTML = candidates.length ? candidates.map((c) => `<article class="admin-item" data-id="${esc(c.id)}"><div class="admin-item-head"><h3>${esc(c.title)}</h3><span class="status-tag">${esc(c.status)}</span></div><p>${esc(c.source_date)} · ${esc(c.region)} · ${esc(c.audience)}</p>${c.source_url.startsWith("https://") ? `<a href="${esc(c.source_url)}" target="_blank" rel="noopener noreferrer">Review source</a>` : "<p>Private partner topic</p>"}
+    $("#candidateList").innerHTML = candidates.length ? candidates.map((c) => `<article class="admin-item queue-row" data-id="${esc(c.id)}"><details><summary><span class="row-main"><b>${esc(c.title)}</b><small>${esc(c.source_date || "No date")} · ${esc(c.region || "Any region")} · ${esc(c.audience || "General public")}</small></span><span class="status-tag">${esc(c.status)}</span></summary><div class="queue-detail">${c.source_url.startsWith("https://") ? `<a href="${esc(c.source_url)}" target="_blank" rel="noopener noreferrer">Review source</a>` : "<p>Private partner topic</p>"}
       <label>Notes for AI<input class="notes" placeholder="Scam pattern and who it affects"></label><button type="button" data-action="draft">Draft with AI</button>
       ${c.draft ? `<div class="draft-fields"><label>Practice message<textarea data-field="message">${esc(c.draft.message)}</textarea></label><label>Correct answer<select data-field="is_scam"><option value="true" ${c.draft.is_scam ? "selected" : ""}>Scam</option><option value="false" ${!c.draft.is_scam ? "selected" : ""}>Real</option></select></label><label>Sender<input data-field="sender" value="${esc(c.draft.sender)}"></label><label>Explanation<textarea data-field="explanation">${esc(c.draft.explanation)}</textarea></label><label>Hint one<input data-field="hint0" value="${esc(c.draft.hints[0])}"></label><label>Hint two<input data-field="hint1" value="${esc(c.draft.hints[1])}"></label><label>Warning sign IDs (comma separated)<input data-field="signs" value="${esc(c.draft.signs.join(", "))}"></label><button type="button" data-action="save">Save edits</button><button type="button" data-action="publish">Approve and publish</button>${c.status === "published" ? `<button type="button" data-action="simulate">Copy practice SMS</button>` : ""}</div>` : ""}
-      <button type="button" data-action="reject">Reject</button><button type="button" data-action="archive">Archive</button></article>`).join("") : "<p>No candidates yet. Add a source above.</p>";
+      <button type="button" data-action="reject">Reject</button><button type="button" data-action="archive">Archive</button></div></details></article>`).join("") : "<p>No candidates yet. Collect sources or add one above.</p>";
+    filterQueue();
     const a = analytics;
     const total = a.totals.total || 0;
     $("#insightsList").innerHTML = `<p><b>${total}</b> opt-in exercises · <b>${a.totals.correct || 0}</b> correct on first try · <b>${a.totals.checks || 0}</b> follow-up checks</p>` +
@@ -25,6 +36,14 @@
   $("#sourceForm").addEventListener("submit", async (e) => {
     e.preventDefault(); const b = Object.fromEntries(new FormData(e.target)); b.private_topic = b.private_topic === "on";
     try { await api("/api/admin/candidates", "POST", b); e.target.reset(); status("Candidate added."); await refresh(); } catch (err) { status(err.message); }
+  });
+  $("#queueSearch").addEventListener("input", filterQueue);
+  $("#queueStatus").addEventListener("change", filterQueue);
+  $("#collect").addEventListener("click", async () => {
+    const button = $("#collect"); button.disabled = true; button.textContent = "Collecting…";
+    try { const result = await api("/api/admin/collect", "POST", {}); status(`${result.created} new drafts. ${result.today} drafted today.${result.errors?.length ? ` ${result.errors.length} sources failed.` : ""}`); await refresh(); }
+    catch (err) { status(err.message); }
+    finally { button.disabled = false; button.textContent = "Collect today's candidates"; }
   });
   document.addEventListener("click", async (e) => {
     const source = e.target.closest("[data-source]");
