@@ -5,13 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="icon" href="data:,">
   <title>Practice call</title>
-  <link rel="stylesheet" href="call.css">
+  <link rel="stylesheet" href="call.css?v=2">
 </head>
 <body>
 <main id="phone" data-theme="dark">
 
+  <!-- 0a. Welcome -->
+  <section class="scr light welcome" data-s="welcome">
+    <div class="brand-hero"><span class="logo-crop"><img src="logo.jpg" alt="Look Twice"></span></div>
+    <h1 class="wel-title">Practice spotting scams before they happen</h1>
+    <div class="lang-block">
+      <p class="field-label">Your language</p>
+      <div class="lang-row" aria-label="Language (display only)">
+        <span class="lang-chip on">English</span>
+        <span class="lang-chip off">Español<em>Coming soon</em></span>
+        <span class="lang-chip off">中文<em>Coming soon</em></span>
+        <span class="lang-chip off">한국어<em>Coming soon</em></span>
+      </div>
+    </div>
+    <label class="field-label" for="name-input">What's your name?</label>
+    <input class="name-input" id="name-input" type="text" value="Rosa" maxlength="30" autocomplete="given-name">
+    <div class="stack-bottom">
+      <button class="btn btn-grad" id="btn-start-welcome">Get started</button>
+    </div>
+  </section>
+
+  <!-- 0b. Home -->
+  <section class="scr light home" data-s="home" hidden>
+    <div class="home-top">
+      <h1 class="greet" id="greet">Good morning, Rosa 👋</h1>
+    </div>
+    <div class="streak card">
+      <p class="streak-line"><b>5 days in a row</b></p>
+      <div class="week" aria-hidden="true">
+        <span class="wd">M</span><span class="wd">T</span><span class="wd">W</span><span class="wd">T</span><span class="wd">F</span><span class="wd">S</span><span class="wd">S</span>
+        <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+      </div>
+    </div>
+    <div class="card scam-week">
+      <p class="label">Scam of the week</p>
+      <h2 class="sw-title">Fake grandchild emergency calls</h2>
+      <p class="sw-text">Someone calls pretending to be a grandchild in trouble and asks for money right away.</p>
+    </div>
+    <div class="stack-bottom">
+      <button class="btn btn-grad" id="btn-today">Start today's practice</button>
+    </div>
+  </section>
+
   <!-- 1. Incoming call -->
-  <section class="scr dark incoming" data-s="incoming">
+  <section class="scr dark incoming" data-s="incoming" hidden>
     <div class="top"><span class="pill">Practice call</span></div>
     <div class="who">
       <div class="avatar"><span class="ring"></span>?</div>
@@ -109,7 +151,7 @@
       <div class="days" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
       <div class="card heart">
         <p class="heart-line">Sarah sent you a heart ❤️</p>
-        <p class="quote">“Proud of you, Mom!”</p>
+        <p class="quote" id="proud">“Proud of you, Rosa!”</p>
       </div>
     </div>
     <div class="stack">
@@ -119,6 +161,6 @@
 
   <p class="foot">Practice only · sample scenario<br>Nothing is saved, no personal data.</p>
 </main>
-<script src="call.js?v=3"></script>
+<script src="call.js?v=4"></script>
 </body>
 </html>

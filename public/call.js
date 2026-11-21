@@ -74,8 +74,22 @@
 
   function show(name) {
     document.querySelectorAll(".scr").forEach((s) => { s.hidden = s.dataset.s !== name; });
-    phone.dataset.theme = name === "result" || name === "reward" ? "light" : "dark";
+    phone.dataset.theme = name === "result" || name === "reward" || name === "welcome" || name === "home" ? "light" : "dark";
     window.scrollTo(0, 0);
+  }
+
+  // The name is shown on the home and reward screens only. It is not saved anywhere.
+  function userName() {
+    const v = ($("name-input").value || "").trim().replace(/\s+/g, " ").slice(0, 30);
+    return v || "Rosa";
+  }
+  function setName() {
+    const n = userName();
+    $("greet").textContent = greetingFor(new Date().getHours()) + ", " + n + " 👋";
+    $("proud").textContent = "“Proud of you, " + n + "!”";
+  }
+  function greetingFor(h) {
+    return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
   }
 
   function fmt(sec) {
@@ -162,7 +176,8 @@
     $("es-text").hidden = true;
     $("btn-es").setAttribute("aria-expanded", "false");
     $("decline-note").hidden = true;
-    show("incoming");
+    setName();
+    show("home");
   }
 
   $("btn-accept").addEventListener("click", startCall);
@@ -179,7 +194,15 @@
   });
   $("btn-next").addEventListener("click", () => show("reward"));
   $("btn-again").addEventListener("click", startOver);
+  $("btn-start-welcome").addEventListener("click", () => { setName(); show("home"); });
+  $("btn-today").addEventListener("click", () => { setName(); show("incoming"); });
 
+  // Start screen: /call shows Welcome. /call?start=call goes straight to the ringing call (for videos).
   if (!SHOW_CAPTIONS) $("cap-card").hidden = true;
-  show("incoming");
+  if (params.get("start") === "call") {
+    setName();
+    show("incoming");
+  } else {
+    show("welcome");
+  }
 })();

@@ -49,6 +49,40 @@ body {
 }
 .scr.dark { background: var(--night); color: #fff; }
 .scr.light { background: var(--cream); color: var(--navy); }
+
+/* Welcome and Home (light, Look Twice style) */
+.welcome, .home { overflow-y: auto; padding-bottom: 6px; }
+.brand-hero { display: flex; justify-content: center; padding-top: 10px; }
+.brand-hero .logo-crop { width: 260px; height: 48px; }
+.brand-hero .logo-crop img { width: 364px; left: -34px; top: -332px; }
+.wel-title { font-size: 28px; font-weight: 800; line-height: 1.2; text-align: center; margin: 18px 0 22px; letter-spacing: -.01em; }
+.field-label { font-size: 15px; font-weight: 700; margin: 0 0 8px; color: #4A5C72; }
+.lang-block { margin-bottom: 18px; }
+.lang-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lang-chip {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 52px;
+  border-radius: 16px; border: 2px solid #E4DCCD; background: #fff; font-size: 17px; font-weight: 700; color: var(--navy);
+}
+.lang-chip em { font-style: normal; font-size: 12px; font-weight: 600; color: #8A97A8; }
+.lang-chip.on { border-color: var(--blue); background: #EAF2FB; }
+.lang-chip.off { color: #A7AFBB; background: #F4F0E8; border-color: #E9E3D6; cursor: default; }
+.name-input {
+  width: 100%; min-height: 56px; border-radius: 16px; border: 2px solid #E4DCCD; background: #fff;
+  font-family: inherit; font-size: 20px; color: var(--navy); padding: 0 16px;
+}
+.name-input:focus { outline: 3px solid #7FB9D9; outline-offset: 2px; border-color: var(--blue); }
+.stack-bottom { margin-top: auto; padding-top: 22px; }
+.home-top { padding-top: 14px; }
+.greet { font-size: 30px; font-weight: 800; margin: 0 0 18px; letter-spacing: -.01em; }
+.streak { padding: 16px 18px; margin: 0 0 14px; }
+.streak-line { margin: 0 0 12px; font-size: 19px; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; justify-items: center; align-items: center; }
+.wd { font-size: 13px; font-weight: 700; color: #7A8799; }
+.week i { width: 30px; height: 30px; border-radius: 50%; background: #E4DCCD; display: block; }
+.week i.on { background: var(--grad); }
+.scam-week { padding: 18px; }
+.sw-title { font-size: 23px; font-weight: 800; margin: 6px 0 8px; line-height: 1.25; }
+.sw-text { font-size: 18px; line-height: 1.45; margin: 0; color: #2B3F58; }
 .scr.sheetwrap { background: var(--night); color: #fff; justify-content: flex-end; padding: 0; }
 .foot {
   flex: none;
