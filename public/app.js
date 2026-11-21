@@ -420,11 +420,16 @@
     if (view === "onboard") {
       return skin
         ? `${backBtn}<div class="title">${esc(t("onboardTitle"))}</div>${langBtn}`
-        : `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
+        : `<span class="brand-slot">${brandHTML()}</span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
     }
-    if (view === "home") return `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
+    if (view === "home") return `<span class="brand-slot">${brandHTML()}</span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
     if (view === "family") return `${backBtn}<div class="title">${esc(t("familyTitle"))}</div>${langBtn}`;
     return `${backBtn}<div class="title">${esc(S.kind === "check" ? t("checkTitle") : t("practiceTitle"))}</div>${langBtn}`;
+  }
+
+  // Brand mark. Until public/logo.png is copied in, the text fallback shows (DESIGN-HANDOFF.md).
+  function brandHTML() {
+    return `<span class="brand"><span class="brand-fallback"><span class="look">Look</span> <span class="twice">Twice</span></span></span>`;
   }
 
   function homeHTML() {
@@ -432,9 +437,10 @@
     const greet = h < 12 ? "greetMorning" : h < 18 ? "greetAfternoon" : "greetEvening";
     return `<div class="page">
       <div class="hero">
-        <div class="logo">${esc(CFG.logo)}</div>
-        <h1>${esc(t(greet, { name: t("name_wong") }))}</h1>
-        <p><b>${esc(t("helpNeeds"))}</b></p>
+        ${brandHTML()}
+        <h1>${esc(t("appName"))}</h1>
+        <p><b>${esc(t(greet, { name: t("name_wong") }))}</b></p>
+        <p>${esc(t("helpNeeds"))}</p>
       </div>
       <div class="card friend-card">
         <div class="friend-head">${friendAvatar("susan_grandson")}

@@ -16,10 +16,10 @@ window.SCAM_COACH_CONFIG = {
   // Keep strong contrast: the users are older adults.
   // Must match public/theme.css (design agent). If empty, theme.css colours apply.
   colors: {
-    green: "#1F5F4A", // main button, "Real", the one accent colour
-    red: "#B3261E",   // "Scam", warnings
-    blue: "#1F5F4A",  // same accent: one colour for every main action
-    me: "#DCF1E4",    // the user's chat bubbles
+    green: "#447C9D", // Accept, main buttons, "Real"
+    red: "#D04912",   // Decline, End, "Scam"
+    blue: "#447C9D",  // links, Send
+    me: "#DDEAF2",    // the user's chat bubbles
   },
 
   // Optional co-brand slot. Leave name empty to hide it.
