@@ -1,0 +1,415 @@
+/* ============================================================
+   Scam Coach: premium look (DESIGN agent).
+   Load it AFTER style.css:  <link rel="stylesheet" href="theme.css">
+   Colours must match config.js "colors" (see DESIGN-HANDOFF.md).
+   ============================================================ */
+
+:root {
+  --bg: #FBF7F0;          /* cream page */
+  --card: #FFFFFF;
+  --ink: #1C2421;
+  --muted: #5C6661;
+  --line: #E8E1D3;
+  /* Look Twice palette (from Fathiyya's logo sheet and call design, 21 Nov) */
+  --brand-blue: #447C9D;  /* Accept, main buttons, links */
+  --brand-orange: #D04912;/* Decline, End, "Scam" */
+  --brand-yellow: #E1CA4F;/* Listening, highlights */
+  --call-bg: #1C1C1E;     /* call screen background */
+
+  /* Old names kept so every existing rule still works. They now point at the palette. */
+  --green: var(--brand-blue);
+  --green-bg: #E4EEF4;
+  --red: var(--brand-orange);
+  --red-bg: #FBEAE3;
+  --amber: #6B5400;
+  --amber-bg: #FBF3D2;
+  --blue: var(--brand-blue);
+  --me: #DDEAF2;
+  --bar-ink: #1C2421;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28, 36, 33, .06), 0 8px 24px rgba(28, 36, 33, .08);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+
+  /* Chat colours. Defaults are plain text messages (see the skins at the end). */
+  --chat-bg: #FFFFFF;
+  --bar-bg: #FBF7F0;
+  --in-bg: #EEF0EF;
+  --in-ink: #1C2421;
+  --out-bg: #DCF1E4;
+  --out-ink: #1C2421;
+}
+
+body {
+  margin: 0;
+  background: #E7E1D4;
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+#phone, .phone { background: var(--bg); }
+
+/* Desktop: a centred phone-sized frame (390 x 844, like a recent iPhone) */
+@media (min-width: 520px) and (min-height: 760px) {
+  body { padding: 24px 0; }
+  #phone {
+    width: 390px;
+    height: min(calc(100dvh - 48px), 844px);
+    border-radius: 44px;
+    box-shadow: 0 0 0 10px #1C2421, 0 30px 60px rgba(0, 0, 0, .35);
+  }
+}
+/* Top bar: calm, no hard border, big tap targets */
+#bar {
+  background: var(--bar-bg);
+  border-bottom: 1px solid var(--line);
+  min-height: 60px;
+  padding: 0 10px;
+}
+#bar .title { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+#bar button, #bar select {
+  color: var(--green);
+  font-weight: 700;
+  min-height: 44px;
+}
+#bar .lang {
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  padding: 0 12px;
+  font-size: .9rem;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+#bar .back { font-size: 1.8rem; line-height: 1; }
+
+/* Practice label strip: soft, still clearly visible */
+.strip {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border-bottom: 1px solid #F0DDA8;
+  font-size: .85rem;
+  letter-spacing: .02em;
+}
+
+/* Chat */
+.chat { background: var(--chat-bg); padding: 12px 14px 20px; }
+.row { margin: 16px 0; gap: 10px; }
+.avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: #D9E7DF; color: var(--green);
+  font-weight: 700; font-size: 1.1rem;
+}
+.avatar.coach { background: var(--green); color: #fff; }
+.sender { color: var(--muted); font-size: .85rem; font-weight: 600; }
+.bubble {
+  border-radius: 20px;
+  padding: 14px 16px;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  background: var(--in-bg);
+  color: var(--in-ink);
+}
+.row.out .bubble { background: var(--out-bg); color: var(--out-ink); }
+.row.coach .bubble {
+  background: var(--green-bg);
+  border: 0;
+  color: var(--ink);
+}
+.tag { color: var(--muted); font-size: .78rem; }
+.sys { color: var(--muted); font-size: .9rem; }
+.sys.check { color: var(--green); font-weight: 700; }
+.safety {
+  background: var(--red-bg);
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--red);
+  font-size: 1.02rem;
+  box-shadow: none;
+}
+
+/* Reveal card */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  border: 0;
+}
+.practice-banner {
+  background: var(--amber-bg);
+  border-left: 0;
+  border-radius: var(--radius-sm);
+  color: var(--amber);
+}
+.answer { font-size: 1.45rem; letter-spacing: -.01em; }
+.answer.scam { color: var(--red); }
+.answer.real { color: var(--green); }
+.result { color: var(--muted); font-size: 1.02rem; }
+.card h3 { font-size: 1.1rem; letter-spacing: -.01em; }
+.msgbox {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  line-height: 1.75;
+}
+mark {
+  background: #FBE3A4;
+  border-radius: 6px;
+  padding: 1px 4px;
+}
+.signs li { border-top: 1px solid var(--line); }
+.signs .ic {
+  width: 44px; height: 44px; border-radius: 14px;
+  background: var(--bg); display: grid; place-items: center;
+  font-size: 1.4rem; flex: none;
+}
+.unsure-box {
+  background: var(--green-bg);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+}
+
+/* Bottom actions */
+.actions {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: 12px 14px 16px;
+}
+.prompt { color: var(--ink); font-size: 1.1rem; font-weight: 700; }
+.trio { gap: 10px; }
+.btn {
+  border-radius: 18px;
+  min-height: 56px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: var(--green);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+  transition: transform .12s ease, background .2s ease;
+}
+.btn:active { transform: scale(.97); }
+.trio .btn { min-height: 92px; }
+.trio .ic { font-size: 1.7rem; }
+.btn.scam { background: var(--red); }
+.btn.real { background: var(--green); }
+.btn.unsure { background: #F4EBD2; color: #4A3500; border: 0; }
+.btn.secondary {
+  background: var(--card);
+  color: var(--green);
+  border: 1.5px solid #D6D0C2;
+  box-shadow: none;
+}
+.btn.blue { background: var(--green); }
+.reply input {
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  min-height: 56px;
+  font-size: 1.05rem;
+}
+.reply input:focus { border-color: var(--green); }
+.reply button { min-height: 56px; border-radius: 16px; }
+.hint-small { color: var(--muted); }
+.btn:focus-visible, input:focus-visible, select:focus-visible, #bar button:focus-visible {
+  outline: 3px solid #7FB9A2;
+  outline-offset: 2px;
+}
+
+/* Home and family pages */
+.page { padding: 20px 18px; }
+.hero { padding: 24px 6px 12px; }
+.hero .logo {
+  width: 84px; height: 84px; border-radius: 26px; margin: 0 auto;
+  background: var(--green-bg); display: grid; place-items: center;
+  font-size: 2.6rem; line-height: 1;
+}
+.hero h1 { font-size: 2rem; letter-spacing: -.02em; }
+.hero p { color: var(--muted); font-size: 1.05rem; }
+.hero p b { color: var(--ink); }
+.stack { gap: 12px; margin-top: 22px; }
+.note { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.stat { border-radius: var(--radius); box-shadow: var(--shadow); border: 0; }
+.stat .n { color: var(--green); }
+.stat .l { color: var(--muted); }
+.dot { border-width: 0; }
+.dot.ok { background: var(--green-bg); color: var(--green); }
+.dot.help { background: var(--red-bg); color: var(--red); }
+.meter { background: #EFE9DC; }
+.meter i { background: var(--green); }
+.weak { border-top-color: var(--line); }
+.small-btns .btn { min-height: 52px; }
+
+/* Focus on touch: never remove focus rings for keyboard users */
+button { -webkit-tap-highlight-color: transparent; }
+
+/* ---------- Brand logo (Look Twice) ----------
+   Put the official file at public/logo.png. Do NOT edit or recolour it.
+   If the file is missing, the text fallback below is shown instead. */
+.brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.brand-logo { display: block; height: 30px; width: auto; max-width: 180px; object-fit: contain; }
+.brand-fallback { font-weight: 800; letter-spacing: -.02em; font-size: 1.15rem; line-height: 1; white-space: nowrap; }
+.brand-fallback .look { color: var(--brand-blue); }
+.brand-fallback .twice { color: var(--brand-orange); }
+.hero .logo.has-logo { background: none; width: auto; height: auto; padding: 0; display: block; }
+.brand-logo-hero { display: block; height: 96px; width: auto; max-width: 260px; margin: 0 auto; object-fit: contain; }
+.brand-card {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 20px; display: grid; place-items: center;
+}
+/* Big text fallback on the home screen, when logo.png is not there yet */
+.hero .brand-fallback { font-size: 2.2rem; display: block; margin-top: 8px; }
+
+/* From Fathiyya's screens: a pill "Sample data" tag, and a thin practice progress bar */
+.sample-flag {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 999px; padding: 6px 12px; font-size: .8rem;
+}
+.progress { display: block; height: 5px; width: 140px; margin: 6px auto 0; border-radius: 999px; background: #F0E2B0; overflow: hidden; }
+.progress i { display: block; height: 100%; width: var(--p, 33%); background: var(--brand-blue); border-radius: 999px; }
+.strip-row { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+/* ---------- Incoming and in-call screens (inspired by Fathiyya's call designs) ----------
+   Use inside #phone. Dark, calm, big buttons. Not the chat screen. */
+.call-screen {
+  background: var(--call-bg);
+  color: #FFFFFF;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 58px 22px 34px;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+}
+.call-island {
+  position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+  width: 118px; height: 34px; border-radius: 20px; background: #000;
+}
+.call-badge {
+  font-size: .8rem; font-weight: 700; letter-spacing: .02em;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(225, 202, 79, .18); color: var(--brand-yellow);
+}
+.call-avatar {
+  width: 96px; height: 96px; border-radius: 50%;
+  background: var(--brand-blue); color: #fff;
+  display: grid; place-items: center; font-size: 2.2rem; font-weight: 700;
+  margin-top: 28px;
+}
+.call-name { font-size: 2.1rem; font-weight: 300; letter-spacing: -.01em; margin: 14px 0 4px; }
+.call-state { font-size: 1rem; color: rgba(255, 255, 255, .7); margin: 0; }
+.call-timer { font-size: 1rem; color: rgba(255, 255, 255, .7); margin: 2px 0 0; font-variant-numeric: tabular-nums; }
+.call-hint-line { font-size: .95rem; color: rgba(255, 255, 255, .6); margin: 14px 0 0; max-width: 300px; }
+
+/* Round buttons */
+.call-row { display: flex; justify-content: space-around; width: 100%; margin-top: auto; }
+.call-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: .9rem; color: rgba(255, 255, 255, .85); }
+.call-btn {
+  width: 76px; height: 76px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; color: #fff; font-size: 1.7rem;
+  background: rgba(255, 255, 255, .16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+}
+.call-btn.accept { background: var(--brand-blue); }
+.call-btn.decline, .call-btn.end { background: var(--brand-orange); }
+.call-btn.listen { background: var(--brand-yellow); color: #1C1C1E; }
+.call-btn.on { background: #FFFFFF; color: #1C1C1E; }
+.call-btn:active { transform: scale(.96); }
+.call-btn.end { width: 66px; height: 66px; }
+.call-name-sm { font-size: 1.5rem; font-weight: 400; margin: 10px 0 0; }
+/* If a small phone is still too short, the call screen scrolls instead of cutting off the buttons */
+.call-screen { overflow-y: auto; }
+
+/* 3 x 2 grid of small controls (Mute, Captions, Speaker, Hold to talk, Hint, Replies) */
+.call-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; width: 100%; margin-top: 14px; }
+.call-grid .call-cell { font-size: .72rem; gap: 6px; }
+.call-grid .call-btn { width: 52px; height: 52px; font-size: 1.15rem; background: rgba(255, 255, 255, .14); }
+
+/* Live captions: what the caller says, in big text */
+.call-captions {
+  width: 100%; margin-top: 18px; padding: 14px 16px; border-radius: 18px;
+  background: rgba(255, 255, 255, .08); text-align: left;
+}
+.call-captions .cap-label { font-size: .75rem; color: rgba(255, 255, 255, .6); margin: 0 0 4px; letter-spacing: .03em; }
+.call-captions .cap-text { font-size: 1.1rem; line-height: 1.45; margin: 0; }
+
+/* Coach pop-up card, shown over the call */
+.call-pop {
+  width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: 18px;
+  background: var(--bar-bg, #FBF7F0); color: var(--ink); text-align: left;
+  border-left: 6px solid var(--brand-yellow);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .3);
+}
+.call-pop b { display: block; margin-bottom: 4px; }
+.call-pop p { margin: 0; font-size: 1.02rem; line-height: 1.45; }
+
+/* "Hold to talk" bar, big and clear */
+.call-hold {
+  width: 100%; min-height: 52px; margin-top: 12px; border: 0; border-radius: 18px;
+  background: var(--brand-yellow); color: #1C1C1E; font: inherit; font-size: 1.1rem; font-weight: 800;
+  cursor: pointer;
+}
+.call-listening {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px; background: rgba(225, 202, 79, .2); color: var(--brand-yellow); font-weight: 700; font-size: .9rem;
+}
+
+/* Skins, one per chat style (set by the app via body[data-skin]). Default = text */
+body[data-skin="text"] { --chat-bg: #FFFFFF; --bar-bg: #F6F6F4; --in-bg: #EFEFEF; --out-bg: #DCF1E4; }
+
+body[data-skin="whatsapp"] {
+  --chat-bg: #ECE5DD;        /* look-alike, not the real logo or trademark */
+  --bar-bg: #075E54;
+  --bar-ink: #FFFFFF;
+  --in-bg: #FFFFFF;
+  --out-bg: #DCF8C6;
+}
+body[data-skin="whatsapp"] #bar { color: #fff; }
+body[data-skin="whatsapp"] #bar button, body[data-skin="whatsapp"] #bar select { color: #fff; }
+body[data-skin="whatsapp"] #bar .lang { background: transparent; border-color: rgba(255,255,255,.6); color: #fff; }
+
+body[data-skin="imessage"] {
+  --chat-bg: #FFFFFF;
+  --bar-bg: #F6F6F6;
+  --in-bg: #E9E9EB;
+  --out-bg: #0B84FE;
+  --out-ink: #FFFFFF;
+}
+body[data-skin="imessage"] .row.out .bubble { border-bottom-right-radius: 6px; }
+body[data-skin="imessage"] .row.coach .bubble { background: #F2F2F7; }
+
+body[data-skin="messenger"] {
+  --chat-bg: #FFFFFF;
+  --bar-bg: #FFFFFF;
+  --in-bg: #F0F2F5;
+  --out-bg: #0084FF;
+  --out-ink: #FFFFFF;
+}
+body[data-skin="messenger"] .row.out .bubble { border-radius: 22px; }
+
+body[data-skin="wechat"] {
+  --chat-bg: #EDEDED;
+  --bar-bg: #EDEDED;
+  --in-bg: #FFFFFF;
+  --out-bg: #95EC69;
+}
+body[data-skin="wechat"] #bar { border-bottom-color: #D6D6D6; }
+
+body[data-skin="kakao"] {
+  --chat-bg: #B2C7D9;
+  --bar-bg: #B2C7D9;
+  --in-bg: #FFFFFF;
+  --out-bg: #FEE500;
+}
+body[data-skin="kakao"] .row.out .bubble { color: #111; }
+body[data-skin="kakao"] .avatar { border-radius: 16px; }
+
+/* Calm colours for the coach and the reveal, same in every skin */
+body[data-skin] .row.coach .bubble { background: var(--green-bg); }
+body[data-skin] .practice-banner { font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
