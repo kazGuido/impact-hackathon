@@ -177,7 +177,7 @@
     $("btn-es").setAttribute("aria-expanded", "false");
     $("decline-note").hidden = true;
     setName();
-    show("home");
+    show(params.get("start") === "welcome" ? "home" : "incoming");
   }
 
   $("btn-accept").addEventListener("click", startCall);
@@ -197,12 +197,12 @@
   $("btn-start-welcome").addEventListener("click", () => { setName(); show("home"); });
   $("btn-today").addEventListener("click", () => { setName(); show("incoming"); });
 
-  // Start screen: /call shows Welcome. /call?start=call goes straight to the ringing call (for videos).
+  // Start screen: /call goes straight to the ringing call. /call?start=welcome shows Welcome and Home first.
   if (!SHOW_CAPTIONS) $("cap-card").hidden = true;
-  if (params.get("start") === "call") {
+  if (params.get("start") === "welcome") {
+    show("welcome");
+  } else {
     setName();
     show("incoming");
-  } else {
-    show("welcome");
   }
 })();
