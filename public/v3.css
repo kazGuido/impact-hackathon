@@ -305,3 +305,10 @@ input[type=checkbox] { accent-color: var(--orange); }
   .message-arrived { animation: message-arrive .18s ease-out both; }
 }
 @keyframes message-arrive { from { opacity: 0; transform: translateY(5px); } }
+
+/* Look Twice logo, drawn as vector (sharp at any size) */
+.lt-word { display: inline-flex; align-items: baseline; font-weight: 800; font-size: 28px; letter-spacing: -0.5px; color: #1F3A4D; line-height: 1; white-space: nowrap; }
+.lt-word .lt-oo { height: 0.6em; width: 1.25em; margin: 0 0.02em; }
+.lt-word .lt-t { color: #E0521F; margin-left: 0.28em; }
+.brand-hero .lt-word { font-size: 40px; }
+.lt-mark { width: 120px; height: 60px; }
