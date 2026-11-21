@@ -124,8 +124,10 @@ export default {
       if (pathname === "/api/hint") return await hint(request, env);
       if (pathname === "/api/classify") return await classify(request, env);
       return json({ ok: false }, 404);
-    } catch {
+    } catch (e) {
       // Any failure (no key, timeout, bad AI answer): the browser falls back to built-in hints.
+      // Log only our own short reason (e.g. "ai http 429"), never keys or user text.
+      console.log("AI unavailable:", String(e && e.message).slice(0, 60));
       return json({ ok: false, reason: "unavailable" }, 503);
     }
   },

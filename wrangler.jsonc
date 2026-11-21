@@ -10,7 +10,7 @@
   // Not secret. The secret AI_API_KEY lives in .dev.vars (local) or `wrangler secret put` (later).
   "vars": {
     "AI_BASE_URL": "https://api.openai-next.com/v1",
-    "AI_MODEL": "gpt-5.6-sol",
+    "AI_MODEL": "gpt-5-chat",
     "AI_TTS_MODEL": "tts-1",
     "AI_TIMEOUT_MS": "7000"
   }
