@@ -2,6 +2,8 @@
 
 Run `npm ci`, `npx wrangler d1 migrations apply scam-coach-local --local`, then `npm run dev`. Open `http://localhost:8787/` for learner practice and `http://localhost:8787/admin.html` for the content studio. This is a local-only demo. Wrangler serves on localhost by default.
 
+Open `http://localhost:8787/v3` for the latest Look Twice learner UI. It presents a centered phone frame on desktop and fills the viewport on smaller screens. The demo covers onboarding, the weekly scam overview, practice and checks, results, progress, and family sharing. `/v2` offers the earlier presentation of the shared learner flows. See [CLAUDE.md](CLAUDE.md) for the V3 design and browser verification guidance.
+
 The content studio starts with two cited FBI IC3 alerts (September and October 2026). An admin can also submit a source URL or a private partner topic. For an IC3 source, the draft action reads a short excerpt from the official page; other URLs remain citation metadata and can be supplemented with admin notes. AI drafts a fictional English practice message, two hints, warning signs, and an explanation. The admin edits and explicitly approves it before learners receive it. Publishing is local to the D1 development database. The app does not contact a news outlet or send messages.
 
 Published lessons appear in the learner's question rotation and get an awareness URL (`/?awareness=candidate-<id>`). The admin can copy a labeled practice SMS containing that URL; the person chooses the recipient and sends it. After a lesson, the learner can use the native share sheet to share its awareness page.

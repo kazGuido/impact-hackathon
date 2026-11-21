@@ -204,6 +204,15 @@
   let demo = false;
   let S = null; // current practice session
   let attempts = [];
+  // A new version starts at the welcome screen even for browsers that visited
+  // the earlier prototype, where onboarding was only an optional settings flow.
+  const ONBOARDING_VERSION = "looktwice-v1";
+  if (localStorage.getItem("scamcoach.onboarding.version") !== ONBOARDING_VERSION) {
+    localStorage.setItem("scamcoach.onboarding.version", ONBOARDING_VERSION);
+    localStorage.setItem("scamcoach.onboarding", "1");
+  }
+  let onboardingStep = Number(localStorage.getItem("scamcoach.onboarding") || 1);
+  let familyName = localStorage.getItem("scamcoach.familyName") || "";
 
   try { const saved = localStorage.getItem(LANGKEY); if (LANGS.includes(saved)) lang = saved; } catch {}
 
@@ -459,15 +468,19 @@
   }
 
   function homeHTML() {
+    if (onboardingStep > 0 && onboardingStep < 8) return onboardingHTML();
     return `<div class="page">
-      <div class="hero">
-        <div class="logo">🛡️</div>
-        <h1>${esc(t("appName"))}</h1>
-        <p><b>${esc(t("tagline"))}</b></p>
+      <div class="hero home-hero">
+        <div class="wordmark"><span class="wordmark-icon">◉</span><span>LOOK<br>TWICE</span><span class="wordmark-rule"></span></div>
+        <p class="home-kicker">A LITTLE PRACTICE. A LOT MORE PEACE OF MIND.</p>
+        <h1>Feel more ready<br>for the unexpected.</h1>
         <p>${esc(t("sub"))}</p>
       </div>
       <div class="stack">
-        <button class="btn" data-act="start">${esc(t("start"))}</button>
+        <section class="card weekly-card"><span class="eyebrow">YOUR WEEKLY PRACTICE <i>3 MIN</i></span><div class="weekly-art">✳</div><h2>When a message<br>can’t wait</h2><p>Learn to notice when urgency is being used to rush you.</p><button class="btn" data-act="start">Begin this week’s practice <span>→</span></button></section>
+        ${familyName ? `<section class="family-nudge"><span>♥</span><div><b>${esc(familyName)} is cheering you on</b><p>A little practice together makes a big difference.</p><button data-act="family">Open family progress →</button></div></section>` : ""}
+        <button class="btn secondary" data-act="start">Explore all practices <span>→</span></button>
+        <button class="btn secondary" data-act="onboard">Set up with family</button>
         <button class="btn secondary" data-act="family">${esc(t("family"))}</button>
         <a class="btn secondary" href="/admin.html">${esc(t("admin"))}</a>
       </div>
@@ -475,6 +488,20 @@
       <p class="note">${esc(t("privacy"))}</p>
       <p class="note">${esc(t("aiNote"))}</p>
     </div>`;
+  }
+
+  function onboardingHTML() {
+    const step = onboardingStep;
+    const steps = ["", "A calmer way to feel ready", "No account needed", "Who will practise?", "Make practice feel comfortable", "Invite a loved one", "Choose practice reminders", "All set"];
+    let body = "";
+    if (step === 1) body = `<div class="welcome-art" aria-hidden="true"><span>LOOK</span><i>✳</i><span>TWICE</span></div><p class="welcome-kicker">A LITTLE PRACTICE. A LOT MORE PEACE OF MIND.</p><h1>Feel more ready<br>for the unexpected.</h1><p>Short, gentle practice can help you notice when a message is trying to rush you.</p><label class="welcome-language">Your language<select id="welcomeLang">${CFG.languages.map((l) => `<option value="${esc(l.code)}"${l.code===lang?" selected":""}>${esc(l.label)}</option>`).join("")}</select></label><button class="btn" data-act="onboardNext">Let’s begin <span>→</span></button><p class="welcome-privacy">No account required · Progress stays on this device</p>`;
+    if (step === 2) body = `<div class="onboard-card"><span class="onboard-icon">◉</span><h1>Your practice is private.</h1><p>Continue without an account. Your progress stays on this phone, and you can change your choices any time.</p><button class="btn" data-act="onboardNext">Continue without an account <span>→</span></button></div>`;
+    if (step === 3) body = `<div class="onboard-card"><span class="onboard-icon">♡</span><h1>Who are you practising for?</h1><p>We’ll shape the experience around you and the people you care about.</p><button class="btn" data-act="audience" data-value="me">For me <span>→</span></button><button class="btn secondary" data-act="audience" data-value="loved">For someone I love <span>→</span></button></div>`;
+    if (step === 4) body = `<div class="onboard-card"><span class="onboard-icon">✳</span><h1>Make practice feel comfortable.</h1><p>Every message is fictional. Take your time, ask for a hint, or stop whenever you like.</p><button class="btn" data-act="onboardNext">That sounds good <span>→</span></button></div>`;
+    if (step === 5) body = `<div class="onboard-card"><span class="onboard-icon">♡</span><h1>Learning is better together.</h1><p>Add a loved one’s name to personalize encouragement on this device. You can share a practice later using Messages.</p><label>Name (optional)<input id="familyName" value="${esc(familyName)}" placeholder="e.g. Sarah" /></label><button class="btn" data-act="saveFamily">Continue <span>→</span></button><button class="text-button" data-act="onboardNext">I’ll do this later</button></div>`;
+    if (step === 6) body = `<div class="onboard-card"><span class="onboard-icon">◷</span><h1>A gentle reminder?</h1><p>Choose whether to show a weekly reminder on this device when you return to the app.</p><label class="reminder-choice"><input type="checkbox" id="reminders" ${localStorage.getItem("scamcoach.reminders") === "yes" ? "checked" : ""}> Remind me once a week</label><button class="btn" data-act="saveReminder">Continue <span>→</span></button></div>`;
+    if (step === 7) body = `<div class="onboard-card"><span class="onboard-icon">✦</span><h1>You’re all set${familyName ? `, ${esc(familyName)}` : ""}.</h1><p>Start with this week’s three-minute practice. You’ll decide what you think before Coach offers a hint.</p><button class="btn" data-act="finishOnboard" data-start="yes">Start this week’s practice <span>→</span></button><button class="text-button" data-act="finishOnboard">Explore Look Twice first</button></div>`;
+    return `<div class="page onboarding"><header class="onboard-head"><span class="wordmark"><span class="wordmark-icon">◉</span> LOOK TWICE</span><button class="text-button" data-act="skipOnboard">Skip</button></header>${step>1?`<div class="onboard-progress"><i style="width:${Math.round((step-1)/6*100)}%"></i></div>`:""}<p class="eyebrow">${esc(steps[step])}</p>${body}</div>`;
   }
 
   function awarenessHTML() {
@@ -547,7 +574,8 @@
     const tip = sc.is_scam ? DATA.signs[sc.signs[0]].tip[lang] : "";
     let checkLine = "";
     if (S.kind === "check") checkLine = `<p class="result"><b>${esc(S.firstTry ? t("checkPass") : t("checkFail"))}</b></p>`;
-    return `<div class="card" id="reveal">
+    return `<div class="card result-card" id="reveal">
+      <div class="result-mark">${S.firstTry ? "✦" : "♥"}</div>
       <div class="practice-banner"><b>${esc(t("practiceBanner"))}</b></div>
       <div class="answer ${sc.is_scam ? "scam" : "real"}">${esc(sc.is_scam ? t("wasScam") : t("wasReal"))}</div>
       <p class="result">${esc(t(resultKey))}</p>
@@ -555,7 +583,7 @@
       ${body}
       <p class="expl">${esc(L(sc.explanation))}</p>
       ${tip ? `<h3>${esc(t("tipTitle"))}</h3><div class="unsure-box">${esc(tip)}</div>` : ""}
-      <button class="btn blue share-btn" data-act="shareLesson">${esc(t("shareLesson"))}</button>
+      <button class="btn blue share-btn" data-act="shareLesson">${esc(t("shareLesson"))}　→</button>
     </div>`;
   }
 
@@ -586,7 +614,7 @@
 
   function playHTML() {
     const dots = S.busy && !S.done ? `<div class="row coach"><div class="avatar coach">🧑‍🏫</div><div class="col"><div class="bubble dots"><span>●</span><span>●</span><span>●</span></div></div></div>` : "";
-    return `<div class="strip">${esc(t("strip"))}${S.sc.ai_generated ? " · " + esc(t("aiGenNote")) : ""}</div>
+    return `<div class="practice-topline"><span>LOOK TWICE</span><span>${S.kind === "check" ? "QUICK CHECK" : "THIS WEEK · 3 MIN"}</span></div><div class="strip">${esc(t("strip"))}${S.sc.ai_generated ? " · " + esc(t("aiGenNote")) : ""}</div>
       <div class="chat" id="chat">${S.log.map(chatItemHTML).join("")}${dots}${S.done ? revealHTML() : ""}</div>
       ${actionsHTML()}`;
   }
@@ -631,11 +659,12 @@
       <button class="btn secondary" data-act="demo">${esc(demo ? t("demoOff") : t("demoOn"))}</button>
       ${attempts.length && !demo ? `<button class="btn secondary" data-act="reset">${esc(t("reset"))}</button>` : ""}
     </div><p class="note">${esc(t("evidenceNote"))}</p>`;
-    return `<div class="page">${inner}</div>`;
+    return `<div class="page progress-page"><div class="progress-intro"><span class="eyebrow">YOUR FAMILY LOOP</span><h1>Small steps add up.</h1><p>Here’s how practice is going on this device.</p></div>${inner}<div class="card reminder-card"><span class="eyebrow">A GENTLE NUDGE</span><h3>Make practice a little ritual</h3><p>Choose a weekly reminder to come back together.</p><label><input type="checkbox" id="familyReminder" ${localStorage.getItem("scamcoach.reminders")==="yes"?"checked":""}> Remind us once a week</label><p class="legend">${familyName ? `Sharing progress with ${esc(familyName)} on this device.` : "Progress stays on this device."}</p></div></div>`;
   }
 
   function render() {
     document.documentElement.lang = HTML_LANG[lang] || "en";
+    $("#bar").hidden = view === "home" && onboardingStep > 0 && onboardingStep < 8;
     $("#bar").innerHTML = barHTML();
     const screen = $("#screen");
     screen.innerHTML = view === "home" ? homeHTML() : view === "family" ? familyHTML() : view === "awareness" ? awarenessHTML() : playHTML();
@@ -654,7 +683,13 @@
     const el = e.target.closest("[data-act]");
     if (!el || !DATA) return;
     const act = el.dataset.act;
-    if (act === "home") { view = "home"; S = null; render(); }
+    if (act === "onboard") { onboardingStep = 1; localStorage.setItem("scamcoach.onboarding", onboardingStep); render(); }
+    else if (act === "onboardNext") { onboardingStep = Math.min(7, onboardingStep + 1); localStorage.setItem("scamcoach.onboarding", onboardingStep); render(); }
+    else if (act === "audience") { localStorage.setItem("scamcoach.audience", el.dataset.value); onboardingStep = 4; localStorage.setItem("scamcoach.onboarding", onboardingStep); render(); }
+    else if (act === "saveFamily") { familyName = $("#familyName")?.value.trim() || ""; localStorage.setItem("scamcoach.familyName", familyName); onboardingStep = 6; localStorage.setItem("scamcoach.onboarding", onboardingStep); render(); }
+    else if (act === "saveReminder") { localStorage.setItem("scamcoach.reminders", $("#reminders")?.checked ? "yes" : "no"); onboardingStep = 7; localStorage.setItem("scamcoach.onboarding", onboardingStep); render(); }
+    else if (act === "skipOnboard" || act === "finishOnboard") { onboardingStep = 0; localStorage.setItem("scamcoach.onboarding", "0"); if (act === "finishOnboard" && el.dataset.start) startSession(pickNext(), "practice"); else render(); }
+    else if (act === "home") { view = "home"; S = null; render(); }
     else if (act === "awarenessBack") {
       awarenessId = null;
       view = "home";
@@ -682,6 +717,12 @@
     if (e.target?.id === "analyticsOpt") {
       localStorage.setItem("scamcoach.analytics.optin", e.target.checked ? "yes" : "no");
     }
+    if (e.target?.id === "welcomeLang" && LANGS.includes(e.target.value)) {
+      lang = e.target.value;
+      localStorage.setItem(LANGKEY, lang);
+      render();
+    }
+    if (e.target?.id === "familyReminder") localStorage.setItem("scamcoach.reminders", e.target.checked ? "yes" : "no");
     if (e.target && e.target.id === "langsel" && LANGS.includes(e.target.value)) {
       lang = e.target.value;
       try { localStorage.setItem(LANGKEY, lang); } catch {}

@@ -79,9 +79,20 @@ async function readBody(request) {
   return JSON.parse(text);
 }
 
+async function findScenario(id, env) {
+  const bundled = SCENARIOS.get(id);
+  if (bundled) return bundled;
+  if (!env.DB || !/^candidate-[a-f0-9-]+$/.test(String(id))) return null;
+  const row = await env.DB.prepare("SELECT draft FROM candidates WHERE id=? AND status='published'").bind(id.slice(10)).first();
+  if (!row) return null;
+  const d = JSON.parse(row.draft);
+  if (!validDraft(d)) return null;
+  return { message: { en: d.message }, hints: d.hints.map((h, i) => ({ en: h, sign: d.signs[i % d.signs.length] })) };
+}
+
 async function hint(request, env) {
   const { id, lang, level, verdict, text } = await readBody(request);
-  const sc = SCENARIOS.get(id);
+  const sc = await findScenario(id, env);
   const h = sc?.hints?.[level];
   if (!sc || !h || !LANG_NAME[lang] || !sc.message[lang] || !h[lang]) return json({ ok: false, reason: "bad request" }, 400);
 
@@ -108,7 +119,7 @@ Write the hint now.`;
 
 async function classify(request, env) {
   const { id, lang, text } = await readBody(request);
-  const sc = SCENARIOS.get(id);
+  const sc = await findScenario(id, env);
   if (!sc || !LANG_NAME[lang] || !sc.message[lang]) return json({ ok: false, reason: "bad request" }, 400);
   const out = await chat(env, [
     { role: "system", content: CLASSIFY_PROMPT },
@@ -268,7 +279,7 @@ async function published(env) {
 async function recordEvent(request, env) {
   if (!env.DB) return bad("database unavailable", 503);
   const b = await readBody(request);
-  if (!SCENARIOS.has(b.id) && !String(b.id || "").startsWith("candidate-")) return bad("unknown scenario");
+  if (!(await findScenario(b.id, env))) return bad("unknown scenario");
   if (!["practice", "check"].includes(b.kind) || typeof b.firstTry !== "boolean") return bad("invalid event");
   await env.DB.prepare("INSERT INTO learning_events (id,scenario_id,kind,first_try,hints,first_verdict,created_at) VALUES (?,?,?,?,?,?,?)")
     .bind(crypto.randomUUID(), String(b.id).slice(0,100), b.kind, Number(b.firstTry), Math.max(0, Math.min(2, Number(b.hints) || 0)), ["scam", "real", "unsure"].includes(b.fv) ? b.fv : "unsure", new Date().toISOString()).run();
