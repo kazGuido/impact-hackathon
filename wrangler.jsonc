@@ -1,0 +1,17 @@
+{
+  "name": "scam-coach",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./public",
+    // Only /api/* goes to the Worker; everything else is a plain static file.
+    "run_worker_first": ["/api/*"]
+  },
+  // Not secret. The secret AI_API_KEY lives in .dev.vars (local) or `wrangler secret put` (later).
+  "vars": {
+    "AI_BASE_URL": "https://api.openai-next.com/v1",
+    "AI_MODEL": "gpt-5.6-sol",
+    "AI_TTS_MODEL": "tts-1",
+    "AI_TIMEOUT_MS": "7000"
+  }
+}

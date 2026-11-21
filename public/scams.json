@@ -1,0 +1,486 @@
+{
+  "_meta": {
+    "sample_data": true,
+    "note": "ALL scenarios are made-up SAMPLE DATA for a hackathon prototype. Numbers, links and names are fake. No real person, company or case.",
+    "hotline": "96110",
+    "hotline_verified": false
+  },
+  "signs": {
+    "urgency": {
+      "icon": "⏰",
+      "title": { "en": "Rush", "zh": "催促" },
+      "desc": { "en": "They make you hurry so you have no time to think.", "zh": "他们催你快点，不让你有时间想一想。" },
+      "tip": { "en": "Practise one sentence: \"I will call you back.\" A real organisation can wait.", "zh": "练习说一句话：“我稍后回电。”真正的机构等得起。" }
+    },
+    "secrecy": {
+      "icon": "🤫",
+      "title": { "en": "Secrecy", "zh": "要你保密" },
+      "desc": { "en": "They tell you not to tell your family.", "zh": "他们不让你告诉家人。" },
+      "tip": { "en": "Make a family rule: if anyone asks you to keep money matters secret, tell someone.", "zh": "定一条家规：只要有人要你对钱的事保密，就一定告诉家人。" }
+    },
+    "money_or_codes": {
+      "icon": "💰",
+      "title": { "en": "Money, codes or bank cards", "zh": "要钱、验证码或银行卡" },
+      "desc": { "en": "They ask for money, a code that arrives on your phone, a password or bank card details.", "zh": "他们要钱、要手机收到的验证码、密码或银行卡信息。" },
+      "tip": { "en": "Repeat the rule together: codes and passwords are never shared with anyone.", "zh": "一起记住：验证码和密码，对谁都不能说。" }
+    },
+    "unknown_contact": {
+      "icon": "👤",
+      "title": { "en": "Stranger or new number", "zh": "陌生人或新号码" },
+      "desc": { "en": "A stranger, or a new number, says they are someone you know or trust.", "zh": "陌生人或新号码，自称是你认识、信任的人。" },
+      "tip": { "en": "Build a habit: call back on the number you already saved.", "zh": "养成习惯：用你手机里已保存的号码打回去确认。" }
+    },
+    "too_good": {
+      "icon": "🎁",
+      "title": { "en": "Too good to be true", "zh": "好得不真实" },
+      "desc": { "en": "Free gifts, big prizes, or high returns with no risk.", "zh": "免费礼品、大奖，或者高收益还没风险。" },
+      "tip": { "en": "Ask the question: why would a stranger give me this for free?", "zh": "多问一句：陌生人为什么白白送我东西？" }
+    },
+    "threat_authority": {
+      "icon": "👮",
+      "title": { "en": "Official-looking or scary", "zh": "冒充官方或吓唬你" },
+      "desc": { "en": "They pretend to be police, a bank or the government, or they threaten you.", "zh": "他们冒充警察、银行或政府，或者恐吓你。" },
+      "tip": { "en": "Police and banks do not handle cases by chat, and never ask you to move money.", "zh": "警察和银行不会在聊天里办案，也不会要你转钱。" }
+    },
+    "link_or_app": {
+      "icon": "🔗",
+      "title": { "en": "Strange link, code or app", "zh": "陌生链接、二维码或App" },
+      "desc": { "en": "They want you to tap a link, scan a code, join a group or install an app.", "zh": "他们要你点链接、扫码、进群或下载App。" },
+      "tip": { "en": "Never tap links in messages you did not expect. Open the official app yourself.", "zh": "不要点来历不明的链接。自己打开官方App去查。" }
+    },
+    "emotional_pressure": {
+      "icon": "😨",
+      "title": { "en": "Fear or worry about a loved one", "zh": "利用你的担心和害怕" },
+      "desc": { "en": "They play on your love or fear, for example \"I'm hurt\" or \"I'm scared\".", "zh": "他们利用你对亲人的爱和担心，比如“我受伤了”“我好害怕”。" },
+      "tip": { "en": "When you feel panic, stop and phone the person yourself.", "zh": "一着急就先停下来，亲自给那个人打电话。" }
+    },
+    "no_verify": {
+      "icon": "📵",
+      "title": { "en": "They don't want you to check", "zh": "不让你核实" },
+      "desc": { "en": "They don't want you to call back, video call, or ask anyone.", "zh": "他们不让你回电话、视频，或者问别人。" },
+      "tip": { "en": "Agree on a family secret word. Always check by calling the saved number.", "zh": "全家约定一个暗号。任何时候都用已保存的号码打回去核实。" }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "grandson_trouble",
+      "type": "grandson",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "New number (says: \"Grandma, it's me\")", "zh": "新号码（说：“奶奶，是我”）" },
+      "message": {
+        "en": "Grandma, it's me! I changed my phone number. I had a car accident and the other driver wants 30,000 yuan right now, or he will call the police. Please send it to this account quickly. Don't tell Mom and Dad, they will be so angry with me. I'm so scared...",
+        "zh": "奶奶，是我！我换了新手机号。我出车祸了，对方要我马上赔3万元，不然就报警。请您赶紧转到这个账户。千万别告诉爸爸妈妈，他们会骂死我的。我好害怕……"
+      },
+      "signs": ["unknown_contact", "urgency", "money_or_codes", "secrecy", "emotional_pressure"],
+      "marks": {
+        "en": [
+          { "t": "I changed my phone number", "s": "unknown_contact" },
+          { "t": "right now", "s": "urgency" },
+          { "t": "send it to this account quickly", "s": "money_or_codes" },
+          { "t": "Don't tell Mom and Dad", "s": "secrecy" },
+          { "t": "I'm so scared", "s": "emotional_pressure" }
+        ],
+        "zh": [
+          { "t": "我换了新手机号", "s": "unknown_contact" },
+          { "t": "马上", "s": "urgency" },
+          { "t": "请您赶紧转到这个账户", "s": "money_or_codes" },
+          { "t": "千万别告诉爸爸妈妈", "s": "secrecy" },
+          { "t": "我好害怕", "s": "emotional_pressure" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "unknown_contact",
+          "en": "Look at the first lines. This number is new to you. What is one way you could check it is really your grandchild?",
+          "zh": "请看开头几句。这个号码对您是陌生的。您可以怎么确认真的是孙辈？"
+        },
+        {
+          "sign": "secrecy",
+          "en": "Now look at what they say about Mom and Dad. Why would someone in real trouble want you to keep it from the family?",
+          "zh": "再看看他们说爸爸妈妈的那一句。真有麻烦的人，为什么要您瞒着家人？"
+        }
+      ],
+      "explanation": {
+        "en": "Scammers pretend to be a grandchild on a \"new number\", create panic, and ask you to keep it secret so nobody can warn you. Call your grandchild on the old number, or ask their parents, before sending any money.",
+        "zh": "骗子假扮“换了新号码”的孙辈，制造恐慌，还要您保密，这样就没人能提醒您。转账之前，请先打老号码，或者问问孩子的父母。"
+      }
+    },
+    {
+      "id": "police_prosecutor",
+      "type": "police",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Unknown number (\"Police Bureau\")", "zh": "陌生号码（自称“公安局”）" },
+      "message": {
+        "en": "[Police Bureau] Dear citizen, your bank card is linked to a money-laundering case and you have been put on file. Add Prosecutor Wang on WeChat now (jc_demo888) to help the investigation. This case is confidential. Do not tell any family member or you will be punished for obstructing justice. Move your money into a 'safe account' or you will be detained today.",
+        "zh": "【公安局】您好，您名下银行卡涉嫌洗钱，已被立案。请立即添加检察官微信 jc_demo888 配合调查。此案属于机密，不得告知任何家人，否则按妨碍公务处理。请把资金转入“安全账户”，否则今天将被拘留。"
+      },
+      "signs": ["threat_authority", "secrecy", "money_or_codes", "urgency"],
+      "marks": {
+        "en": [
+          { "t": "[Police Bureau]", "s": "threat_authority" },
+          { "t": "Do not tell any family member", "s": "secrecy" },
+          { "t": "Move your money into a 'safe account'", "s": "money_or_codes" },
+          { "t": "or you will be detained today", "s": "urgency" }
+        ],
+        "zh": [
+          { "t": "【公安局】", "s": "threat_authority" },
+          { "t": "不得告知任何家人", "s": "secrecy" },
+          { "t": "把资金转入“安全账户”", "s": "money_or_codes" },
+          { "t": "否则今天将被拘留", "s": "urgency" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "secrecy",
+          "en": "Look at the part about your family. Why would a real officer tell you not to tell your family?",
+          "zh": "请看提到家人的那一句。真正的警察，为什么会不让您告诉家人？"
+        },
+        {
+          "sign": "money_or_codes",
+          "en": "Now look at what they want you to do with your money. Would real police ever ask you to move money to a 'safe account'?",
+          "zh": "再看看他们要您怎么处理钱。真正的警察会让您把钱转到“安全账户”吗？"
+        }
+      ],
+      "explanation": {
+        "en": "Real police do not handle cases by chat message, do not ask you to keep a case secret from your family, and never ask you to move money to a 'safe account'. There is no such thing.",
+        "zh": "真正的警察不会通过微信办案，不会要求您对家人保密，更不会让您把钱转到“安全账户”。根本没有这种账户。"
+      }
+    },
+    {
+      "id": "refund_cs",
+      "type": "refund",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Unknown number (\"Online Shop Customer Service\")", "zh": "陌生号码（自称“购物客服”）" },
+      "message": {
+        "en": "Hello, this is Customer Service. The item you bought last week had a quality problem, and we will refund you plus 200 yuan extra. Please click the link below within 2 hours and tell us the 6-digit code we send to your phone, so we can send the refund. http://refund-help.example",
+        "zh": "您好，这里是购物平台客服。您上周购买的商品存在质量问题，我们将为您退款并额外赔偿200元。请在2小时内点击下方链接，并把手机收到的6位验证码告诉我们，以便为您打款。http://refund-help.example"
+      },
+      "signs": ["unknown_contact", "too_good", "urgency", "link_or_app", "money_or_codes"],
+      "marks": {
+        "en": [
+          { "t": "refund you plus 200 yuan extra", "s": "too_good" },
+          { "t": "within 2 hours", "s": "urgency" },
+          { "t": "click the link below", "s": "link_or_app" },
+          { "t": "tell us the 6-digit code we send to your phone", "s": "money_or_codes" }
+        ],
+        "zh": [
+          { "t": "退款并额外赔偿200元", "s": "too_good" },
+          { "t": "2小时内", "s": "urgency" },
+          { "t": "点击下方链接", "s": "link_or_app" },
+          { "t": "把手机收到的6位验证码告诉我们", "s": "money_or_codes" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "money_or_codes",
+          "en": "Look at what they ask you to send back to them. Should anyone ever need the code that arrives on your phone?",
+          "zh": "请看他们要您回给他们什么。手机收到的验证码，有谁真的需要吗？"
+        },
+        {
+          "sign": "link_or_app",
+          "en": "Now look at how they want you to get the refund. Is there a link you did not ask for?",
+          "zh": "再看看他们要您怎样拿退款。这里有一个您没要过的链接，对吗？"
+        }
+      ],
+      "explanation": {
+        "en": "A real shop never asks for the code sent to your phone. That code is the key to your money. A real refund goes back to your account by itself, with no link and no code.",
+        "zh": "真正的商家不会向您要手机验证码。验证码就是您钱包的钥匙。真正的退款会自动回到您的账户，不需要链接，也不需要验证码。"
+      }
+    },
+    {
+      "id": "health_seminar",
+      "type": "gift",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Group invitation from a stranger", "zh": "陌生人发来的进群邀请" },
+      "message": {
+        "en": "Free gifts for seniors! Join our health talk this Friday and get 5 kg of rice and a free 698-yuan health gift box. A 'famous doctor' will check your health for free. Only the first 30 people today! Scan the code to join our group and book your seat.",
+        "zh": "老年人专属福利！本周五参加养生健康讲座，免费领5公斤大米，还送价值698元的保健礼盒。“名医专家”现场免费检查身体。今天仅限前30名！扫码进群，马上预约名额。"
+      },
+      "signs": ["unknown_contact", "too_good", "urgency", "link_or_app"],
+      "marks": {
+        "en": [
+          { "t": "free 698-yuan health gift box", "s": "too_good" },
+          { "t": "Only the first 30 people today!", "s": "urgency" },
+          { "t": "Scan the code to join our group", "s": "link_or_app" }
+        ],
+        "zh": [
+          { "t": "免费领5公斤大米，还送价值698元的保健礼盒", "s": "too_good" },
+          { "t": "今天仅限前30名", "s": "urgency" },
+          { "t": "扫码进群", "s": "link_or_app" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "too_good",
+          "en": "Look at how many free things they offer. Why would a stranger give away free gifts worth hundreds of yuan?",
+          "zh": "请看他们送了多少免费的东西。陌生人为什么白送价值几百元的礼品？"
+        },
+        {
+          "sign": "urgency",
+          "en": "Now look at the numbers: \"only the first 30 today\". Why do they want you to hurry?",
+          "zh": "再看看数字：“今天仅限前30名”。他们为什么要您赶快？"
+        }
+      ],
+      "explanation": {
+        "en": "The free gifts are the bait. At these talks the real goal is often to sell expensive health products with heavy pressure. Free gifts from a stranger plus a rush to sign up are warning signs. Ask your family before you go.",
+        "zh": "免费礼品是诱饵。这类讲座的真正目的，常常是逼着您买昂贵的保健品。陌生人送礼，再加上催您报名，都是警示信号。去之前先问问家人。"
+      }
+    },
+    {
+      "id": "pension_investment",
+      "type": "investment",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Unknown number (\"Pension Benefit Specialist\")", "zh": "陌生号码（自称“养老金专员”）" },
+      "message": {
+        "en": "Pension upgrade notice: your account qualifies for an upgrade. Join our government-backed investment plan: 8% return every month, no risk, guaranteed. Only a few inside places left this week. Our teacher will guide you step by step. Join the group now and transfer your first 10,000 yuan to start.",
+        "zh": "【养老金升级通知】您的账户符合升级条件。参加“国家扶持”理财项目，每月收益8%，零风险，保本保息。本周仅剩少量内部名额，专属老师一对一指导。请立即进群，并先转入1万元启动。"
+      },
+      "signs": ["threat_authority", "too_good", "urgency", "money_or_codes"],
+      "marks": {
+        "en": [
+          { "t": "government-backed", "s": "threat_authority" },
+          { "t": "8% return every month, no risk, guaranteed", "s": "too_good" },
+          { "t": "Only a few inside places left this week", "s": "urgency" },
+          { "t": "transfer your first 10,000 yuan to start", "s": "money_or_codes" }
+        ],
+        "zh": [
+          { "t": "国家扶持", "s": "threat_authority" },
+          { "t": "每月收益8%，零风险，保本保息", "s": "too_good" },
+          { "t": "本周仅剩少量内部名额", "s": "urgency" },
+          { "t": "先转入1万元启动", "s": "money_or_codes" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "too_good",
+          "en": "Look at the promise: a high return every month with no risk. Does any bank you know promise that?",
+          "zh": "请看他们的承诺：每月高收益，还没有风险。您知道哪家银行敢这样承诺？"
+        },
+        {
+          "sign": "money_or_codes",
+          "en": "Now look at the last sentence. What do they ask you to do first, before you have seen anything?",
+          "zh": "再看最后一句。在您什么都还没看到之前，他们先要您做什么？"
+        }
+      ],
+      "explanation": {
+        "en": "No honest investment can promise a high return with no risk. Scammers use words like \"government-backed\" and \"inside places\" to look official. Real pension matters are handled at the social security office or its official app, never by a stranger in a chat.",
+        "zh": "没有哪个正规投资敢保证高收益又零风险。骗子用“国家扶持”“内部名额”这样的词，让自己看起来很正规。真正的养老金事务，要去社保窗口或官方App办理，不会由聊天里的陌生人来办。"
+      }
+    },
+    {
+      "id": "package_express",
+      "type": "package",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Unknown number (\"Express Delivery\")", "zh": "陌生号码（自称“快递客服”）" },
+      "message": {
+        "en": "Your package could not be delivered because the address is incomplete. Please click this link to fix the address and pay a 3-yuan delivery fee within 24 hours, or it will be sent back: http://express-update.example",
+        "zh": "您的快递因地址不详无法派送。请在24小时内点击链接补充地址并支付派送费3元，否则包裹将被退回：http://express-update.example"
+      },
+      "signs": ["unknown_contact", "urgency", "link_or_app", "money_or_codes"],
+      "marks": {
+        "en": [
+          { "t": "click this link", "s": "link_or_app" },
+          { "t": "pay a 3-yuan delivery fee", "s": "money_or_codes" },
+          { "t": "within 24 hours", "s": "urgency" }
+        ],
+        "zh": [
+          { "t": "24小时内", "s": "urgency" },
+          { "t": "点击链接", "s": "link_or_app" },
+          { "t": "支付派送费3元", "s": "money_or_codes" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "unknown_contact",
+          "en": "Are you waiting for a package right now? Does this message say who sent it or what is inside?",
+          "zh": "您现在在等快递吗？这条消息有说是谁寄的、里面是什么吗？"
+        },
+        {
+          "sign": "link_or_app",
+          "en": "Look at the end of the message. Where do they want you to go to pay?",
+          "zh": "请看消息的最后。他们要您去哪里付款？"
+        }
+      ],
+      "explanation": {
+        "en": "A small fee is a trick. Once you open the link and type in your bank card, scammers can take much more. Real couriers phone you or leave the parcel at a pickup point. If unsure, open the courier's own app yourself and never use the link.",
+        "zh": "收一点小钱是个圈套。您一点开链接、输入银行卡，骗子就能拿走更多。真正的快递员会打电话给您，或把包裹放到取件点。拿不准时，自己打开快递官方App查，不要用这个链接。"
+      }
+    },
+    {
+      "id": "prize_winning",
+      "type": "prize",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Unknown number (\"Lucky Draw Center\")", "zh": "陌生号码（自称“幸运抽奖中心”）" },
+      "message": {
+        "en": "Congratulations! You were picked as today's lucky winner of a new phone worth 8,888 yuan! To get your prize, first pay a 299-yuan tax fee. The prize will be cancelled in 30 minutes if you do not reply 'YES'. Reply now!",
+        "zh": "恭喜您！您被抽中为今日幸运用户，获得价值8888元的新手机一部！领奖前请先缴纳299元个人所得税。30分钟内不回复“确认”，奖品将作废。请马上回复！"
+      },
+      "signs": ["unknown_contact", "too_good", "money_or_codes", "urgency"],
+      "marks": {
+        "en": [
+          { "t": "a new phone worth 8,888 yuan", "s": "too_good" },
+          { "t": "first pay a 299-yuan tax fee", "s": "money_or_codes" },
+          { "t": "in 30 minutes", "s": "urgency" }
+        ],
+        "zh": [
+          { "t": "价值8888元的新手机", "s": "too_good" },
+          { "t": "先缴纳299元个人所得税", "s": "money_or_codes" },
+          { "t": "30分钟内", "s": "urgency" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "money_or_codes",
+          "en": "They say you won a prize. Now look at what you must do before you get it. Does a real prize ask you to pay first?",
+          "zh": "他们说您中奖了。请看您在拿奖之前要先做什么。真正的奖品会让您先付钱吗？"
+        },
+        {
+          "sign": "urgency",
+          "en": "Look at the time. Why do they give you only 30 minutes?",
+          "zh": "请看时间。他们为什么只给您30分钟？"
+        }
+      ],
+      "explanation": {
+        "en": "Real prizes never ask you to pay a fee first. The \"tax\" is how scammers take your money. A countdown is used so you do not stop to think or ask your family.",
+        "zh": "真正的奖品不会让您先交钱。所谓“个人所得税”，就是骗子拿钱的办法。设一个倒计时，是为了不让您停下来想，也不让您去问家人。"
+      }
+    },
+    {
+      "id": "ai_voice_relative",
+      "type": "voice",
+      "is_scam": true,
+      "sample_data": true,
+      "sender": { "en": "Voice message from an unfamiliar number", "zh": "陌生号码发来的语音消息" },
+      "context": {
+        "en": "The voice sounds exactly like your daughter.",
+        "zh": "这个声音听起来和您女儿一模一样。"
+      },
+      "message": {
+        "en": "[Voice message, 18 sec] 'Mom, it's me. My phone is broken, I'm using a coworker's. I have to pay a deposit for an urgent deal today. Please transfer 20,000 yuan to this account. I can't talk now, a meeting is starting, so please don't call me back. I'll explain later.'",
+        "zh": "【语音消息 18秒】“妈，是我。我手机坏了，借同事的手机给你发的。我今天有一笔急事要交保证金，你先转2万元到这个账户。我现在开会不方便接电话，你先别回拨，晚点再跟你解释。”"
+      },
+      "signs": ["unknown_contact", "urgency", "money_or_codes", "no_verify"],
+      "marks": {
+        "en": [
+          { "t": "I'm using a coworker's", "s": "unknown_contact" },
+          { "t": "urgent deal today", "s": "urgency" },
+          { "t": "transfer 20,000 yuan to this account", "s": "money_or_codes" },
+          { "t": "please don't call me back", "s": "no_verify" }
+        ],
+        "zh": [
+          { "t": "借同事的手机", "s": "unknown_contact" },
+          { "t": "今天有一笔急事", "s": "urgency" },
+          { "t": "转2万元到这个账户", "s": "money_or_codes" },
+          { "t": "你先别回拨", "s": "no_verify" }
+        ]
+      },
+      "hints": [
+        {
+          "sign": "no_verify",
+          "en": "The voice sounds like your daughter. Now look at what she says about calling her. If it were really her, why would she not want you to phone her?",
+          "zh": "声音听起来像您女儿。请看她说的关于回电话的那一句。如果真是她，为什么不想让您打给她？"
+        },
+        {
+          "sign": "unknown_contact",
+          "en": "Look at the phone she is using. What could you do to check that this is really her?",
+          "zh": "请看她用的是谁的手机。您可以怎么确认真的是她？"
+        }
+      ],
+      "explanation": {
+        "en": "Computers can now copy a voice from a few seconds of audio, so a familiar voice is no longer proof. Stop replying, and call your daughter on her usual number. Tip: agree on a family secret word that only real family members know.",
+        "zh": "现在电脑只要听几秒钟录音，就能模仿一个人的声音，所以“声音像”已经不能当证据。请先别回复，用女儿平时的号码打给她。小办法：全家约定一个只有家人知道的暗号。"
+      }
+    },
+    {
+      "id": "real_family",
+      "type": "real_family",
+      "is_scam": false,
+      "sample_data": true,
+      "sender": { "en": "Daughter (saved contact, family group)", "zh": "女儿（已保存的联系人，家人群）" },
+      "message": {
+        "en": "Mom, I'll come by after work, around 6:30 tonight. I'll bring some fruit. Don't cook too much, simple soup is fine! Call me if you need anything.",
+        "zh": "妈，我今天下班后六点半左右过去，给您带点水果。别做太多菜，简单煮个汤就行！有事给我打电话。"
+      },
+      "signs": [],
+      "marks": { "en": [], "zh": [] },
+      "reasons": [
+        { "en": "It comes from a person you have saved in your phone, in a chat you know.", "zh": "它来自您手机里已保存的联系人，在您熟悉的聊天里。" },
+        { "en": "It asks for nothing: no money, no code, no link.", "zh": "它不要您做任何事：不要钱，不要验证码，也没有链接。" },
+        { "en": "There is no rush and no secret. You can call her any time.", "zh": "没有催促，也不要您保密。您随时可以打电话给她。" }
+      ],
+      "hints": [
+        {
+          "sign": null,
+          "en": "Look at what this message asks you to do. Does it ask for money, a code or a link?",
+          "zh": "请看这条消息要您做什么。它有没有要钱、要验证码或者要您点链接？"
+        },
+        {
+          "sign": null,
+          "en": "Now look at who it comes from. Do you have this person saved in your phone, and do you often chat with them here?",
+          "zh": "再看看是谁发来的。这个人在您手机里有保存吗？您平时常在这里和他聊天吗？"
+        }
+      ],
+      "explanation": {
+        "en": "This is a normal message from a family member. It asks for nothing, rushes you nowhere and comes from a contact you know. Being careful is good, but not every message is a scam. If something ever feels odd, you can still call her on her usual number.",
+        "zh": "这是家人发来的一条普通消息。它不要您做任何事，不催您，来自您认识的联系人。小心是好事，但不是每条消息都是骗局。如果哪天觉得不对劲，还是可以用她平时的号码打给她。"
+      }
+    },
+    {
+      "id": "real_clinic",
+      "type": "real_clinic",
+      "is_scam": false,
+      "sample_data": true,
+      "sender": { "en": "Community Health Center (same number as on your appointment card)", "zh": "社区卫生服务中心（号码与您预约单上的一致）" },
+      "context": {
+        "en": "Last week you signed up for a free blood-pressure check at your own community clinic.",
+        "zh": "上周您在自己的社区卫生服务中心预约了免费量血压。"
+      },
+      "message": {
+        "en": "Reminder from the Community Health Center: your free blood-pressure check is tomorrow at 9:00 on the 2nd floor. Please bring your appointment card. To change the time, call the number printed on your card or visit the front desk.",
+        "zh": "社区卫生服务中心提醒您：您预约的免费血压检查时间为明天上午9点，地点在二楼。请带好预约单。如需改期，请拨打预约单上的电话或到前台办理。"
+      },
+      "signs": [],
+      "marks": { "en": [], "zh": [] },
+      "reasons": [
+        { "en": "You signed up for this yourself, so you were expecting it.", "zh": "这是您自己预约的，所以在您的预料之中。" },
+        { "en": "It asks for nothing: no money, no code, no link.", "zh": "它不要您做任何事：不要钱，不要验证码，也没有链接。" },
+        { "en": "To change anything, it sends you to the number on your own card, not to a link.", "zh": "要改时间，它让您打自己预约单上的电话，而不是点链接。" }
+      ],
+      "hints": [
+        {
+          "sign": null,
+          "en": "Did you sign up for something like this? Think about it, then look at what the message asks you to do.",
+          "zh": "您有没有报名过这样的事？想一想，再看这条消息要您做什么。"
+        },
+        {
+          "sign": null,
+          "en": "Look at the end. Where does it tell you to go if you want to change something?",
+          "zh": "请看最后。如果想改时间，它让您去哪里？"
+        }
+      ],
+      "explanation": {
+        "en": "This is a message you were expecting, from a place you really visit. It asks for nothing and sends you to the number on your own card. Even so, never tap links in messages you did not expect. Call the clinic on the number you already have.",
+        "zh": "这是一条您预料之中的消息，来自您真去过的地方。它不要您做任何事，还让您打自己预约单上的电话。即便如此，对没预料到的消息，也不要点链接。请用您已有的号码打给社区中心。"
+      }
+    }
+  ],
+  "order": [
+    "grandson_trouble",
+    "refund_cs",
+    "real_family",
+    "police_prosecutor",
+    "package_express",
+    "health_seminar",
+    "real_clinic",
+    "ai_voice_relative",
+    "pension_investment",
+    "prize_winning"
+  ]
+}
