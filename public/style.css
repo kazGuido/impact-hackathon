@@ -170,3 +170,9 @@ mark .mi { font-size: .8em; margin-left: 2px; }
 /* First screen (chat look) */
 .skin-btn { display: flex; align-items: center; gap: 14px; text-align: left; justify-content: flex-start; }
 .swatch { width: 34px; height: 34px; border-radius: 10px; flex: none; border: 1px solid rgba(0, 0, 0, .15); }
+
+/* Help a friend journey */
+.friend-av { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 1.2rem; flex: none; color: #1C2421; }
+.friend-card .friend-head { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.choice { text-align: left; justify-content: flex-start; }
+.friend-page { padding-bottom: 28px; }

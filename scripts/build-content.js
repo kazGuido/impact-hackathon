@@ -30,6 +30,15 @@ for (const s of scenarios) {
   if (!Array.isArray(s.hints) || s.hints.length !== 2) err(`${s.id}: needs exactly 2 hints`);
   if (s.is_scam && !(s.signs || []).length) err(`${s.id}: a scam needs warning signs`);
   for (const k of s.signs || []) if (!signs[k]) err(`${s.id}: unknown sign ${k}`);
+  if (s.friend) {
+    // "Help a friend" scenarios also need a question, three choices and a "what to do" text.
+    if (!s.choices || ["unsafe", "safe", "unsure"].some((k) => !s.choices.find((c) => c.kind === k)))
+      err(`${s.id}: friend scenario needs choices with kinds unsafe, safe and unsure`);
+    for (const l of langs) {
+      for (const f of ["question", "gist", "dowhat"]) if (!s[f] || !s[f][l]) err(`${s.id}: ${f}.${l} is missing`);
+      for (const c of s.choices || []) if (!c.t[l]) err(`${s.id}: choice ${c.kind}.${l} is missing`);
+    }
+  }
   for (const h of s.hints || []) if (h.sign && !s.signs.includes(h.sign)) err(`${s.id}: hint sign ${h.sign} not in signs`);
   for (const l of langs) {
     if (!s.sender || !s.sender[l]) err(`${s.id}: sender.${l} is missing`);

@@ -1177,6 +1177,234 @@
     "en": "“Mom, my phone is broken” is a well-known messenger scam. A profile photo is easy to copy. A gift card PIN is the same as cash: once you send it, the money is gone. Do not reply. Call your daughter on her usual number. A family code word helps too.",
     "ko": "‘엄마, 폰 고장 났어’는 잘 알려진 메신저 피싱 수법입니다. 프로필 사진은 쉽게 도용할 수 있습니다. 기프트카드 핀 번호는 현금과 같아서 보내는 순간 돈이 사라집니다. 답장하지 말고 딸의 원래 번호로 전화해 확인하세요. 가족 암호를 정해 두면 도움이 됩니다."
    }
+  },
+  {
+   "id": "susan_grandson",
+   "type": "grandson",
+   "is_scam": true,
+   "sample_data": true,
+   "friend": true,
+   "sender": {
+    "en": "Voice message Susan got from an unknown number",
+    "zh": "苏珊从陌生号码收到的语音消息"
+   },
+   "message": {
+    "en": "Grandma, it's me. I had a car accident and I'm at the police station. I need $3,000 for bail today. Please don't tell Mom, she'll be so angry. A lawyer will call you to tell you how to pay.",
+    "zh": "奶奶，是我。我出了车祸，现在在派出所。我需要3000加元保释金，今天就要。请不要告诉妈妈，她会很生气。一位律师会打电话告诉您怎么付款。"
+   },
+   "signs": [
+    "urgency",
+    "secrecy",
+    "payment",
+    "unknown_contact"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "Grandma, it's me",
+      "s": "unknown_contact"
+     },
+     {
+      "t": "I need $3,000 for bail",
+      "s": "payment"
+     },
+     {
+      "t": "today",
+      "s": "urgency"
+     },
+     {
+      "t": "Please don't tell Mom",
+      "s": "secrecy"
+     },
+     {
+      "t": "A lawyer will call you to tell you how to pay",
+      "s": "payment"
+     }
+    ],
+    "zh": [
+     {
+      "t": "奶奶，是我",
+      "s": "unknown_contact"
+     },
+     {
+      "t": "需要3000加元保释金",
+      "s": "payment"
+     },
+     {
+      "t": "今天就要",
+      "s": "urgency"
+     },
+     {
+      "t": "请不要告诉妈妈",
+      "s": "secrecy"
+     },
+     {
+      "t": "一位律师会打电话告诉您怎么付款",
+      "s": "payment"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "secrecy",
+     "en": "Notice: they asked Susan to keep it a secret. Why would family ask that?",
+     "zh": "请注意：对方要苏珊保密。真正的家人为什么会这样要求？"
+    },
+    {
+     "sign": "urgency",
+     "en": "Now look at the word \"today\" and the amount of money. What kind of situation makes someone rush you like this?",
+     "zh": "再看“今天”两个字，还有那么多钱。什么样的情况，会让人这样催您？"
+    }
+   ],
+   "question": {
+    "en": "Should I send the money? What should I do?",
+    "zh": "我该转钱吗？我该怎么办？"
+   },
+   "choices": [
+    {
+     "kind": "unsafe",
+     "t": {
+      "en": "Send it quickly, he's family",
+      "zh": "赶快转钱，他是家人"
+     }
+    },
+    {
+     "kind": "safe",
+     "t": {
+      "en": "Hang up and call your grandson on his real number",
+      "zh": "挂断，用孙子真正的号码打给他"
+     }
+    },
+    {
+     "kind": "unsure",
+     "t": {
+      "en": "I'm not sure",
+      "zh": "我不确定"
+     }
+    }
+   ],
+   "gist": {
+    "en": "Someone who sounds like a grandchild says he had a car accident, needs $3,000 today, and asks Susan not to tell his mother. A lawyer will call to explain how to pay.",
+    "zh": "一个听起来像孙子的人说他出了车祸，今天需要3000加元，还让苏珊不要告诉他妈妈。一位律师会打电话来解释怎么付款。"
+   },
+   "dowhat": {
+    "en": "Hang up. Call your grandson on the number you already saved. Call your bank on the number printed on your card.",
+    "zh": "挂断。用您已保存的孙子号码打给他。用银行卡背面印的电话打给银行。"
+   },
+   "explanation": {
+    "en": "Scammers pretend to be a grandchild, create panic and ask for secrecy so that nobody can warn you. Hang up and call your grandson on the number you already have, or ask his parents. Before you send any money, check with your bank on the number printed on your card.",
+    "zh": "骗子假扮孙子，制造恐慌，还要您保密，这样就没人能提醒您。请挂断，用您已有的号码打给孙子，或者问问他的父母。转钱之前，用银行卡背面印的电话向银行核实。"
+   }
+  },
+  {
+   "id": "mr_chen_police",
+   "type": "police",
+   "is_scam": true,
+   "sample_data": true,
+   "friend": true,
+   "sender": {
+    "en": "Text message Mr. Chen got from an unknown number",
+    "zh": "陈先生从陌生号码收到的短信"
+   },
+   "message": {
+    "en": "This is the Beijing Public Security Bureau. Your passport was used in a money laundering case. You must not tell anyone. Transfer your savings to a safe account for checking or you will be arrested.",
+    "zh": "这里是北京市公安局。您的护照被用于一起洗钱案件。您不能告诉任何人。请把存款转入安全账户接受核查，否则您将被逮捕。"
+   },
+   "signs": [
+    "threat_authority",
+    "secrecy",
+    "payment",
+    "emotional_pressure"
+   ],
+   "marks": {
+    "en": [
+     {
+      "t": "This is the Beijing Public Security Bureau",
+      "s": "threat_authority"
+     },
+     {
+      "t": "You must not tell anyone",
+      "s": "secrecy"
+     },
+     {
+      "t": "Transfer your savings to a safe account",
+      "s": "payment"
+     },
+     {
+      "t": "or you will be arrested",
+      "s": "emotional_pressure"
+     }
+    ],
+    "zh": [
+     {
+      "t": "这里是北京市公安局",
+      "s": "threat_authority"
+     },
+     {
+      "t": "您不能告诉任何人",
+      "s": "secrecy"
+     },
+     {
+      "t": "请把存款转入安全账户",
+      "s": "payment"
+     },
+     {
+      "t": "否则您将被逮捕",
+      "s": "emotional_pressure"
+     }
+    ]
+   },
+   "hints": [
+    {
+     "sign": "secrecy",
+     "en": "Look at the words \"You must not tell anyone\". Would a real police office ask you to keep a case secret from your own family?",
+     "zh": "请看“您不能告诉任何人”这句。真正的警察会要您对家人保密吗？"
+    },
+    {
+     "sign": "payment",
+     "en": "Now look at where they want your savings sent. Would any police office ask you to move money to a 'safe account'?",
+     "zh": "再看看他们要您把存款转去哪里。哪个警察机构会要您把钱转到“安全账户”？"
+    }
+   ],
+   "question": {
+    "en": "Should I move my savings to the safe account?",
+    "zh": "我要把存款转到安全账户吗？"
+   },
+   "choices": [
+    {
+     "kind": "unsafe",
+     "t": {
+      "en": "Move the money today, the police said so",
+      "zh": "今天就转，警察说要这样做"
+     }
+    },
+    {
+     "kind": "safe",
+     "t": {
+      "en": "Hang up, tell my family, then call the police station's number from its official website",
+      "zh": "挂断，告诉家人，再用官网上的警局电话打过去核实"
+     }
+    },
+    {
+     "kind": "unsure",
+     "t": {
+      "en": "I'm not sure",
+      "zh": "我不确定"
+     }
+    }
+   ],
+   "gist": {
+    "en": "A caller says they are from the Beijing police. They say his passport was used in a crime, that he must keep it secret, and that he must move his savings into a 'safe account' or be arrested.",
+    "zh": "一个电话自称是北京警察，说他的护照被用于犯罪，要他保密，还要他把存款转入“安全账户”，否则会被逮捕。"
+   },
+   "dowhat": {
+    "en": "Hang up. Tell your family. Look up the police station's number on its official website and call it yourself.",
+    "zh": "挂断。告诉家人。在官方网站上查到警局电话，自己打过去。"
+   },
+   "explanation": {
+    "en": "Police do not run cases by phone, do not ask people to keep cases secret, and never ask anyone to move savings into a 'safe account'. Hang up, tell your family, and call the police station yourself on the number from its official website.",
+    "zh": "警察不会通过电话办案，不会要求人保密，也绝不会让人把存款转入“安全账户”。请挂断，告诉家人，再用官网上的电话自己打给警局核实。"
+   }
   }
  ],
  "order": [
@@ -1193,6 +1421,8 @@
   "es_immigration",
   "es_whatsapp_code",
   "ko_prosecutor",
-  "ko_kakao_family"
+  "ko_kakao_family",
+  "susan_grandson",
+  "mr_chen_police"
  ]
 }

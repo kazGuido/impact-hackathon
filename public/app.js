@@ -174,7 +174,7 @@
   T.es = window.SC_ES || {};
   T.ko = window.SC_KO || {};
   // Extra text for onboarding, "Help a friend" and the Guardian page (public/i18n-help.js).
-  for (const l of Object.keys(T)) Object.assign(T[l], (window.SC_HELP || {})[l] || {});
+  for (const l of Object.keys(T)) Object.assign(T[l], (window.SC_HELP || {})[l] || {}, (window.SC_FRIEND || {})[l] || {});
 
   // Branding, languages and help numbers all come from config.js (one place for partners).
   const CFG = window.SCAM_COACH_CONFIG || {
@@ -193,6 +193,8 @@
   let demo = false;
   let S = null; // current practice session
   let attempts = [];
+  let F = null;      // "Help a friend" journey state
+  let copied = false; // Guardian link copied
 
   try { const saved = localStorage.getItem(LANGKEY); if (LANGS.includes(saved)) lang = saved; } catch {}
   // Chat look: null until the first-screen question is answered.
@@ -412,6 +414,9 @@
       .map((l) => `<option value="${esc(l.code)}"${l.code === lang ? " selected" : ""}>${esc(l.label)}</option>`)
       .join("")}</select>`;
     const backBtn = `<button class="back" data-act="home" aria-label="${esc(t("back"))}">‹</button>`;
+    if (view === "friend" || view === "guardian") {
+      return `${backBtn}<div class="title">${esc(view === "guardian" ? t("guardianTitle") : t("friendTitle"))}</div>${langBtn}`;
+    }
     if (view === "onboard") {
       return skin
         ? `${backBtn}<div class="title">${esc(t("onboardTitle"))}</div>${langBtn}`
@@ -423,15 +428,22 @@
   }
 
   function homeHTML() {
+    const h = new Date().getHours();
+    const greet = h < 12 ? "greetMorning" : h < 18 ? "greetAfternoon" : "greetEvening";
     return `<div class="page">
       <div class="hero">
-        <div class="logo">🛡️</div>
-        <h1>${esc(t("appName"))}</h1>
-        <p><b>${esc(t("tagline"))}</b></p>
-        <p>${esc(t("sub"))}</p>
+        <div class="logo">${esc(CFG.logo)}</div>
+        <h1>${esc(t(greet, { name: t("name_wong") }))}</h1>
+        <p><b>${esc(t("helpNeeds"))}</b></p>
+      </div>
+      <div class="card friend-card">
+        <div class="friend-head">${friendAvatar("susan_grandson")}
+          <div><b>${esc(t("helpCardTitle", { name: friendName("susan_grandson") }))}</b><div class="tag">${esc(t("helpCardSub"))}</div></div>
+        </div>
+        <div class="stack"><button class="btn" data-act="friend">${esc(t("helpBtn", { name: friendName("susan_grandson") }))}</button></div>
       </div>
       <div class="stack">
-        <button class="btn" data-act="start">${esc(t("start"))}</button>
+        <button class="btn secondary" data-act="start">${esc(t("start"))}</button>
         <button class="btn secondary" data-act="family">${esc(t("family"))}</button>
         <button class="btn secondary" data-act="onboard">${esc(t("changeChatStyle"))}</button>
       </div>
@@ -583,20 +595,204 @@
   }
 
   function render() {
+    if (view !== "friend") stopVoice();
     document.documentElement.lang = HTML_LANG[lang] || "en";
     document.body.dataset.skin = skin || "text";
     $("#bar").innerHTML = barHTML();
     const screen = $("#screen");
-    const screens = { home: homeHTML, onboard: onboardHTML, family: familyHTML };
+    const screens = { home: homeHTML, onboard: onboardHTML, family: familyHTML, friend: friendHTML, guardian: guardianHTML };
     screen.innerHTML = (screens[view] || playHTML)();
     if (view === "play") {
       const chat = $("#chat");
       const rev = $("#reveal");
       chat.scrollTop = rev ? Math.max(0, rev.offsetTop - 8) : chat.scrollHeight;
+    } else if (view === "friend") {
+      const pg = $(".friend-page");
+      if (pg) pg.scrollTop = F && F.stage === "choose" && F.hints > 0 ? pg.scrollHeight : 0;
     } else {
       const page = $(".page");
       if (page) page.scrollTop = 0;
     }
+  }
+
+  // ---------- Help a friend (demo journey) ----------
+  // The user is the helper, never the victim. Susan is the friend in trouble.
+  // Mr. Chen is a check: a different scam that shares some warning signs.
+  const FRIENDS = ["susan_grandson", "mr_chen_police"];
+  const FRIEND_NAME = { susan_grandson: "name_susan", mr_chen_police: "name_chen" };
+  const FRIEND_INIT = { susan_grandson: "S", mr_chen_police: "C" };
+  const FRIEND_COLOR = { susan_grandson: "#D9E7DF", mr_chen_police: "#F1DFC9" };
+  const GUARD_LINK = "https://example.invalid/scam-coach?friend=susan";
+  const sameDay = (ts) => new Date(ts).toDateString() === new Date().toDateString();
+  const friendName = (id) => t(FRIEND_NAME[id]);
+  const friendAvatar = (id) =>
+    `<div class="avatar friend-av" style="background:${FRIEND_COLOR[id]}">${FRIEND_INIT[id]}</div>`;
+  // The language to show or speak: the chosen one if the scenario has it, else English.
+  const langFor = (o) => (o && o[lang] ? lang : "en");
+  const hintRowHTML = (h) => `<div class="row coach"><div class="avatar coach">🧑‍🏫</div><div class="col">
+      <div class="sender">${esc(t("hintLabel", { n: h.n }))}</div>
+      <div class="bubble">${esc(h.text)}</div>
+      <div class="tag">${esc(h.src === "ai" ? t("srcAi") : t("srcBuiltin"))}</div></div></div>`;
+
+  function stopVoice() {
+    try { if (window.ScamCoachVoice) window.ScamCoachVoice.stop(); } catch {}
+  }
+
+  function startFriend(round) {
+    const id = FRIENDS[round];
+    if (!byId[id]) return;
+    F = { round, sc: byId[id], stage: "ask", tries: 0, hints: 0, hintList: [], firstKind: null,
+      busy: false, final: false, firstTry: false, gistOpen: false, voiceNote: null };
+    view = "friend";
+    render();
+  }
+
+  // Speaks text if the voice module is loaded. Otherwise shows a note that this device has no voice.
+  function speakText(text, voice, spokenLang) {
+    const me = F;
+    const v = window.ScamCoachVoice;
+    if (!v || typeof v.speak !== "function") { F.voiceNote = t("voiceNone"); return; }
+    F.voiceNote = null;
+    v.speak(text, { voice, lang: spokenLang }).then((res) => {
+      if (res === "none" && F === me && view === "friend") { F.voiceNote = t("voiceNone"); render(); }
+    });
+  }
+
+  function friendPlay() {
+    if (!F) return;
+    const l = langFor(F.sc.message);
+    speakText(F.sc.message[l], "scammer", l);
+    render();
+  }
+
+  function friendGist() {
+    if (!F) return;
+    F.gistOpen = !F.gistOpen;
+    if (F.gistOpen) { const l = langFor(F.sc.gist); speakText(F.sc.gist[l], "coach", l); }
+    render();
+  }
+
+  function friendChoose(kind) {
+    if (!F || F.busy || F.stage !== "choose") return;
+    F.tries++;
+    if (F.firstKind === null) F.firstKind = kind;
+    if (kind === "safe") return friendFinish(true);
+    if (F.hints >= 2) return friendFinish(false);
+    const me = F, level = F.hints;
+    F.busy = true;
+    render();
+    // "unsafe" means they believe the message, so the server is told "real". "unsure" stays unsure.
+    post("/api/hint", { id: me.sc.id, lang, level, verdict: kind === "unsafe" ? "real" : "unsure" }).then((r) => {
+      if (F !== me) return; // the user left the screen meanwhile
+      me.busy = false;
+      me.hintList.push({ n: level + 1, text: r ? r.hint : L(me.sc.hints[level]), src: r ? "ai" : "builtin" });
+      me.hints++;
+      render();
+    });
+  }
+
+  function friendFinish(final) {
+    F.final = final;
+    F.firstTry = final && F.tries === 1;
+    F.stage = "outcome";
+    const fv = F.firstKind === "safe" ? "scam" : F.firstKind === "unsafe" ? "real" : "unsure";
+    attempts.push({ id: F.sc.id, ts: Date.now(), kind: F.round === 0 ? "practice" : "check",
+      firstTry: F.firstTry, hints: F.hints, final, fv });
+    saveAttempts();
+    render();
+  }
+
+  function friendNext() {
+    if (!F) return;
+    if (F.round === 0) return startFriend(1);
+    F = null;
+    view = "guardian";
+    render();
+  }
+
+  function copyGuardLink() {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(GUARD_LINK).then(() => { copied = true; render(); }).catch(() => {});
+  }
+
+  function friendHTML() {
+    if (!F) return "";
+    const sc = F.sc, id = sc.id, name = friendName(id);
+    const head = `<div class="strip">${esc(t("strip"))} · ${esc(t("sampleNote"))}</div>`;
+    const ml = langFor(sc.message);
+    const msgRow = `<div class="row">${friendAvatar(id)}<div class="col">
+        <div class="sender">${esc(L(sc.sender))}</div>
+        <div class="bubble">${esc(sc.message[ml])}</div></div></div>`;
+    let body;
+    if (F.stage === "ask") {
+      body = `<div class="row">${friendAvatar(id)}<div class="col">
+          <div class="sender">${esc(name)}</div>
+          <div class="bubble">${esc(t("intro", { name }))}</div></div></div>
+        ${msgRow}
+        <div class="stack">
+          <button class="btn blue" data-act="fplay">${esc(t("playVoice"))}</button>
+          <button class="btn secondary" data-act="fgist">${esc(t("whatSaid"))}</button>
+        </div>
+        ${F.gistOpen ? `<div class="unsure-box"><b>${esc(t("gistLabel"))}</b><p>${esc(L(sc.gist))}</p></div>` : ""}
+        ${F.voiceNote ? `<p class="hint-small">${esc(F.voiceNote)}</p>` : ""}
+        <div class="stack"><button class="btn" data-act="fcont">${esc(t("cont"))}</button></div>`;
+    } else if (F.stage === "choose") {
+      body = `${msgRow}
+        <div class="row">${friendAvatar(id)}<div class="col">
+          <div class="sender">${esc(name)}</div>
+          <div class="bubble">${esc(L(sc.question))}</div></div></div>
+        ${F.hintList.map(hintRowHTML).join("")}
+        ${F.busy ? `<div class="row coach"><div class="avatar coach">🧑‍🏫</div><div class="col"><div class="bubble dots"><span>●</span><span>●</span><span>●</span></div></div></div>` : ""}
+        <p class="prompt">${esc(t("helpPrompt", { name }))}</p>
+        <div class="stack">${sc.choices
+          .map((c) => `<button class="btn secondary choice" data-act="fchoose" data-v="${c.kind}"${F.busy ? " disabled" : ""}>${esc(L(c.t))}</button>`)
+          .join("")}</div>`;
+    } else {
+      const title = F.round === 1 && F.firstTry ? t("spotted") : F.final ? t("protected", { name }) : t("notYet");
+      const next = F.round === 0 ? t("nextFriend", { name: friendName(FRIENDS[1]) }) : t("toGuardian");
+      const signs = sc.signs.slice(0, 3).map((k) => {
+        const g = DATA.signs[k];
+        return `<li><span class="ic">${g.icon}</span><div><b>${esc(g.title[lang])}</b>${esc(g.desc[lang])}</div></li>`;
+      }).join("");
+      body = `<div class="card">
+          <div class="practice-banner"><b>${esc(t("practiceBanner"))}</b></div>
+          <div class="answer ${F.final ? "real" : ""}">${esc(title)}</div>
+          <h3>${esc(t("signsTitle"))}</h3>
+          <ul class="signs">${signs}</ul>
+          <h3>${esc(t("whatToDo"))}</h3>
+          <div class="unsure-box">${esc(L(sc.dowhat))}</div>
+          <p class="expl">${esc(L(sc.explanation))}</p>
+        </div>
+        <div class="stack"><button class="btn blue" data-act="fnext">${esc(next)}</button></div>`;
+    }
+    return head + `<div class="page friend-page">${body}</div>`;
+  }
+
+  function guardianHTML() {
+    const helped = new Set(attempts.filter((a) => FRIENDS.includes(a.id) && sameDay(a.ts)).map((a) => a.id)).size;
+    return `<div class="page">
+      <div class="hero">
+        <div class="logo">${esc(CFG.logo)}</div>
+        <h1>${esc(t("guardianTitle"))}</h1>
+        <p><b>${esc(t("guardianN", { n: helped }))}</b></p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">${esc(t("challengeTitle"))}</h3>
+        <p class="result">${esc(t("challengeText"))}</p>
+        <div class="msgbox">${esc(GUARD_LINK)}</div>
+        <div class="stack"><button class="btn blue" data-act="copylink">${esc(copied ? t("copied") : t("copy"))}</button></div>
+      </div>
+      <div class="card">
+        <div class="sample-flag">${esc(t("sampleBanner"))}</div>
+        <h3 style="margin-top:0">${esc(t("groupsTitle"))}</h3>
+        <div class="weak"><div class="top"><span>${esc(t("grpA"))}</span><span>${esc(t("groupRow", { n: 34 }))}</span></div></div>
+        <div class="weak"><div class="top"><span>${esc(t("grpB"))}</span><span>${esc(t("groupRow", { n: 21 }))}</span></div></div>
+      </div>
+      <div class="stack">
+        <button class="btn secondary" data-act="start">${esc(t("nextPractice"))}</button>
+        <button class="btn secondary" data-act="family">${esc(t("family"))}</button>
+      </div>
+    </div>`;
   }
 
   // ---------- Clicks and keys ----------
@@ -604,7 +800,14 @@
     const el = e.target.closest("[data-act]");
     if (!el || !DATA) return;
     const act = el.dataset.act;
-    if (act === "home") { view = "home"; S = null; render(); }
+    if (act === "home") { view = "home"; S = null; F = null; render(); }
+    else if (act === "friend") startFriend(0);
+    else if (act === "fplay") friendPlay();
+    else if (act === "fgist") friendGist();
+    else if (act === "fcont") { if (F) { F.stage = "choose"; render(); } }
+    else if (act === "fchoose") friendChoose(el.dataset.v);
+    else if (act === "fnext") friendNext();
+    else if (act === "copylink") copyGuardLink();
     else if (act === "onboard") { view = "onboard"; render(); }
     else if (act === "skin") {
       skin = SKINS.includes(el.dataset.v) ? el.dataset.v : "text";
