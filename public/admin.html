@@ -1,18 +1,70 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Scam Coach · Admin</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="admin-shell">
-  <header class="admin-head"><div><p class="eyebrow">Scam Coach</p><h1>Content studio</h1><p>Turn verified alerts and partner topics into reviewed practice lessons.</p></div><a href="/">Learner app</a></header>
-  <nav class="admin-nav"><a href="#sources">Sources</a><a href="#candidates">Candidates</a><a href="#insights">Learning insights</a></nav>
-  <section id="sources" class="admin-card"><h2>Recent official alerts</h2><p class="subtle">These are cited starting points, not automatically published lessons.</p><div id="sourcesList"></div></section>
-  <section class="admin-card"><h2>Add a source or partner topic</h2><form id="sourceForm">
-    <label>Topic title<input name="title" required maxlength="180" placeholder="Fake bank security calls"></label>
-    <label><input name="private_topic" type="checkbox"> Private partner topic (no public source)</label>
-    <label>Source URL (HTTPS, for news alerts)<input name="source_url" type="url" placeholder="https://..."></label>
-    <div class="admin-grid"><label>Source date<input name="source_date" type="date"></label><label>Region<input name="region" placeholder="Canada"></label></div>
-    <label>Audience<input name="audience" placeholder="Older adults"></label>
-    <button class="btn blue" type="submit">Add candidate</button>
-  </form></section>
-  <section id="candidates" class="admin-card"><div class="queue-head"><div><h2>Review queue</h2><p id="queueCount" class="subtle">Loading candidates…</p></div><button id="collect" class="btn blue" type="button">Collect today's candidates</button></div><div class="queue-filters"><label>Find topic<input id="queueSearch" type="search" placeholder="Search title or audience"></label><label>Status<select id="queueStatus"><option value="active">Needs review</option><option value="all">All</option><option value="published">Published</option><option value="archived">Archived</option></select></label></div><div id="candidateList"></div></section>
-  <section id="insights" class="admin-card"><h2>Learning insights</h2><p>Only opt-in, anonymous practice events appear here. These measures describe exercises, not real-world fraud rates.</p><div id="insightsList"></div><button id="recommend" class="btn blue" type="button">Suggest education topics with AI</button><p id="recommendation" class="subtle"></p></section>
-  <p id="adminStatus" role="status" aria-live="polite"></p>
-</main><script src="admin.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f0">
+  <title>Look Twice · Content studio</title>
+  <link rel="stylesheet" href="/v3-theme.css">
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/admin.js" defer></script>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="studio-header">
+      <div class="studio-brand"><span>Look</span> <strong>Twice</strong></div>
+      <a class="preview-link" href="/v3">Open learner preview <span aria-hidden="true">↗</span></a>
+    </header>
+    <h1>Content studio</h1>
+    <p class="intro">Review practice lessons before they appear in Look Twice.</p>
+    <nav aria-label="Studio sections" class="studio-nav">
+      <a href="#candidates">Review queue</a>
+      <a href="#sources">Sources</a>
+      <a href="#insights">Learning insights</a>
+    </nav>
+    <div class="studio-columns">
+      <section id="candidates" class="admin-card">
+        <div class="queue-head">
+          <div><h2>Review queue</h2><p id="queueCount" class="subtle">Loading candidates…</p></div>
+          <button id="collect" class="primary" type="button">Collect today's candidates</button>
+        </div>
+        <div class="queue-filters">
+          <label>Find topic<input id="queueSearch" type="search" placeholder="Search title or audience"></label>
+          <label>Status<select id="queueStatus"><option value="active">Needs review</option><option value="all">All</option><option value="published">Published</option><option value="archived">Archived</option><option value="rejected">Rejected</option></select></label>
+        </div>
+        <div id="candidateList"></div>
+        <p id="queueEmpty" class="subtle" hidden>No candidates match these filters.</p>
+      </section>
+      <div class="studio-sidebar">
+        <section id="sources" class="admin-card">
+          <h2>Sources</h2>
+          <details id="addSource">
+            <summary>Add a source or partner topic</summary>
+            <form id="sourceForm">
+              <label>Topic title<input name="title" required maxlength="180" placeholder="Fake bank security calls"></label>
+              <label class="check-label"><input name="private_topic" type="checkbox"> Private partner topic</label>
+              <label>Source URL<input name="source_url" type="url" placeholder="https://…"></label>
+              <div class="admin-grid">
+                <label>Source date<input name="source_date" type="date"></label>
+                <label>Region<input name="region" placeholder="Canada"></label>
+              </div>
+              <label>Audience<input name="audience" placeholder="Older adults"></label>
+              <button class="primary" type="submit">Add candidate</button>
+            </form>
+          </details>
+          <h3>Recent official alerts</h3>
+          <div id="sourcesList"></div>
+        </section>
+        <section id="insights" class="admin-card">
+          <h2>Learning insights</h2>
+          <p class="subtle">Based on anonymous practice results shared by learners.</p>
+          <div id="insightsList"></div>
+          <button id="recommend" type="button">Suggest education topics with AI</button>
+          <p id="recommendation" class="subtle" role="status"></p>
+        </section>
+      </div>
+    </div>
+    <p id="adminStatus" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

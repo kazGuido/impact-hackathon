@@ -1,0 +1,16 @@
+:root {
+  color-scheme: light;
+  --paper: #faf7f0;
+  --card: #fffefa;
+  --ink: #202322;
+  --muted: #4c4d49;
+  --blue: #407b9b;
+  --deep-blue: #214e65;
+  --light-blue: #e6eff3;
+  --orange: #d94312;
+  --gold: #e6c648;
+  --line: #ded5c5;
+  --radius: 18px;
+  --inset: clamp(16px, 6vw, 24px);
+  font: 17px/1.45 system-ui, sans-serif;
+}

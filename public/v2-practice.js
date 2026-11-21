@@ -22,6 +22,26 @@
     </section>`;
   }
 
+  async function revealMessages(chat) {
+    if (!chat || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bubbles = [...chat.querySelectorAll('.v2p-bubble')];
+    if (!bubbles.length) return;
+    const indicator = document.createElement('div');
+    indicator.className = 'message-typing';
+    indicator.setAttribute('aria-hidden', 'true');
+    indicator.innerHTML = '<i></i><i></i><i></i>';
+    bubbles.forEach(bubble => { bubble.hidden = true; });
+
+    for (const [index, bubble] of bubbles.entries()) {
+      bubble.before(indicator);
+      await new Promise(resolve => setTimeout(resolve, index === 0 ? 650 : 380));
+      if (!chat.isConnected) return;
+      indicator.remove();
+      bubble.hidden = false;
+      bubble.classList.add('message-arrived');
+    }
+  }
+
   function decision(scenario, lang = 'en', events = [], callbacks = {}) {
     const hints = callbacks.allowHints !== false && Array.isArray(scenario?.hints) ? scenario.hints : [];
     const choices = [
@@ -83,6 +103,6 @@
     return el;
   }
 
-  const api = { practice, decision, result, progress, mount };
+  const api = { practice, decision, result, progress, mount, revealMessages };
   global.V2Practice = api;
 })(window);

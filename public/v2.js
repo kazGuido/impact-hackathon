@@ -46,7 +46,12 @@ function check(){
   hintCount=0;
   practiceMessage();
 }
-function practiceMessage(){step=4;frame(V2Practice.practice(scenario,lang,events),'PRACTICE')}function decision(){
+function practiceMessage(){
+  step=4;
+  frame(V2Practice.practice(scenario,lang,events),'PRACTICE');
+  if(app.dataset.entry==='/v3')V2Practice.revealMessages(app.querySelector('.v2p-chat'));
+}
+function decision(){
   step=5;
   const trigger=app.querySelector('[data-v2p-action="decide"]');
   app.insertAdjacentHTML('beforeend',V2Practice.decision(scenario,lang,events,{allowHints:practiceKind!=='check'}));
