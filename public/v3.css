@@ -312,3 +312,21 @@ input[type=checkbox] { accent-color: var(--orange); }
 .lt-word .lt-t { color: #E0521F; margin-left: 0.28em; }
 .brand-hero .lt-word { font-size: 40px; }
 .lt-mark { width: 120px; height: 60px; }
+
+.top-actions { display: flex; align-items: center; justify-self: end; gap: 6px; }
+.profile-link {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--blue);
+  border-radius: 50%;
+  color: var(--deep-blue, #214e65);
+  background: var(--card);
+  cursor: pointer;
+}
+.profile-link svg { width: 21px; height: 21px; }
+.profile-link[aria-current="page"] { background: var(--light-blue, #e6eff3); }
+.profile-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.btn.secondary[data-go="resetdemo"] { border: 1.5px solid #b23713; color: #a73512; background: #fff5ed; }

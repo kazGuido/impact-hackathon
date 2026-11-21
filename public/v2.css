@@ -192,3 +192,21 @@ input:not([type=checkbox]) { font-size: 16px; margin-bottom: 12px; }
 .shell .home-content > .card { padding: 13px 16px; margin-block: 12px; }
 .home-content .family-callout { padding-block: 12px; }
 .home-content > .btn { margin-top: 0; }
+
+.top-actions { display: flex; align-items: center; justify-self: end; gap: 6px; }
+.profile-link {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--blue);
+  border-radius: 50%;
+  color: var(--deep-blue, #214e65);
+  background: var(--card);
+  cursor: pointer;
+}
+.profile-link svg { width: 21px; height: 21px; }
+.profile-link[aria-current="page"] { background: var(--light-blue, #e6eff3); }
+.profile-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.btn.secondary[data-go="resetdemo"] { border: 1.5px solid #b23713; color: #a73512; background: #fff5ed; }
