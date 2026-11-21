@@ -1,0 +1,44 @@
+[
+  {
+    "id": "es_immigration", "type": "immigration", "is_scam": true, "sample_data": true, "ai_generated": true,
+    "sender": { "en": "Unknown number (“Immigration Service”)", "es": "Número desconocido (“Servicio de Inmigración”)" },
+    "message": {
+      "en": "IMMIGRATION NOTICE: This is Officer Ramirez. There is a serious problem with your immigration status and a deportation order has been issued. To cancel it you must pay a $1,200 fine today by Zelle or with gift cards. Do not talk to anyone about this case, not even lawyers, or your family will be investigated too. Call 555-0178 now.",
+      "es": "AVISO DE INMIGRACIÓN: Habla el agente Ramírez. Hay un problema grave con su estatus migratorio y se ha emitido una orden de deportación. Para cancelarla debe pagar hoy una multa de $1,200 por Zelle o con tarjetas de regalo. No hable con nadie sobre este caso, ni con abogados, o su familia también será investigada. Llame ya al 555-0178."
+    },
+    "signs": ["threat_authority", "urgency", "payment", "secrecy"],
+    "marks": {
+      "en": [{ "t": "a deportation order has been issued", "s": "threat_authority" }, { "t": "today", "s": "urgency" }, { "t": "by Zelle or with gift cards", "s": "payment" }, { "t": "Do not talk to anyone about this case", "s": "secrecy" }],
+      "es": [{ "t": "se ha emitido una orden de deportación", "s": "threat_authority" }, { "t": "hoy", "s": "urgency" }, { "t": "por Zelle o con tarjetas de regalo", "s": "payment" }, { "t": "No hable con nadie sobre este caso", "s": "secrecy" }]
+    },
+    "hints": [
+      { "sign": "payment", "en": "Look at how they ask you to pay. Would a real immigration office accept gift cards or Zelle?", "es": "Mire cómo le piden que pague. ¿Una oficina de inmigración de verdad aceptaría tarjetas de regalo o Zelle?" },
+      { "sign": "secrecy", "en": "Now look at what they say about talking to others. Why would they not want you to ask a lawyer or your family?", "es": "Ahora mire lo que dicen sobre hablar con otras personas. ¿Por qué no querrían que consulte a un abogado o a su familia?" }
+    ],
+    "explanation": {
+      "en": "Immigration officials do not phone or text people to threaten deportation, and they do not collect fines by Zelle or gift cards. Scammers use fear, especially with people who have family or paperwork pending. Hang up. Talk to a trusted immigration lawyer or a community organization, and check your case only on the official government website.",
+      "es": "Los funcionarios de inmigración no llaman ni escriben para amenazar con deportación, ni cobran multas por Zelle o con tarjetas de regalo. Los estafadores usan el miedo, sobre todo con quienes tienen familia o trámites pendientes. Cuelgue. Hable con un abogado de inmigración de confianza o con una organización comunitaria, y revise su caso solo en el sitio web oficial del gobierno."
+    }
+  },
+  {
+    "id": "es_whatsapp_code", "type": "whatsapp", "is_scam": true, "sample_data": true, "ai_generated": true,
+    "sender": { "en": "WhatsApp from a new number", "es": "WhatsApp de un número nuevo" },
+    "message": {
+      "en": "Hi, I'm Marta, a friend of your daughter from church. I made a mistake and sent a 6-digit code by text message to your number. Can you forward it to me quickly? It's to get my WhatsApp back and I need it now, my family is waiting for me. Thank you and God bless you!",
+      "es": "Hola, soy Marta, la amiga de su hija de la iglesia. Me equivoqué y le mandé por mensaje de texto un código de 6 dígitos a su número. ¿Me lo puede reenviar rápido? Es para recuperar mi WhatsApp y lo necesito ahora, mi familia me está esperando. ¡Gracias y que Dios la bendiga!"
+    },
+    "signs": ["unknown_contact", "codes", "urgency"],
+    "marks": {
+      "en": [{ "t": "a friend of your daughter from church", "s": "unknown_contact" }, { "t": "6-digit code", "s": "codes" }, { "t": "I need it now", "s": "urgency" }],
+      "es": [{ "t": "la amiga de su hija de la iglesia", "s": "unknown_contact" }, { "t": "código de 6 dígitos", "s": "codes" }, { "t": "lo necesito ahora", "s": "urgency" }]
+    },
+    "hints": [
+      { "sign": "codes", "en": "Look at what they ask you to do with the code that arrived on your phone. Why would a stranger want it?", "es": "Mire qué le piden que haga con el código que le llegó al teléfono. ¿Por qué lo querría alguien que no conoce?" },
+      { "sign": "unknown_contact", "en": "Think about who is writing. How could you check with your daughter that this woman is really her friend?", "es": "Piense en quién escribe. ¿Cómo podría comprobar con su hija que esta señora de verdad es su amiga?" }
+    ],
+    "explanation": {
+      "en": "That 6-digit code is the key to YOUR WhatsApp account. If you forward it, the scammer takes over your account and writes to your contacts pretending to be you. Never share a code, even with someone who says they are a friend. Ask your daughter in another way, for example by phone.",
+      "es": "Ese código de 6 dígitos es la llave de SU cuenta de WhatsApp. Si lo reenvía, el estafador se apodera de su cuenta y les escribe a sus contactos haciéndose pasar por usted. Nunca comparta un código, ni siquiera con alguien que dice ser amigo. Pregúntele a su hija por otro medio, por ejemplo por teléfono."
+    }
+  }
+]

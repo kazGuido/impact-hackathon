@@ -5,7 +5,7 @@
 import data from "../public/scams.json";
 
 const SCENARIOS = new Map(data.scenarios.map((s) => [s.id, s]));
-const LANG_NAME = { en: "English", zh: "Simplified Chinese" };
+const LANG_NAME = { en: "English", zh: "Simplified Chinese", es: "Spanish", ko: "Korean" };
 
 const SYSTEM_PROMPT = `You are "Coach", a kind practice coach inside a scam-awareness app for older adults and their families.
 Every message you see is a MADE-UP practice exercise.
@@ -32,6 +32,8 @@ const REVEALS = new RegExp(
     "100\\s*%",
     "(completely|totally|perfectly|absolutely)\\s+safe",
     "是骗局|是诈骗|是骗子|肯定是骗|绝对安全|百分之百|完全安全",
+    "(esto|es|era)\\s+(una\\s+)?(estafa|fraude)|totalmente\\s+seguro|cien\\s+por\\s+ciento",
+    "사기입니다|사기예요|사기이?다|100\\s*%|완전히\\s*안전|절대\\s*안전",
   ].join("|"),
   "i"
 );
@@ -81,7 +83,7 @@ async function hint(request, env) {
   const { id, lang, level, verdict, text } = await readBody(request);
   const sc = SCENARIOS.get(id);
   const h = sc?.hints?.[level];
-  if (!sc || !h || !LANG_NAME[lang]) return json({ ok: false, reason: "bad request" }, 400);
+  if (!sc || !h || !LANG_NAME[lang] || !sc.message[lang] || !h[lang]) return json({ ok: false, reason: "bad request" }, 400);
 
   const sign = h.sign ? data.signs[h.sign] : null;
   const signLine = sign
@@ -107,7 +109,7 @@ Write the hint now.`;
 async function classify(request, env) {
   const { id, lang, text } = await readBody(request);
   const sc = SCENARIOS.get(id);
-  if (!sc || !LANG_NAME[lang]) return json({ ok: false, reason: "bad request" }, 400);
+  if (!sc || !LANG_NAME[lang] || !sc.message[lang]) return json({ ok: false, reason: "bad request" }, 400);
   const out = await chat(env, [
     { role: "system", content: CLASSIFY_PROMPT },
     { role: "user", content: `Practice message: """${sc.message[lang]}"""\nTheir reply: """${clean(text)}"""` },

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "real_family", "type": "real_family", "is_scam": false, "sample_data": true,
+    "sender": { "en": "Daughter (saved contact, family chat)", "zh": "女儿（已保存的联系人，家人群）" },
+    "message": {
+      "en": "Mom, I'll pick you up on Saturday at 10 for your doctor's appointment. I'll wait downstairs, no need to hurry. Call me if you need anything!",
+      "zh": "妈，周六早上10点我来接您去看医生。我在楼下等您，不用着急。有事给我打电话！"
+    },
+    "signs": [],
+    "reasons": [
+      { "en": "It comes from a person you saved in your phone, in a chat you know.", "zh": "它来自您手机里已保存的联系人，在您熟悉的聊天里。" },
+      { "en": "It asks for nothing: no money, no code, no link.", "zh": "它不要您做任何事：不要钱，不要验证码，也没有链接。" },
+      { "en": "There is no rush and no secret. You can call her any time.", "zh": "没有催促，也不要您保密。您随时可以打电话给她。" }
+    ],
+    "hints": [
+      { "sign": null, "en": "Look at what this message asks you to do. Does it ask for money, a code or a link?", "zh": "请看这条消息要您做什么。它有没有要钱、要验证码或者要您点链接？" },
+      { "sign": null, "en": "Now look at who it comes from. Do you have this person saved in your phone, and do you often chat with them here?", "zh": "再看看是谁发来的。这个人在您手机里有保存吗？您平时常在这里和他聊天吗？" }
+    ],
+    "explanation": {
+      "en": "This is a normal message from a family member. It asks for nothing, rushes you nowhere and comes from a contact you know. Being careful is good, but not every message is a scam. If something ever feels odd, call her on her usual number.",
+      "zh": "这是家人发来的一条普通消息。它不要您做任何事，不催您，来自您认识的联系人。小心是好事，但不是每条消息都是骗局。如果哪天觉得不对劲，就用她平时的号码打给她。"
+    }
+  },
+  {
+    "id": "real_bank_alert", "type": "real_bank", "is_scam": false, "sample_data": true,
+    "sender": { "en": "Your bank (the same number that always sends your alerts)", "zh": "您的银行（一直给您发提醒的同一个号码）" },
+    "context": { "en": "You signed up for text alerts from your bank, so you get one when your card is used.", "zh": "您在银行开通了短信提醒，每次刷卡都会收到一条。" },
+    "message": {
+      "en": "[Your Bank] Purchase alert: $54.20 at FRESH GROCERY with your card ending in 4821 today. If this was you, there is nothing to do. If you do not recognize it, call the number on the back of your card.",
+      "zh": "【您的银行】消费提醒：今天您尾号4821的银行卡在 FRESH GROCERY 消费54.20加元。如果是您本人，无需处理。如果您不认识这笔消费，请拨打银行卡背面的电话。"
+    },
+    "signs": [],
+    "reasons": [
+      { "en": "You asked for these alerts, and it comes from the same number as always.", "zh": "这种提醒是您自己开通的，来自一直以来的同一个号码。" },
+      { "en": "It asks for nothing: no money, no code, no link.", "zh": "它不要您做任何事：不要钱，不要验证码，也没有链接。" },
+      { "en": "If you are worried, it sends you to the number printed on your own card, not to a link.", "zh": "如果您担心，它让您打自己银行卡上印的电话，而不是点链接。" }
+    ],
+    "hints": [
+      { "sign": null, "en": "Did you ask your bank for alerts like this? Look at what the message wants you to do.", "zh": "您有没有让银行给您发这样的提醒？再看这条消息要您做什么。" },
+      { "sign": null, "en": "Look at the end. Where does it tell you to call if you do not recognize the purchase?", "zh": "请看最后。如果您不认识这笔消费，它让您打哪个电话？" }
+    ],
+    "explanation": {
+      "en": "A real alert only informs you. It asks for no code, no password and no payment, and it has no link. If you do not recognize the purchase, call the number printed on the back of your card. Any message about your bank that is not like this one deserves a call to that same number.",
+      "zh": "真正的提醒只是通知您。它不要验证码、不要密码、不要付款，也没有链接。如果您不认识这笔消费，请拨打银行卡背面印的电话。任何和这条不一样的“银行消息”，都值得您用同一个电话打过去问一问。"
+    }
+  }
+]

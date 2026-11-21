@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "sample_data": true,
+    "note": "ALL scenarios are made-up SAMPLE DATA for a hackathon prototype. Phone numbers, links, e-mail addresses, names and amounts are fake. No real person, company or case.",
+    "review": "Spanish and Korean texts are AI-generated and NOT reviewed by native speakers. Chinese texts are not yet reviewed by a native speaker either."
+  },
+  "order": [
+    "grandparent_bail",
+    "real_family",
+    "chinese_police",
+    "parcel",
+    "cra_irs",
+    "real_bank_alert",
+    "bank_investigator",
+    "utility_giftcard",
+    "investment_group",
+    "tech_support",
+    "es_immigration",
+    "es_whatsapp_code",
+    "ko_prosecutor",
+    "ko_kakao_family"
+  ]
+}

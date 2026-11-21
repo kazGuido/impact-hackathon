@@ -15,7 +15,7 @@
       start: "Start practice",
       family: "For family: progress",
       privacy: "Practice only. All messages are made-up sample data. Nothing you type is saved. Progress stays on this phone.",
-      aiNote: "Hints are written by AI, which can make mistakes. If you are ever unsure about a real message: hang up and call your family, or the anti-fraud hotline {hotline}.",
+      aiNote: "Hints are written by AI, which can make mistakes. If you are ever unsure about a real message: hang up and call your family, or call your bank on the number printed on your card.",
       practiceTitle: "Practice",
       checkTitle: "Check",
       back: "Back",
@@ -35,7 +35,7 @@
       srcBuiltin: "built-in hint",
       tryAgain: "Try again. Is it a scam?",
       thinking: "Coach is thinking…",
-      unsureBox: "Not sure? That is a good reason to slow down. Do not reply and do not tap anything. Hang up and call your family, or the anti-fraud hotline {hotline}.",
+      unsureBox: "Not sure? That is a good reason to slow down. Do not reply and do not tap anything. Hang up and call your family, or call your bank on the number printed on your card.",
       practiceBanner: "This was a practice exercise. No real person sent this message.",
       wasScam: "It was a scam message.",
       wasReal: "It was a real message.",
@@ -45,7 +45,7 @@
       markedTitle: "The message, with warning signs marked",
       signsTitle: "Warning signs in this message",
       whyRealTitle: "Why this one looks fine",
-      realCaution: "Stay careful anyway. If something feels odd, hang up and call your family, or the anti-fraud hotline {hotline}.",
+      realCaution: "Stay careful anyway. If something feels odd, hang up and call your family, or call your bank on the number printed on your card.",
       tipTitle: "Try this at home",
       checkPass: "Check passed: you spotted it on your own.",
       checkFail: "Not yet, and that is okay. Practice makes it easier.",
@@ -77,6 +77,14 @@
       resetAsk: "Erase all practice progress on this phone?",
       evidenceNote: "Results are stored only in this browser. They show practice progress in this app, not a scientific test.",
       loadFail: "Could not load the practice messages. Please reload the page.",
+      helpTitle: "Where to get help",
+      helpBank: "Hang up and call your bank on the number printed on your card.",
+      helpCA: "Canada: Canadian Anti-Fraud Centre {phone} or {site}",
+      helpUS: "US: FTC ReportFraud at {site}",
+      help911: "Call 911 only in an emergency.",
+      unverified: "(number being checked: confirm it before relying on it)",
+      presentedBy: "Presented by {name}",
+      aiGenNote: "AI-generated text, not reviewed by native speakers.",
     },
     zh: {
       appName: "防骗教练",
@@ -85,7 +93,7 @@
       start: "开始练习",
       family: "家人看进度",
       privacy: "这只是练习。所有消息都是虚构的示例。您输入的内容不会被保存。进度只留在这部手机上。",
-      aiNote: "提示由 AI 写成，可能会出错。遇到真实消息拿不准时：先挂断，打电话给家人，或拨打反诈热线 {hotline}。",
+      aiNote: "提示由 AI 写成，可能会出错。遇到真实消息拿不准时：先挂断，打电话给家人，或拨打银行卡背面印的银行电话。",
       practiceTitle: "练习",
       checkTitle: "小测验",
       back: "返回",
@@ -105,7 +113,7 @@
       srcBuiltin: "内置提示",
       tryAgain: "再试一次。这是骗局吗？",
       thinking: "教练在想…",
-      unsureBox: "不确定？那就先慢下来。不要回复，不要点任何东西。挂断，打电话给家人，或拨打反诈热线 {hotline}。",
+      unsureBox: "不确定？那就先慢下来。不要回复，不要点任何东西。挂断，打电话给家人，或拨打银行卡背面印的银行电话。",
       practiceBanner: "这是一次练习。这条消息不是真人发的。",
       wasScam: "这是一条骗局消息。",
       wasReal: "这是一条真消息。",
@@ -115,7 +123,7 @@
       markedTitle: "标出警示信号的消息",
       signsTitle: "这条消息里的警示信号",
       whyRealTitle: "为什么这条看起来没问题",
-      realCaution: "也要保持小心。如果觉得不对劲，先挂断，打电话给家人，或拨打反诈热线 {hotline}。",
+      realCaution: "也要保持小心。如果觉得不对劲，先挂断，打电话给家人，或拨打银行卡背面印的银行电话。",
       tipTitle: "在家练一练",
       checkPass: "小测验通过：您自己识别出来了。",
       checkFail: "还没有，没关系。多练几次就容易了。",
@@ -147,8 +155,29 @@
       resetAsk: "要清除这部手机上的所有练习进度吗？",
       evidenceNote: "结果只保存在这个浏览器里。它显示的是本应用内的练习进度，不是科学测试。",
       loadFail: "无法加载练习消息，请刷新页面。",
+      helpTitle: "到哪里求助",
+      helpBank: "先挂断，再拨打银行卡背面印的银行电话。",
+      helpCA: "加拿大：加拿大反欺诈中心 {phone} 或 {site}",
+      helpUS: "美国：FTC 举报欺诈网站 {site}",
+      help911: "只有遇到紧急情况，才拨打 911。",
+      unverified: "（号码核实中：使用前请先确认）",
+      presentedBy: "由 {name} 提供",
+      aiGenNote: "AI 生成的文字，未经母语者审阅。",
     },
   };
+
+  // Spanish and Korean text lives in i18n-es.js and i18n-ko.js (AI-generated, not reviewed).
+  T.es = window.SC_ES || {};
+  T.ko = window.SC_KO || {};
+
+  // Branding, languages and help numbers all come from config.js (one place for partners).
+  const CFG = window.SCAM_COACH_CONFIG || {
+    appName: { en: "Scam Coach" }, logo: "🛡️", colors: {}, presentedBy: {}, resources: {},
+    languages: [{ code: "en", label: "English" }],
+  };
+  const LANGS = CFG.languages.map((l) => l.code);
+  const HTML_LANG = { en: "en", zh: "zh-CN", es: "es", ko: "ko" };
+  for (const [k, v] of Object.entries(CFG.colors || {})) document.documentElement.style.setProperty("--" + k, v);
 
   // ---------- State ----------
   let DATA = null;
@@ -159,15 +188,17 @@
   let S = null; // current practice session
   let attempts = [];
 
-  try { lang = localStorage.getItem(LANGKEY) === "zh" ? "zh" : "en"; } catch {}
+  try { const saved = localStorage.getItem(LANGKEY); if (LANGS.includes(saved)) lang = saved; } catch {}
 
   const $ = (sel) => document.querySelector(sel);
   const esc = (s) =>
     String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // Text in the chosen language; falls back to English if a translation is missing.
+  const L = (o) => (o && (o[lang] ?? o.en)) ?? "";
   const t = (k, v = {}) => {
-    let s = T[lang][k] ?? T.en[k] ?? k;
+    if (k === "appName") return L(CFG.appName);
+    let s = T[lang]?.[k] ?? T.en[k] ?? k;
     if (typeof s !== "string") return s;
-    v = { hotline: DATA?._meta?.hotline || "96110", ...v };
     return s.replace(/\{(\w+)\}/g, (_, n) => (v[n] ?? ""));
   };
 
@@ -185,18 +216,18 @@
   // Made-up history for the demo, clearly labelled as sample data in the UI.
   function sampleAttempts() {
     const rows = [
-      ["grandson_trouble", 0, 2, "practice", "unsure"],
-      ["refund_cs", 0, 1, "check", "real"],
+      ["grandparent_bail", 0, 2, "practice", "unsure"],
       ["real_family", 1, 0, "practice", "real"],
-      ["police_prosecutor", 0, 1, "practice", "unsure"],
-      ["package_express", 1, 0, "check", "scam"],
-      ["health_seminar", 0, 1, "practice", "real"],
-      ["real_clinic", 0, 1, "practice", "scam"],
-      ["ai_voice_relative", 0, 2, "check", "real"],
-      ["pension_investment", 1, 0, "practice", "scam"],
-      ["prize_winning", 1, 0, "check", "scam"],
-      ["grandson_trouble", 1, 0, "practice", "scam"],
-      ["refund_cs", 1, 0, "check", "scam"],
+      ["chinese_police", 0, 1, "check", "scam"],
+      ["parcel", 1, 0, "practice", "scam"],
+      ["real_bank_alert", 1, 0, "check", "real"],
+      ["utility_giftcard", 0, 1, "practice", "real"],
+      ["cra_irs", 1, 0, "practice", "scam"],
+      ["bank_investigator", 0, 2, "check", "scam"],
+      ["investment_group", 1, 0, "practice", "scam"],
+      ["tech_support", 1, 0, "check", "scam"],
+      ["grandparent_bail", 1, 0, "practice", "scam"],
+      ["chinese_police", 1, 0, "check", "scam"],
     ];
     const day = 86400000, start = Date.now() - rows.length * day;
     return rows.map((r, i) => ({ id: r[0], ts: start + i * day, kind: r[3], firstTry: !!r[1], hints: r[2], final: true, fv: r[4] }));
@@ -237,15 +268,22 @@
   const seen = (id) => attempts.filter((a) => a.id === id).length;
   const lastSeen = (id) => Math.max(0, ...attempts.filter((a) => a.id === id).map((a) => a.ts));
 
+  // Only messages that exist in the chosen language. If none exist, use every message.
+  const inLang = (s) => !!(s && s.message && s.message[lang]);
+  const allIds = () => {
+    const ids = DATA.order.filter((id) => inLang(byId[id]));
+    return ids.length ? ids : DATA.order;
+  };
+
   function pickNext(excludeId) {
-    const ids = DATA.order.filter((id) => id !== excludeId);
+    const ids = allIds().filter((id) => id !== excludeId);
     const unseen = ids.filter((id) => !seen(id));
     return unseen.length ? unseen[0] : ids.sort((a, b) => lastSeen(a) - lastSeen(b))[0];
   }
 
   // A check is a DIFFERENT message that shares warning signs with the one just learned.
   function pickCheck(cur) {
-    const pool = DATA.order.map((id) => byId[id]).filter((s) => s.id !== cur.id && s.is_scam);
+    const pool = allIds().map((id) => byId[id]).filter((s) => s.id !== cur.id && s.is_scam);
     const score = (s) =>
       cur.signs.filter((x) => s.signs.includes(x)).length * 10 + (s.type !== cur.type ? 1 : 0) + (seen(s.id) ? 0 : 5);
     pool.sort((a, b) => score(b) - score(a));
@@ -328,7 +366,7 @@
     S.log.push({
       k: "coach",
       n: S.hints,
-      text: r ? r.hint : S.sc.hints[level][lang],
+      text: r ? r.hint : L(S.sc.hints[level]),
       src: r ? "ai" : "builtin",
     });
     S.busy = false;
@@ -360,11 +398,13 @@
   }
 
   function barHTML() {
-    const langBtn = `<button class="lang" data-act="lang" aria-label="Language">${lang === "en" ? "中文" : "English"}</button>`;
+    const langBtn = `<select class="lang" id="langsel" aria-label="Language">${CFG.languages
+      .map((l) => `<option value="${esc(l.code)}"${l.code === lang ? " selected" : ""}>${esc(l.label)}</option>`)
+      .join("")}</select>`;
     const backBtn = `<button class="back" data-act="home" aria-label="${esc(t("back"))}">‹</button>`;
     if (view === "home") return `<span></span><div class="title">${esc(t("appName"))}</div>${langBtn}`;
     if (view === "family") return `${backBtn}<div class="title">${esc(t("familyTitle"))}</div>${langBtn}`;
-    return `${backBtn}<div class="title">${esc(S.kind === "check" ? t("checkTitle") : t("practiceTitle"))}</div><span></span>`;
+    return `${backBtn}<div class="title">${esc(S.kind === "check" ? t("checkTitle") : t("practiceTitle"))}</div>${langBtn}`;
   }
 
   function homeHTML() {
@@ -388,11 +428,11 @@
     const sc = S.sc;
     switch (it.k) {
       case "checkintro": return `<div class="sys check">${esc(t("checkIntro"))}</div>`;
-      case "context": return `<div class="sys">${esc(sc.context[lang])}</div>`;
+      case "context": return `<div class="sys">${esc(L(sc.context))}</div>`;
       case "in":
         return `<div class="row"><div class="avatar">👤</div><div class="col">
-          <div class="sender">${esc(sc.sender[lang])}</div>
-          <div class="bubble">${esc(sc.message[lang])}</div></div></div>`;
+          <div class="sender">${esc(L(sc.sender))}</div>
+          <div class="bubble">${esc(L(sc.message))}</div></div></div>`;
       case "outv":
         return `<div class="row out"><div class="avatar">🙂</div><div class="col"><div class="bubble">${esc(t("said")[it.v])}</div></div></div>`;
       case "out":
@@ -414,7 +454,7 @@
     let body;
     if (sc.is_scam) {
       body = `<h3>${esc(t("markedTitle"))}</h3>
-        <div class="msgbox">${markup(sc.message[lang], sc.marks[lang])}</div>
+        <div class="msgbox">${markup(L(sc.message), (sc.marks && sc.marks[lang]) || [])}</div>
         <h3>${esc(t("signsTitle"))}</h3>
         <ul class="signs">${sc.signs
           .map((k) => {
@@ -424,7 +464,7 @@
           .join("")}</ul>`;
     } else {
       body = `<h3>${esc(t("whyRealTitle"))}</h3>
-        <ul class="reasons">${sc.reasons.map((r) => `<li>${esc(r[lang])}</li>`).join("")}</ul>
+        <ul class="reasons">${sc.reasons.map((r) => `<li>${esc(L(r))}</li>`).join("")}</ul>
         <div class="unsure-box">${esc(t("realCaution"))}</div>`;
     }
     const tip = sc.is_scam ? DATA.signs[sc.signs[0]].tip[lang] : "";
@@ -436,7 +476,7 @@
       <p class="result">${esc(t(resultKey))}</p>
       ${checkLine}
       ${body}
-      <p class="expl">${esc(sc.explanation[lang])}</p>
+      <p class="expl">${esc(L(sc.explanation))}</p>
       ${tip ? `<h3>${esc(t("tipTitle"))}</h3><div class="unsure-box">${esc(tip)}</div>` : ""}
     </div>`;
   }
@@ -468,7 +508,7 @@
 
   function playHTML() {
     const dots = S.busy && !S.done ? `<div class="row coach"><div class="avatar coach">🧑‍🏫</div><div class="col"><div class="bubble dots"><span>●</span><span>●</span><span>●</span></div></div></div>` : "";
-    return `<div class="strip">${esc(t("strip"))}</div>
+    return `<div class="strip">${esc(t("strip"))}${S.sc.ai_generated ? " · " + esc(t("aiGenNote")) : ""}</div>
       <div class="chat" id="chat">${S.log.map(chatItemHTML).join("")}${dots}${S.done ? revealHTML() : ""}</div>
       ${actionsHTML()}`;
   }
@@ -488,7 +528,7 @@
         <div class="stat"><div class="n">${st.checksOk}/${st.checks}</div><div class="l">${esc(t("sCheck"))}</div></div>
       </div>`;
       const dots = list
-        .map((a) => `<div class="dot ${a.firstTry ? "ok" : "help"} ${a.kind === "check" ? "check" : ""}" title="${esc(byId[a.id].sender[lang])}">${a.firstTry ? "✓" : "?"}</div>`)
+        .map((a) => `<div class="dot ${a.firstTry ? "ok" : "help"} ${a.kind === "check" ? "check" : ""}" title="${esc(L(byId[a.id].sender))}">${a.firstTry ? "✓" : "?"}</div>`)
         .join("");
       const tr = st.trend;
       inner += `<div class="card"><h3 style="margin-top:0">${esc(t("timelineTitle"))}</h3>
@@ -517,7 +557,7 @@
   }
 
   function render() {
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    document.documentElement.lang = HTML_LANG[lang] || "en";
     $("#bar").innerHTML = barHTML();
     const screen = $("#screen");
     screen.innerHTML = view === "home" ? homeHTML() : view === "family" ? familyHTML() : playHTML();
@@ -536,11 +576,7 @@
     const el = e.target.closest("[data-act]");
     if (!el || !DATA) return;
     const act = el.dataset.act;
-    if (act === "lang") {
-      lang = lang === "en" ? "zh" : "en";
-      try { localStorage.setItem(LANGKEY, lang); } catch {}
-      render();
-    } else if (act === "home") { view = "home"; S = null; render(); }
+    if (act === "home") { view = "home"; S = null; render(); }
     else if (act === "start" || act === "next") startSession(pickNext(S ? S.id : null), "practice");
     else if (act === "check") startSession(pickCheck(S.sc), "check");
     else if (act === "family") { view = "family"; render(); }
@@ -549,6 +585,14 @@
     else if (act === "demo") { demo = !demo; render(); }
     else if (act === "reset") {
       if (window.confirm(t("resetAsk"))) { attempts = []; saveAttempts(); render(); }
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    if (e.target && e.target.id === "langsel" && LANGS.includes(e.target.value)) {
+      lang = e.target.value;
+      try { localStorage.setItem(LANGKEY, lang); } catch {}
+      render();
     }
   });
 

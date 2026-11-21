@@ -4,7 +4,8 @@
   "private": true,
   "description": "Scam Coach: teaches older adults to recognise scams themselves, through practice. Hackathon prototype, sample data only.",
   "scripts": {
-    "dev": "wrangler dev"
+    "dev": "wrangler dev",
+    "build:content": "node scripts/build-content.js"
   },
   "devDependencies": {
     "wrangler": "^4.166.0"

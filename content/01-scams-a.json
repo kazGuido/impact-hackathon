@@ -1,0 +1,87 @@
+[
+  {
+    "id": "grandparent_bail", "type": "grandparent", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Voice message from an unknown number", "zh": "陌生号码发来的语音消息" },
+    "context": { "en": "The voice sounds exactly like your grandson.", "zh": "这个声音听起来和您孙子一模一样。" },
+    "message": {
+      "en": "[Voice message, 20 sec] “Grandma, it's me. I had an accident and I am in jail. Please don't tell Mom and Dad. A lawyer, Mr. Brown, will call you in a minute. He needs $9,500 for bail today. You can pay with gift cards, or a courier will come to your door to pick up cash.”",
+      "zh": "【语音消息 20秒】“奶奶，是我。我出了车祸，现在在拘留所里。请不要告诉爸爸妈妈。一位布朗律师等一下会给您打电话。今天要交9500加元保释金。您可以买礼品卡，或者会有快递员上门来取现金。”"
+    },
+    "signs": ["unknown_contact", "emotional_pressure", "secrecy", "urgency", "payment"],
+    "marks": {
+      "en": [{ "t": "I am in jail", "s": "emotional_pressure" }, { "t": "Please don't tell Mom and Dad", "s": "secrecy" }, { "t": "for bail today", "s": "urgency" }, { "t": "You can pay with gift cards, or a courier will come to your door to pick up cash", "s": "payment" }],
+      "zh": [{ "t": "现在在拘留所里", "s": "emotional_pressure" }, { "t": "请不要告诉爸爸妈妈", "s": "secrecy" }, { "t": "今天要交9500加元保释金", "s": "urgency" }, { "t": "您可以买礼品卡，或者会有快递员上门来取现金", "s": "payment" }]
+    },
+    "hints": [
+      { "sign": "payment", "en": "Look at how they want the bail paid. Would a court or a lawyer ever take gift cards, or cash from a courier at your door?", "zh": "请看他们要您怎么交保释金。法院或律师会收礼品卡，或者让快递员上门取现金吗？" },
+      { "sign": "secrecy", "en": "The voice sounds like your grandson. Now look at what he says about Mom and Dad. If it were really him, why would he not want them to know?", "zh": "声音听起来像您孙子。再看他说爸爸妈妈的那一句。如果真是他，为什么不想让他们知道？" }
+    ],
+    "explanation": {
+      "en": "Computers can now copy a voice from just a few seconds of audio, so a familiar voice is no longer proof. Real bail is never paid with gift cards or cash handed to a courier. Hang up. Call your grandson on his usual number, or call his parents. A family code word helps too.",
+      "zh": "现在电脑只要听几秒钟录音，就能模仿一个人的声音，所以“声音像”已经不能当证据。真正的保释金不会用礼品卡或交给快递员的现金来交。请挂断，用孙子平时的号码打给他，或者打给他的父母。全家约定一个暗号也很有用。"
+    }
+  },
+  {
+    "id": "chinese_police", "type": "police", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Unknown number (“Chinese Consulate”)", "zh": "陌生号码（自称“中国领事馆”）" },
+    "message": {
+      "en": "[Consulate] Your passport is linked to a criminal case in China (case no. 2026-DEMO-318). Interpol has been told. To avoid arrest when you travel, add Officer Li on WeChat now (consul_demo88) and cooperate. This case is secret. Do not tell your family or your bank. You must move your savings to a 'safe account' under supervision today.",
+      "zh": "【领事馆】您的护照涉及中国国内一起刑事案件（案号 2026-DEMO-318），国际刑警已被通知。为避免出行时被逮捕，请马上添加李警官微信（consul_demo88）配合调查。此案保密，不得告诉家人或银行。您必须在今天把存款转入受监管的“安全账户”。"
+    },
+    "signs": ["unknown_contact", "threat_authority", "secrecy", "payment", "urgency"],
+    "marks": {
+      "en": [{ "t": "Interpol has been told", "s": "threat_authority" }, { "t": "Do not tell your family or your bank", "s": "secrecy" }, { "t": "move your savings to a 'safe account'", "s": "payment" }, { "t": "today", "s": "urgency" }],
+      "zh": [{ "t": "国际刑警已被通知", "s": "threat_authority" }, { "t": "不得告诉家人或银行", "s": "secrecy" }, { "t": "今天", "s": "urgency" }, { "t": "把存款转入受监管的“安全账户”", "s": "payment" }]
+    },
+    "hints": [
+      { "sign": "secrecy", "en": "Look at what they say about your family and your bank. Why would real officials not want you to tell anyone?", "zh": "请看他们提到家人和银行的那一句。真正的官员为什么不让您告诉任何人？" },
+      { "sign": "payment", "en": "Now look at what they want you to do with your savings. Would a consulate or Interpol ever ask you to move money to a 'safe account'?", "zh": "再看看他们要您怎么处理存款。领事馆或国际刑警会让您把钱转到“安全账户”吗？" }
+    ],
+    "explanation": {
+      "en": "Consulates and Interpol do not call or message people to investigate them, and they never ask you to keep a case secret or move money to a 'safe account'. No such account exists. Hang up and call your family. If you want to check, find the consulate's number on its official website and call it yourself.",
+      "zh": "领事馆和国际刑警不会打电话或发消息来调查个人，也绝不会要求保密，或让您把钱转到“安全账户”。根本没有这种账户。请挂断，打电话给家人。如果想核实，请自己在领事馆官网上查电话，主动打过去。"
+    }
+  },
+  {
+    "id": "cra_irs", "type": "tax", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Unknown number (“Tax Agency”)", "zh": "陌生号码（自称“税务局”）" },
+    "message": {
+      "en": "FINAL NOTICE from the Canada Revenue Agency (CRA): you owe $3,240 in unpaid taxes. A warrant for your arrest will be sent to the police within 2 hours. Call 1-800-555-0123 now and pay today with Bitcoin or gift cards to cancel the warrant.",
+      "zh": "【加拿大税务局 CRA 最后通知】您欠缴税款3240加元。2小时内将向警方发出逮捕令。请立即拨打 1-800-555-0123，今天用比特币或礼品卡缴费，即可取消逮捕令。"
+    },
+    "signs": ["threat_authority", "urgency", "payment"],
+    "marks": {
+      "en": [{ "t": "A warrant for your arrest", "s": "threat_authority" }, { "t": "within 2 hours", "s": "urgency" }, { "t": "pay today with Bitcoin or gift cards", "s": "payment" }],
+      "zh": [{ "t": "2小时内", "s": "urgency" }, { "t": "将向警方发出逮捕令", "s": "threat_authority" }, { "t": "用比特币或礼品卡缴费", "s": "payment" }]
+    },
+    "hints": [
+      { "sign": "payment", "en": "Look at how they want to be paid. Does any tax office accept Bitcoin or gift cards?", "zh": "请看他们要您怎么付款。哪个税务局会收比特币或礼品卡？" },
+      { "sign": "threat_authority", "en": "Now look at the words “arrest” and “2 hours”. Why would they want you scared and in a hurry?", "zh": "再看“逮捕令”和“2小时”这两个词。他们为什么要您又怕又急？" }
+    ],
+    "explanation": {
+      "en": "Tax agencies do not threaten arrest by phone or text, and they never take payment in gift cards or Bitcoin. In the US the same trick uses the IRS name. Hang up. If you worry about your taxes, call the agency yourself using the number on its official website.",
+      "zh": "税务局不会用电话或短信威胁逮捕，也绝不会收礼品卡或比特币。在美国，同样的骗局会冒用 IRS 的名字。请挂断。如果担心税务问题，自己查官网上的电话打过去。"
+    }
+  },
+  {
+    "id": "bank_investigator", "type": "bank", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Unknown number (“Bank Fraud Department”)", "zh": "陌生号码（自称“银行反欺诈部”）" },
+    "message": {
+      "en": "This is Mr. Davis from your bank's fraud department. Someone is trying to empty your account right now. To protect your money, withdraw $8,000 in cash today and give it to our security courier. Do not tell the tellers. They may be involved. Stay on the line with me.",
+      "zh": "我是您银行反欺诈部门的戴维斯先生。现在有人正在试图转走您账户里的钱。为了保护您的资金，请今天取出8000加元现金，交给我们的安保快递员。不要告诉柜台工作人员，他们可能有内鬼。请不要挂断电话。"
+    },
+    "signs": ["unknown_contact", "urgency", "payment", "secrecy", "no_verify"],
+    "marks": {
+      "en": [{ "t": "right now", "s": "urgency" }, { "t": "withdraw $8,000 in cash today and give it to our security courier", "s": "payment" }, { "t": "Do not tell the tellers", "s": "secrecy" }, { "t": "Stay on the line with me", "s": "no_verify" }],
+      "zh": [{ "t": "现在有人正在", "s": "urgency" }, { "t": "取出8000加元现金，交给我们的安保快递员", "s": "payment" }, { "t": "不要告诉柜台工作人员", "s": "secrecy" }, { "t": "请不要挂断电话", "s": "no_verify" }]
+    },
+    "hints": [
+      { "sign": "payment", "en": "Look at what they ask you to do with your cash. Would a real bank ever send a courier to collect your money?", "zh": "请看他们要您怎么处理现金。真正的银行会派快递员来收您的钱吗？" },
+      { "sign": "no_verify", "en": "Now look at “stay on the line”. What could you do instead to check that this really is your bank?", "zh": "再看“请不要挂断电话”这一句。您可以怎么做，来确认这真的是银行？" }
+    ],
+    "explanation": {
+      "en": "A real bank never asks you to withdraw cash for a courier, never tells you to hide it from the tellers, and never asks you to stay on the line. Hang up, then call your bank on the number printed on the back of your card. Scammers sometimes keep the line open, so use a different phone or wait a few minutes first.",
+      "zh": "真正的银行不会要您取现金交给快递员，不会要您瞒着柜台，也不会要您一直不挂电话。请挂断，然后用银行卡背面印着的电话打给银行。骗子有时会让线路一直占着，所以最好换一部电话，或者先等几分钟再打。"
+    }
+  }
+]

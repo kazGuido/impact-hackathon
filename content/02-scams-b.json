@@ -1,0 +1,86 @@
+[
+  {
+    "id": "utility_giftcard", "type": "utility", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Unknown number (“Electric Company”)", "zh": "陌生号码（自称“电力公司”）" },
+    "message": {
+      "en": "URGENT: your electricity bill is 2 months late. Power will be cut off in 1 hour. To keep it on, pay $450 now by Interac e-Transfer or Zelle to billing.demo@example.invalid, or buy gift cards and read us the numbers. Reply PAID when done.",
+      "zh": "【紧急】您的电费已拖欠2个月。1小时后将停电。要保住供电，请马上用 Interac 电子转账或 Zelle 支付450加元，收款邮箱 billing.demo@example.invalid；或者购买礼品卡并把卡号念给我们。付款后回复“已付”。"
+    },
+    "signs": ["unknown_contact", "urgency", "payment"],
+    "marks": {
+      "en": [{ "t": "Power will be cut off in 1 hour", "s": "urgency" }, { "t": "pay $450 now by Interac e-Transfer or Zelle", "s": "payment" }, { "t": "buy gift cards and read us the numbers", "s": "payment" }],
+      "zh": [{ "t": "1小时后将停电", "s": "urgency" }, { "t": "马上用 Interac 电子转账或 Zelle 支付450加元", "s": "payment" }, { "t": "购买礼品卡并把卡号念给我们", "s": "payment" }]
+    },
+    "hints": [
+      { "sign": "payment", "en": "Look at the ways they ask you to pay. Would a real electric company ask for gift card numbers?", "zh": "请看他们要您用什么方式付款。真正的电力公司会要礼品卡的卡号吗？" },
+      { "sign": "urgency", "en": "Now look at “1 hour”. Why would they want you to rush?", "zh": "再看“1小时”。他们为什么要您这么匆忙？" }
+    ],
+    "explanation": {
+      "en": "Real utility companies send a bill, give you time, and accept normal payment methods. They never ask for gift cards, or for an e-transfer or Zelle payment to a stranger's e-mail address. A gift card number is the same as cash: once you read it out, the money is gone. Check your bill, or call the number printed on it.",
+      "zh": "真正的公用事业公司会寄账单、给您时间，并接受正常的付款方式。他们不会要礼品卡，也不会让您向陌生邮箱电子转账或用 Zelle 付款。礼品卡卡号等于现金，一念出来钱就没了。请查看账单，或拨打账单上印的电话。"
+    }
+  },
+  {
+    "id": "parcel", "type": "parcel", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Text from an unknown number (“Postal Service”)", "zh": "陌生号码短信（自称“邮政”）" },
+    "message": {
+      "en": "[Postal Service] Your parcel could not be delivered: the address is incomplete. Update it and pay a $1.99 redelivery fee within 24 hours, or it will be returned: https://post-redeliver.example",
+      "zh": "【邮政】您的包裹因地址不完整无法派送。请在24小时内更新地址并支付1.99加元重新派送费，否则将被退回：https://post-redeliver.example"
+    },
+    "signs": ["unknown_contact", "urgency", "payment", "link_or_app"],
+    "marks": {
+      "en": [{ "t": "pay a $1.99 redelivery fee", "s": "payment" }, { "t": "within 24 hours", "s": "urgency" }, { "t": "https://post-redeliver.example", "s": "link_or_app" }],
+      "zh": [{ "t": "24小时内", "s": "urgency" }, { "t": "支付1.99加元重新派送费", "s": "payment" }, { "t": "https://post-redeliver.example", "s": "link_or_app" }]
+    },
+    "hints": [
+      { "sign": "unknown_contact", "en": "Are you waiting for a package? Does the message say who sent it or what is inside?", "zh": "您在等包裹吗？这条消息有说是谁寄的、里面是什么吗？" },
+      { "sign": "link_or_app", "en": "Look at the end of the message. Where do they want you to go to pay?", "zh": "请看消息的最后。他们要您去哪里付款？" }
+    ],
+    "explanation": {
+      "en": "A tiny fee is the bait. Once you open the link and type in your card, scammers can take much more. Real carriers leave a notice at your door or let you track the parcel in their official app. Do not tap the link. Open the carrier's own app or website yourself.",
+      "zh": "收一点小钱是诱饵。您一点开链接、输入银行卡，骗子就能拿走更多。真正的快递公司会在门口留通知，或者让您在官方App里查包裹。不要点链接，自己打开快递公司的官方App或网站。"
+    }
+  },
+  {
+    "id": "investment_group", "type": "investment", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Stranger who added you to a WeChat group", "zh": "陌生人把您拉进了微信群" },
+    "message": {
+      "en": "Welcome to the Stock Winners VIP group! Our teacher Anna shows you how to earn 5% every week, guaranteed, with our special trading app. Only 20 places this month. Download the app (link below), then transfer $5,000 to start. Members already withdrew big profits!",
+      "zh": "欢迎加入“股市赢家”VIP群！安娜老师带您使用专属交易App，每周稳赚5%，保证收益。本月仅限20个名额。请下载App（链接见下方），先转入5000加元开始。群友们已经提现大笔利润啦！"
+    },
+    "signs": ["unknown_contact", "too_good", "urgency", "link_or_app", "payment"],
+    "marks": {
+      "en": [{ "t": "earn 5% every week, guaranteed", "s": "too_good" }, { "t": "Only 20 places this month", "s": "urgency" }, { "t": "Download the app", "s": "link_or_app" }, { "t": "transfer $5,000 to start", "s": "payment" }],
+      "zh": [{ "t": "每周稳赚5%，保证收益", "s": "too_good" }, { "t": "本月仅限20个名额", "s": "urgency" }, { "t": "请下载App", "s": "link_or_app" }, { "t": "先转入5000加元开始", "s": "payment" }]
+    },
+    "hints": [
+      { "sign": "too_good", "en": "Look at the promise: a fixed profit every week, guaranteed. Can any honest investment guarantee that?", "zh": "请看他们的承诺：每周固定收益，还保证。有哪种正规投资敢这样保证？" },
+      { "sign": "unknown_contact", "en": "Think about how you got here. Did you ask to join this group, or did a stranger add you?", "zh": "想一想您是怎么进来的。是您自己要加入，还是陌生人把您拉进来的？" }
+    ],
+    "explanation": {
+      "en": "No honest investment can guarantee a profit every week. Scammers add strangers to groups where fake members cheer about big profits, and a fake app shows fake gains until you try to withdraw. Real investments go through a licensed adviser or your own bank, and you can check them yourself.",
+      "zh": "没有哪个正规投资能保证每周赚钱。骗子把陌生人拉进群，里面的假群友不停地晒收益，假App也会显示虚假盈利，直到您想提现。正规投资要通过有牌照的理财顾问或您自己的银行，您也可以自己去核实。"
+    }
+  },
+  {
+    "id": "tech_support", "type": "tech", "is_scam": true, "sample_data": true,
+    "sender": { "en": "Pop-up on your computer screen", "zh": "电脑屏幕上的弹窗" },
+    "message": {
+      "en": "⚠ WARNING: Your computer is infected with 7 viruses! Your photos and bank logins are at risk. Do NOT turn off your computer. Call Tech Support now at 1-888-555-0147 for free repair. Our technician will connect to your computer.",
+      "zh": "⚠ 警告：您的电脑感染了7种病毒！您的照片和银行账号有危险。请勿关机。请立即拨打技术支持电话 1-888-555-0147，免费修复。我们的技术员将远程连接您的电脑。"
+    },
+    "signs": ["emotional_pressure", "urgency", "link_or_app"],
+    "marks": {
+      "en": [{ "t": "infected with 7 viruses", "s": "emotional_pressure" }, { "t": "Do NOT turn off your computer", "s": "urgency" }, { "t": "will connect to your computer", "s": "link_or_app" }],
+      "zh": [{ "t": "感染了7种病毒", "s": "emotional_pressure" }, { "t": "请勿关机", "s": "urgency" }, { "t": "将远程连接您的电脑", "s": "link_or_app" }]
+    },
+    "hints": [
+      { "sign": "emotional_pressure", "en": "Look at the big scary words. Why would a message on a website want you to feel afraid?", "zh": "请看那些吓人的大字。网页上的消息为什么想让您害怕？" },
+      { "sign": "link_or_app", "en": "Now look at the last sentence. What could the technician do if you let them connect to your computer?", "zh": "再看最后一句。如果您让技术员连上您的电脑，他能做什么？" }
+    ],
+    "explanation": {
+      "en": "Real security software never puts a phone number in a pop-up, and companies like Microsoft or Apple do not warn you this way. If a stranger controls your computer, they can see your bank logins. Close the browser, or turn the computer off. If you worry, ask your family or a local shop you trust.",
+      "zh": "真正的安全软件不会在弹窗里留电话，微软、苹果这样的公司也不会这样警告您。让陌生人控制您的电脑，他们就能看到您的银行账号。请关掉浏览器，或直接关机。如果担心，问问家人或您信得过的本地电脑店。"
+    }
+  }
+]

@@ -2,6 +2,8 @@
   "name": "scam-coach",
   "main": "src/worker.js",
   "compatibility_date": "2025-09-01",
+  // Builds public/scams.json from the files in content/ before "wrangler dev" and "wrangler deploy".
+  "build": { "command": "node scripts/build-content.js" },
   "assets": {
     "directory": "./public",
     // Only /api/* goes to the Worker; everything else is a plain static file.
